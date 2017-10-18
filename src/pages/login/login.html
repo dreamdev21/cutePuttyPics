@@ -37,4 +37,9 @@
         <p class="signup" (click)="goRegister()"> Sign Up</p>
         <p class="forgot">Forgot password!</p>
     </div>
+    <ion-card *ngIf="scannedCode">
+        <ion-card-content>
+            Result from Scan: {{ scannedCode }}
+        </ion-card-content>
+    </ion-card>
 </ion-content>

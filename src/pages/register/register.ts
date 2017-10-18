@@ -1,3 +1,4 @@
+import { LoginPage } from '../login/login';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Loading, MenuController,LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
@@ -6,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http, Headers } from '@angular/http';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -21,6 +23,7 @@ export class RegisterPage {
   public users: any;
   public validatestate;
   public data:any = {};
+  scannedCode = null;
 
   constructor(
     public http : Http,
@@ -29,6 +32,7 @@ export class RegisterPage {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController ,
     public navParams: NavParams,
+    private barcodeScanner: BarcodeScanner,
     public firebaseProvider: FirebaseProvider,) {
 
       this.http = http;
@@ -66,11 +70,9 @@ export class RegisterPage {
             // that.loading.dismiss();
             if(checkstate){
               try{
-                that.showLoading('Regisering...');
-                user.permission = 0;
-                that.afd.list('/users/').push(user);
-                that.loading.dismiss();
                 if(user.role == 2){
+                  user.permission = 0;
+                  that.afd.list('/users/').push(user);
                   console.log(user);
                   var starCountRef = firebase.database().ref('users/');
                   var query = firebase.database().ref("users").orderByKey();
@@ -93,7 +95,14 @@ export class RegisterPage {
                       });
                   });
                 that.showAlertSuccess("You are registered");
+                that.scanCode();
+                }else{
+                  user.permission = 1;
+                  that.afd.list('/users/').push(user);
+                  that.navCtrl.push(LoginPage, {
+                  });
                 }
+
               }
               catch(e){
                 console.error(e);
@@ -109,7 +118,40 @@ export class RegisterPage {
       this.showAlert(text);
     }
   }
-
+  scanCode() {
+    this.barcodeScanner.scan().then(barcodeData => {
+      var scanqrcode = barcodeData.text;
+      var qrdecode = this.user.email + this.user.password + this.user.fullname;
+      if(atob(scanqrcode) == qrdecode){
+      var that = this;
+      var ref = firebase.database().ref().child('users');
+      var refUserId = ref.orderByChild('email').equalTo(this.user.email);
+      refUserId.once('value', function(snapshot) {
+        if (snapshot.hasChildren()) {
+            snapshot.forEach(
+              function(snap){
+                console.log(snap.val());
+                snap.ref.update({
+                  'permission':1
+                });
+                return true;
+              });
+              this.navCtrl.push(LoginPage, {
+              });
+        } else {
+          console.log('wrong');
+        }
+      });
+      this.scannedCode = "QR code correct!";
+      this.navCtrl.push(LoginPage, {
+      });
+      }else{
+        this.scannedCode = "QR code invalid!";
+      }
+    }, (err) => {
+        console.log('Error: ', err);
+  });
+  }
   showLoading(text) {
     this.loading = this.loadingCtrl.create({
       content: text,

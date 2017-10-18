@@ -33,6 +33,14 @@
                         border-top: 0px solid #c8c7cc;
                         border-bottom: 0px solid #c8c7cc;
                     }
+                    .list-md>.item-block:first-child {
+                        border-top: 0px solid #c8c7cc;
+                        border-bottom: 0px solid #c8c7cc;
+                    }
+                    .list-md>.item-block:last-child {
+                        border-top: 0px solid #c8c7cc;
+                        border-bottom: 0px solid #c8c7cc;
+                    }
                     .paymentitem {
                         border-bottom: 0px solid #c8c7cc;
                     }
@@ -165,7 +173,7 @@
                         border-top: 0px solid #c8c7cc;
                     }
                     .list-md>.item-block:last-child {
-                        border-bottom: 1px solid #c8c7cc;
+                        border-bottom: 0px solid #c8c7cc;
                     }
                     .list-md .item-block .item-inner {
                         border-bottom: 0.55px solid #2c3f56;
