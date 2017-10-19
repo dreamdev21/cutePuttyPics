@@ -8,6 +8,7 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http, Headers } from '@angular/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import {MaxLengthDirective} from '../../directives/c-maxlength/c-maxlength';
 
 @IonicPage()
 @Component({

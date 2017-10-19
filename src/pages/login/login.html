@@ -11,14 +11,18 @@
     <ion-list>
 
         <ion-item>
-            <ion-input type="text" placeholder="User name or email" [(ngModel)]="user.fullname"></ion-input>
+            <ion-input type="email" placeholder="User name or email" [(ngModel)]="user.fullname"></ion-input>
         </ion-item>
     </ion-list>
     <ion-list>
         <ion-item>
             <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
         </ion-item>
-
+        <!-- <ion-item>
+            <label class="item item-input"> <input type="file" id="upimgfile" name="uploadfile" ng-model="orderDetails.uploadfile">
+        </label>
+            <div class="preview-img"> <img id="myImage" width="150" height="150" size="30" /> </div>
+        </ion-item> -->
     </ion-list>
     <ion-list>
 
@@ -42,4 +46,5 @@
             Result from Scan: {{ scannedCode }}
         </ion-card-content>
     </ion-card>
+
 </ion-content>

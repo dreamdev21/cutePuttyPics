@@ -37,12 +37,12 @@
 
 
                 <ion-item>
-                    <ion-input class="cardname" type="text" placeholder="Card number" [(ngModel)]="user.cardnumber"></ion-input>
+                    <ion-input class="cardname" type="number" cMaxLength="16" placeholder="Card number" [(ngModel)]="user.cardnumber"></ion-input>
 
                 </ion-item>
                 <ion-item>
                     <ion-input id="cardname" type="text" placeholder="Card holder name" [(ngModel)]="user.cardname"></ion-input>
-                    <ion-input class="cardname" type="text" placeholder="CVV" [(ngModel)]="user.cvv"></ion-input>
+                    <ion-input class="cardname" type="number" cMaxLength="3" placeholder="CVV" [(ngModel)]="user.cvv"></ion-input>
                 </ion-item>
                 <!-- <ion-item>
                     <ion-input class="cardname" type="text" placeholder="Expiry date" [(ngModel)]="user.expirydate"></ion-input>

@@ -6,13 +6,18 @@
 -->
 <ion-content padding>
     <ion-list>
-        <button ion-item *ngFor="let item of items">
-          <div class="item-note" item-left (click)="generateQRcode(item)">
+        <button ion-item *ngFor="let item of items;let i = index" (click)="generateQRcode(item)">
+          <!-- <div class="item-note" item-left (click)="generateQRcode(item)">
             {{item.email}}
           </div>
           <div class="item-note" item-right>
             {{item.fullname}}
-          </div>
+          </div> -->
+            <ion-avatar item-start>
+              <img src="assets/avatar/avatar{{i}}.png">
+            </ion-avatar>
+            <h2>{{item.fullname}}</h2>
+            <h4>{{item.email}}</h4>
         </button>
     </ion-list>
 </ion-content>
