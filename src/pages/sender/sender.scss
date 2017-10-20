@@ -1,0 +1,39 @@
+page-sender {
+    .item-avatar {
+        margin-top: 2rem;
+        border-radius: 50%;
+        background-position: center center;
+        background-size: cover;
+        // width: 30%;
+        height: 20%;
+    }
+    p {
+        color: #769fc2;
+    }
+    h2 {
+        color: #e9e7e7;
+        margin-top: 0.5rem;
+        margin-bottom: 3rem;
+    }
+    .sendercontainer {
+        background: #ffffff;
+        border: 1px solid #7ba4c9;
+        height: 10rem;
+        color: rgba(13, 44, 90, 0.73)
+    }
+    .sendertext {
+        margin-top: 0rem !important;
+        margin-bottom: 2rem;
+    }
+    ion-icon {
+        font-size: 4rem;
+        margin-top: 1rem;
+    }
+    .sendercontainer:hover {
+        background-color: #212e41;
+        color: white;
+        p {
+            color: white;
+        }
+    }
+}

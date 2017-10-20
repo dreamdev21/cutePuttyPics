@@ -1,9 +1,16 @@
+import { SettingsPage } from '../pages/settings/settings';
+import { VerifypaypalPage} from '../pages/verifypaypal/verifypaypal';
+import { ReportPage } from '../pages/report/report';
+import { ReceivemoneyPage } from '../pages/receivemoney/receivemoney';
+import { SendmoneyPage } from '../pages/sendmoney/sendmoney';
+import { SenderPage } from '../pages/sender//sender';
 import { SuperadminPage } from '../pages/superadmin/superadmin';
 import { AdminmanagerPage } from '../pages/adminmanager/adminmanager';
 import { RegisteredadminPage } from '../pages/registeredadmin/registeredadmin';
 import { RequestadminPage } from '../pages/requestadmin/requestadmin';
 import { RegisterPage } from '../pages/register/register';
 import { LoginPage } from '../pages/login/login';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -35,6 +42,12 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     AdminmanagerPage,
     RegisteredadminPage,
     RequestadminPage,
+    SenderPage,
+    SendmoneyPage,
+    ReceivemoneyPage,
+    VerifypaypalPage,
+    SettingsPage,
+    ReportPage,
     MaxLengthDirective
   ],
   imports: [
@@ -55,7 +68,13 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     SuperadminPage,
     AdminmanagerPage,
     RegisteredadminPage,
-    RequestadminPage
+    RequestadminPage,
+    SenderPage,
+    SendmoneyPage,
+    ReceivemoneyPage,
+    VerifypaypalPage,
+    ReportPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,

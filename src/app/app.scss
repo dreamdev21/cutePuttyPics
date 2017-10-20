@@ -27,3 +27,41 @@
         overflow: hidden !important;
     }
 }
+
+.toolbar-background-md {
+    background: transparent;
+}
+
+.toolbar-background-ios {
+    background: transparent;
+}
+
+.toolbar-title-md {
+    padding: 0 12px;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #f3f3f3;
+}
+
+.bar-button-default-md,
+.bar-button-clear-md-default,
+.bar-button-md-default {
+    color: #f3f3f3;
+}
+
+.toolbar-background-md {
+    background: transparent;
+}
+
+.toolbar-title-ios {
+    padding: 0 12px;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #f3f3f3;
+}
+
+.bar-button-default-ios,
+.bar-button-clear-ios-default,
+.bar-button-ios-default {
+    color: #f3f3f3;
+}

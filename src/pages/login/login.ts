@@ -9,6 +9,7 @@ import firebase from 'firebase';
 import { Http } from '@angular/http';
 import { RegisterPage} from '../register/register';
 import { SuperadminPage } from '../superadmin/superadmin';
+import { SenderPage } from '../sender/sender';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
@@ -28,6 +29,7 @@ export class LoginPage {
 
   registerpage = RegisterPage;
   superadminpage = SuperadminPage;
+  senderpage = SenderPage;
   scannedCode = null;
 
   loading:any;
@@ -114,33 +116,21 @@ export class LoginPage {
       });
     }else if(this.user.role == 2) {
       this.showAlertSuccess("Welcome back  admin " + this.user.fullname);
-    }else{
+    }else if(this.user.role == 1) {
+      console.log(this.user.fullname);
+      this.navCtrl.push(SenderPage, {
+        user:user
+      });
+    }
+    else{
       this.showAlertSuccess("Welcome back " + this.user.fullname);
     }
-    // this.showAlertSuccess("Welcome back" + user.fullname);
   }
   goRegister(){
     this.navCtrl.push(RegisterPage, {
   });
   }
   scanCode() {
-    // var that = this;
-    // var ref = firebase.database().ref().child('users');
-    // var refUserId = ref.orderByChild('email').equalTo(this.user.email);
-    // refUserId.once('value', function(snapshot) {
-    //   if (snapshot.hasChildren()) {
-    //       snapshot.forEach(
-    //         function(snap){
-    //           console.log(snap.val());
-    //           snap.ref.update({
-    //             'permission':1
-    //           });
-    //           that.goLogin(snap);
-    //       });
-    //   } else {
-    //     console.log('wrong');
-    //   }
-    // });
     this.barcodeScanner.scan().then(barcodeData => {
       var scanqrcode = barcodeData.text;
       var qrdecode = this.user.email + this.user.password + this.user.fullname;
