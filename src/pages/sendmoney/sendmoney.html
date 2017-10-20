@@ -17,7 +17,7 @@
     <div class="present">
         <ion-row>
             <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer">
-                $100
+                ${{sendmoney}}
             </ion-col>
         </ion-row>
     </div>
@@ -30,7 +30,7 @@
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <ion-list>
                 <ion-item>
-                    <ion-input type="number" value="" placeholder="$">
+                    <ion-input type="number" value="" placeholder="$" [(ngModel)]="sendmoney">
                         <ion-icon name="ios-eye-outline" item-right></ion-icon>
                     </ion-input>
                 </ion-item>
@@ -40,7 +40,7 @@
     <ion-row>
         <ion-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4>
             <ion-list>
-                <ion-item class="moneyinput">
+                <ion-item class="moneyinput" (click)="sendmoneySelect(100)">
                     <ion-label style="text-align: -webkit-center;">$ 100</ion-label>
                 </ion-item>
             </ion-list>
@@ -48,14 +48,14 @@
         <ion-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4>
             <ion-list>
                 <ion-item class="moneyinput">
-                    <ion-label style="text-align: -webkit-center;">$ 200</ion-label>
+                    <ion-label style="text-align: -webkit-center;" (click)="sendmoneySelect(200)">$ 200</ion-label>
                 </ion-item>
             </ion-list>
         </ion-col>
         <ion-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4>
             <ion-list>
                 <ion-item class="moneyinput">
-                    <ion-label style="text-align: -webkit-center;">$ 500</ion-label>
+                    <ion-label style="text-align: -webkit-center;" (click)="sendmoneySelect(500)">$ 500</ion-label>
                 </ion-item>
             </ion-list>
         </ion-col>

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Loading,LoadingController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
 import { AngularFireDatabase } from 'angularfire2/database';
 // import { Observable } from 'rxjs/Observable';
-import { AngularFireAuth } from 'angularfire2/auth';
+// import { AngularFireAuth } from 'angularfire2/auth';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
@@ -40,7 +40,7 @@ export class LoginPage {
   public userpermission;
 
   constructor(
-    private afAuth: AngularFireAuth,
+    // private afAuth: AngularFireAuth,
     public http : Http,
     public afd: AngularFireDatabase,
     public navCtrl: NavController,
@@ -54,11 +54,11 @@ export class LoginPage {
   async Login(user: User) {
     if(this.validateUser(user)){
       var that = this;
-      var starCountRef = firebase.database().ref('users/');
+      // var starCountRef = firebase.database().ref('users/');
       var query = firebase.database().ref("users").orderByKey();
 
       that.checkstate = true;
-      var userpermission = 0;
+      // var userpermission = 0;
       query.once("value").then(function (snapshot) {
 
         snapshot.forEach(function (childSnapshot) {

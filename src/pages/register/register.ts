@@ -1,14 +1,14 @@
 import { LoginPage } from '../login/login';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Loading, MenuController,LoadingController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Loading, LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import {MaxLengthDirective} from '../../directives/c-maxlength/c-maxlength';
+// import {MaxLengthDirective} from '../../directives/c-maxlength/c-maxlength';
 
 @IonicPage()
 @Component({
@@ -51,7 +51,7 @@ export class RegisterPage {
         // this.showLoading(text);
         console.log('validate true');
         var that = this;
-        var starCountRef = firebase.database().ref('users/');
+        // var starCountRef = firebase.database().ref('users/');
         var query = firebase.database().ref("users").orderByKey();
         console.log(query);
         query.once("value").then(function (snapshot) {
@@ -75,7 +75,7 @@ export class RegisterPage {
                   user.permission = 0;
                   that.afd.list('/users/').push(user);
                   console.log(user);
-                  var starCountRef = firebase.database().ref('users/');
+                  // var starCountRef = firebase.database().ref('users/');
                   var query = firebase.database().ref("users").orderByKey();
 
                   query.once("value").then(function (snapshot) {
@@ -124,7 +124,7 @@ export class RegisterPage {
       var scanqrcode = barcodeData.text;
       var qrdecode = this.user.email + this.user.password + this.user.fullname;
       if(atob(scanqrcode) == qrdecode){
-      var that = this;
+      // var that = this;
       var ref = firebase.database().ref().child('users');
       var refUserId = ref.orderByChild('email').equalTo(this.user.email);
       refUserId.once('value', function(snapshot) {

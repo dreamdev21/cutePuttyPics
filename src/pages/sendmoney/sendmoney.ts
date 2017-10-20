@@ -14,12 +14,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'sendmoney.html',
 })
 export class SendmoneyPage {
-
+  public sendmoney:number;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SendmoneyPage');
   }
-
+sendmoneySelect(money){
+  this.sendmoney = money;
+}
 }

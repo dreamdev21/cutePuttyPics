@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Loading, MenuController,LoadingController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,  Loading, LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireAuth } from 'angularfire2/auth';
+// import { AngularFireDatabase } from 'angularfire2/database';
+// import { Observable } from 'rxjs/Observable';
+// import { AngularFireAuth } from 'angularfire2/auth';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 
 
 /**
@@ -55,7 +55,7 @@ export class RegisteredadminPage {
     console.log('that.items');
     var that = this;
     that.items = [];
-    var starCountRef = firebase.database().ref('users/');
+    // var starCountRef = firebase.database().ref('users/');
     var query = firebase.database().ref("users").orderByKey();
     console.log(query);
     query.once("value").then(function (snapshot) {
