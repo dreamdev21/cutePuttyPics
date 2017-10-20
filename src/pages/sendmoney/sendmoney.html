@@ -17,7 +17,7 @@
     <div class="present">
         <ion-row>
             <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer">
-                ${{sendmoney}}
+                ${{sendmoneyData.sendmoney}}
             </ion-col>
         </ion-row>
     </div>
@@ -30,7 +30,7 @@
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <ion-list>
                 <ion-item>
-                    <ion-input type="number" value="" placeholder="$" [(ngModel)]="sendmoney">
+                    <ion-input type="number" value="" placeholder="$" [(ngModel)]="sendmoneyData.sendmoney">
                         <ion-icon name="ios-eye-outline" item-right></ion-icon>
                     </ion-input>
                 </ion-item>
@@ -94,8 +94,36 @@
             <ion-list>
                 <ion-item>
                     <ion-label>Receiver</ion-label>
-                    <ion-select>
+                    <ion-select [(ngModel)]="sendmoneyData.receiver">
                         <ion-option value="0">John Doe</ion-option>
+                        <ion-option value="0">John Doe1</ion-option>
+                        <ion-option value="0">John Doe11</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+            <ion-list>
+                <ion-item>
+                    <ion-label>SENDER PAYMENT METHOD</ion-label>
+                    <ion-select [(ngModel)]="sendmoneyData.sendmethod">
+                        <ion-option value="0">PAYPAL</ion-option>
+                        <ion-option value="1">DEBIT CARD</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+            <ion-list>
+                <ion-item>
+                    <ion-label>RECEIVER PAYMENT METHOD</ion-label>
+                    <ion-select [(ngModel)]="sendmoneyData.receivemethod">
+                        <ion-option value="0">PAYPAL</ion-option>
+                        <ion-option value="1">DEBIT CARD</ion-option>
                     </ion-select>
                 </ion-item>
             </ion-list>
@@ -104,7 +132,7 @@
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
 
-            <button class="signup" ion-button (click)="register(user)">Send Now</button>
+            <button class="signup" ion-button (click)="sendMoney(sendmoneyData)">Send Now</button>
         </ion-col>
     </ion-row>
 </ion-content>

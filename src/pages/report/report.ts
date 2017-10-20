@@ -14,12 +14,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'report.html',
 })
 export class ReportPage {
-
+  public user:any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.user = navParams.get("user");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReportPage');
+    console.log(this.user.role);
   }
 
 }

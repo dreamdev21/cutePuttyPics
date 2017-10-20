@@ -1,3 +1,59 @@
 page-report {
-
+    .content-md {
+        background-color: white !important;
+        text-align: center;
+    }
+    .content-ios {
+        background-color: white !important;
+        text-align: center;
+    }
+    .card-md {
+        border-radius: 7px;
+        background: #212e41;
+    }
+    .card-ios {
+        border-radius: 7px;
+        background: #212e41;
+    }
+    .card-header-md {
+        text-align: center;
+        color: #7ba4c9;
+    }
+    .card-header-ios {
+        text-align: center;
+        color: #7ba4c9;
+    }
+    .card-content-md {
+        font-size: 3.4rem;
+        color: white;
+    }
+    .card-content-ios {
+        font-size: 3.4rem;
+        color: white;
+    }
+    .toolbar-background-md {
+        background: #212e41;
+    }
+    .toolbar-background-ios {
+        background: #212e41;
+    }
+    .moneyinput {
+        background-color: #456388;
+        border-radius: 7px;
+        color: white;
+    }
+    .moneyinputblank {
+        background-color: transparent;
+    }
+    .sentmoneylist {
+        color: #456388;
+        background-color: #F7F7F7;
+        border: 2px solid #ffffff;
+    }
+    .list-md .item-block .item-inner {
+        border-bottom: 0px solid #dedede;
+    }
+    .list-ios .item-block .item-inner {
+        border-bottom: 0px solid #dedede;
+    }
 }

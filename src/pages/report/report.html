@@ -7,12 +7,115 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Reports</ion-title>
+        <ion-title>Transaction Report</ion-title>
     </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            TOTAL BALANCE
+        </ion-card-header>
+        <ion-card-content>
+            $ 300.99
+        </ion-card-content>
+    </ion-card>
+    <ion-row>
+        <ion-col col-3 col-sm-4 col-md-4 col-lg-4 col-xl-4>
+            <ion-list>
+                <ion-item-sliding>
+                    <ion-item class="moneyinputblank">
+                        <ion-label style="text-align: -webkit-center;"></ion-label>
+                    </ion-item>
+                </ion-item-sliding>
+            </ion-list>
+        </ion-col>
+        <ion-col col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4>
+            <ion-list>
+                <ion-item class="moneyinput" *ngIf="user.role == 1">
+                    <ion-label style="text-align: -webkit-center;">SENT</ion-label>
+                </ion-item>
+                <ion-item class="moneyinput" *ngIf="user.role == 0">
+                    <ion-label style="text-align: -webkit-center;">RECEIVED</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+        <ion-col col-3 col-sm-4 col-md-4 col-lg-4 col-xl-4>
+            <ion-list>
+                <ion-item class="moneyinputblank">
+                    <ion-label style="text-align: -webkit-center;"></ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+    <ion-list>
+        <ion-item-sliding>
+            <ion-item class="sentmoneylist">
+                <ion-avatar item-start>
+                    <img src="assets/avatar/avatar0.png">
+                </ion-avatar>
+                <ion-row>
+                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                        <h2>Cher</h2>
+                        <p>05/09/2017</p>
+                    </ion-col>
+                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                        <h1 style=" color: red;text-align:right;margin-top:5px;">$ 100</h1>
+                    </ion-col>
+                </ion-row>
 
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger">
+                  DELETE
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+        <ion-item-sliding>
+            <ion-item class="sentmoneylist">
+                <ion-avatar item-start>
+                    <img src="assets/avatar/avatar0.png">
+                </ion-avatar>
+                <ion-row>
+                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                        <h2>Cher</h2>
+                        <p>05/09/2017</p>
+                    </ion-col>
+                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                        <h1 style=" color: red;text-align:right;margin-top:5px;">$ 100</h1>
+                    </ion-col>
+                </ion-row>
+
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger">
+                  DELETE
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+        <ion-item-sliding>
+            <ion-item class="sentmoneylist">
+                <ion-avatar item-start>
+                    <img src="assets/avatar/avatar0.png">
+                </ion-avatar>
+                <ion-row>
+                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                        <h2>Cher</h2>
+                        <p>05/09/2017</p>
+                    </ion-col>
+                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                        <h1 style=" color: red;text-align:right;margin-top:5px;">$ 100</h1>
+                    </ion-col>
+                </ion-row>
+
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger">
+                  DELETE
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>

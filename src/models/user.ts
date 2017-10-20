@@ -8,4 +8,9 @@ export interface User {
     role:number;
     cvv: string;
     permission:number;
+    gender:number;
+    avatar:string;
+    birthday:Date;
+    paypalemail:string;
+    paypalpassword:string;
 }

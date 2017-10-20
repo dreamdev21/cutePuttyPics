@@ -19,11 +19,11 @@
     <h2>{{user.fullname}}</h2>
     <ion-grid>
         <ion-row>
-            <ion-col col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 class="sendercontainer" (click)="goSendmoney()">
+            <ion-col col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 class="sendercontainer" (click)="goSendmoney()" *ngIf="user.role == 1">
                 <ion-icon name="cash"></ion-icon>
                 <p>Send Money</p>
             </ion-col>
-            <ion-col col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 class="sendercontainer" (click)="goReceivemoney()">
+            <ion-col col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 class="sendercontainer" (click)="goReceivemoney()" *ngIf="user.role == 0">
                 <ion-icon name="logo-usd"></ion-icon>
                 <p>Receive Money</p>
             </ion-col>

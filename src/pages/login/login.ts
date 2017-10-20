@@ -116,14 +116,11 @@ export class LoginPage {
       });
     }else if(this.user.role == 2) {
       this.showAlertSuccess("Welcome back  admin " + this.user.fullname);
-    }else if(this.user.role == 1) {
+    }else {
       console.log(this.user.fullname);
       this.navCtrl.push(SenderPage, {
         user:user
       });
-    }
-    else{
-      this.showAlertSuccess("Welcome back " + this.user.fullname);
     }
   }
   goRegister(){
