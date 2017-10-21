@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { User } from '../../models/user';
 import { SendmoneyPage } from '../sendmoney/sendmoney';
 import { ReceivemoneyPage } from '../receivemoney/receivemoney';
 import { VerifypaypalPage } from '../verifypaypal/verifypaypal';
 import { ReportPage } from '../report/report';
 import { SettingsPage } from '../settings/settings';
 import { LoginPage } from '../login/login';
+import { User } from '../../models/user';
 
 /**
  * Generated class for the SenderPage page.
@@ -21,15 +21,13 @@ import { LoginPage } from '../login/login';
   templateUrl: 'sender.html',
 })
 export class SenderPage {
-  public user:any;
+  public user = {} as User;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.user = navParams.get("user");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SenderPage');
-    console.log(this.user.fullname);
-
   }
  goSendmoney(){
   this.navCtrl.push(SendmoneyPage, {

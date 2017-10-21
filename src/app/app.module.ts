@@ -31,6 +31,10 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -84,7 +88,11 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FirebaseProvider,
     AngularFireAuth,
-    BarcodeScanner
+    BarcodeScanner,
+    File,
+    Transfer,
+    Camera,
+    FilePath
   ]
 })
 export class AppModule {}

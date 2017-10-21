@@ -51,11 +51,8 @@ export class RegisterPage {
         // this.showLoading(text);
         console.log('validate true');
         var that = this;
-        // var starCountRef = firebase.database().ref('users/');
         var query = firebase.database().ref("users").orderByKey();
-        console.log(query);
         query.once("value").then(function (snapshot) {
-
           snapshot.forEach(function (childSnapshot) {
             if(checkstate) {
               if (childSnapshot.val().email == user.email){
@@ -71,6 +68,13 @@ export class RegisterPage {
             // that.loading.dismiss();
             if(checkstate){
               try{
+                var now = new Date();
+                user.id = now.getTime();
+                user.avatar = "assets/avatar/avatar0.png";
+                user.birthday = now;
+                user.gender = 0;
+                user.paypalemail = "paypal@email.com";
+                user.paypalpassword = "paypalpassword";
                 if(user.role == 2){
                   user.permission = 0;
                   that.afd.list('/users/').push(user);

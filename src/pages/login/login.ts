@@ -66,11 +66,23 @@ export class LoginPage {
               if (childSnapshot.val().email == user.fullname || childSnapshot.val().fullname == user.fullname){
                 that.checkstate = false;
                 if (childSnapshot.val().password == user.password){
+
                   that.userpermission = childSnapshot.val().permission;
-                  that.user.email = childSnapshot.val().email;
-                  that.user.password = childSnapshot.val().password;
+                  that.user.id = childSnapshot.val().id;
+                  that.user.avatar = childSnapshot.val().avatar;
                   that.user.fullname = childSnapshot.val().fullname;
+                  that.user.password = childSnapshot.val().password;
+                  that.user.email = childSnapshot.val().email;
+                  that.user.cardnumber = childSnapshot.val().cardnumber;
+                  that.user.cardname = childSnapshot.val().cardname;
+                  that.user.cvv = childSnapshot.val().cvv;
+                  that.user.expirydate = childSnapshot.val().expirydate;
+                  that.user.birthday = childSnapshot.val().birthday;
+                  that.user.gender = childSnapshot.val().gender;
                   that.user.role = childSnapshot.val().role;
+                  that.user.paypalemail = childSnapshot.val().paypalemail;
+                  that.user.paypalpassword = childSnapshot.val().paypalpassword;
+
                   if(that.userpermission == "0" && that.user.role == 2){
 
                     that.showConfirm();
@@ -110,14 +122,12 @@ export class LoginPage {
 
   }
   goLogin(user){
-    console.log(this.user.role);
-    if(this.user.role == 3){
+      if(user.role == 3){
       this.navCtrl.push(SuperadminPage, {
       });
-    }else if(this.user.role == 2) {
+    }else if(user.role == 2) {
       this.showAlertSuccess("Welcome back  admin " + this.user.fullname);
     }else {
-      console.log(this.user.fullname);
       this.navCtrl.push(SenderPage, {
         user:user
       });
