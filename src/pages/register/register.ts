@@ -3,12 +3,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Loading, LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
 import { AngularFireDatabase } from 'angularfire2/database';
-// import { Observable } from 'rxjs/Observable';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-// import {MaxLengthDirective} from '../../directives/c-maxlength/c-maxlength';
 
 @IonicPage()
 @Component({
