@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController, ToastController } from 'ionic-angular';
 import { User } from '../../models/user';
 import { sendmoneyData } from '../../models/sendmoneyData';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -22,11 +22,13 @@ import { Http } from '@angular/http';
 export class SendmoneyPage {
   public sendmoneyData = {} as sendmoneyData;
   public sendmethodtext:any;
+  public toastText:string;
   public receivemethodtext:any;
   public receivers:any;
   public sender = {} as User;
   public receiver = {} as User;
   constructor(
+    public toastCtrl: ToastController,
     public http : Http,
     public afd: AngularFireDatabase,
     public firebaseProvider: FirebaseProvider,
@@ -51,6 +53,10 @@ export class SendmoneyPage {
         }
         });
     });
+
+
+
+
     console.log(that.receivers);
   }
   sendmoneySelect(money){
@@ -108,7 +114,19 @@ export class SendmoneyPage {
                 snapshot.forEach(function (childSnapshot) {
                     if (childSnapshot.val().id == that.receiver.id){
                       console.log(childSnapshot.val().email);
-                      // that.receiver.fullname = childSnapshot.val().fullname;
+                      that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalemail;
+                      that.sendmoneyData.receivercardnumber = childSnapshot.val().cardnumber;
+                      that.sendmoneyData.receivercardexpirydate = childSnapshot.val().expirydate;
+                      that.sendmoneyData.receivercardcvv = childSnapshot.val().cvv;
+                      that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalverifystate;
+                      that.sendmoneyData.receivername = childSnapshot.val().fullname;
+                      that.sendmoneyData.senderpaypalemail = that.sender.paypalemail;
+                      that.sendmoneyData.senderpaypalpassword = that.sender.paypalpassword;
+                      that.sendmoneyData.sendercardnumner = that.sender.cardnumber;
+                      that.sendmoneyData.sendercardexpirydate = that.sender.expirydate;
+                      that.sendmoneyData.sendercardcvv = that.sender.cvv;
+                      that.sendmoneyData.senderpaypalverifystate = that.sender.paypalverifystate;
+                      that.sendmoneyData.sendername = that.sender.fullname;
                       that.afd.list('/transactions/').push(sendmoneyData);
                       var link = 'http://tipqrbackend.com.candypickers.com/sendtransactionemail?senderemail=' + that.sender.email + '&sendername='+ that.sender.fullname +'&receiveremail='+ childSnapshot.val().email + '&receivername='+ childSnapshot.val().fullname + '&qrcode='+ btoa(that.sendmoneyData.transactionid.toString());
                       that.http.get(link).map(res => res.json())
@@ -123,6 +141,16 @@ export class SendmoneyPage {
                   });
                 });
 
+                var receiverRef = firebase.database().ref("transactions/");
+                receiverRef.on("child_changed", function(data) {
+                   var transactiondata = data.val();
+                   if(transactiondata.senderid==that.sendmoneyData.senderid && transactiondata.state == 1){
+
+
+                     console.log(transactiondata.transactionid);
+                     that.presentToast("Receiver "+that.sendmoneyData.receivername + " scanned QR code!");
+                   }
+                });
 
 
 
@@ -157,5 +185,17 @@ export class SendmoneyPage {
     });
     alert.present();
   }
+  presentToast(text) {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: 'top'
+    });
 
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+  }
 }
