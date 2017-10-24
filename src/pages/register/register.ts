@@ -71,6 +71,7 @@ export class RegisterPage {
                 user.avatar = "assets/avatar/avatar0.png";
                 user.birthday = now;
                 user.gender = 0;
+                user.paypalverifystate = 0;
                 user.paypalemail = "paypal@email.com";
                 user.paypalpassword = "paypalpassword";
                 if(user.role == 2){

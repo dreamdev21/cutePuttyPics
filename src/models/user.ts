@@ -7,11 +7,12 @@ export interface User {
     cardnumber: number;
     expirydate: Date;
     role:number;
-    cvv: string;
+    cvv: number;
     permission:number;
     gender:number;
     avatar:string;
     birthday:Date;
     paypalemail:string;
     paypalpassword:string;
+    paypalverifystate:number;
 }

@@ -82,6 +82,7 @@ export class LoginPage {
                   that.user.role = childSnapshot.val().role;
                   that.user.paypalemail = childSnapshot.val().paypalemail;
                   that.user.paypalpassword = childSnapshot.val().paypalpassword;
+                  that.user.paypalverifystate = childSnapshot.val().paypalverifystate;
 
                   if(that.userpermission == "0" && that.user.role == 2){
 

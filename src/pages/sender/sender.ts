@@ -24,6 +24,7 @@ export class SenderPage {
   public user = {} as User;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.user = navParams.get("user");
+    console.log(this.user.paypalverifystate);
   }
 
   ionViewDidLoad() {

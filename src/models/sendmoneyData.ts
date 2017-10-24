@@ -7,4 +7,17 @@ export interface sendmoneyData {
   receiverid:number;
   transactiondate:Date;
   state:number;
+  receiverpaypalemail:string;
+  receivercardnumber:string;
+  receivercardexpirydate:Date;
+  receivercardcvv:number;
+  receiverpaypalverifystate:number;
+  receivername:string;
+  senderpaypalemail:string;
+  senderpaypalpassword:string;
+  sendercardnumner:number;
+  sendercardexpirydate:Date;
+  sendercardcvv:number;
+  senderpaypalverifystate:number;
+  sendername:string;
 }
