@@ -63,7 +63,7 @@ export class ReceivemoneyPage {
                             'state':1
                           });
                           that.findtransaction = true;
-                          that.showAlert("This transaction is completed successfully!");
+                          that.showAlertSuccess("This transaction is completed successfully!");
                           return true;
                       });
                   } else {
@@ -80,14 +80,21 @@ export class ReceivemoneyPage {
     }, (err) => {
       console.log('Error: ', err);
     });
-    // this.showAlert(this.findtransaction);
-    // if(!this.findtransaction){
-    //   this.showAlert("QR code invalid");
-    // }
+
   }
   showAlert(text) {
     let alert = this.alertCtrl.create({
       title: 'Warning!',
+      subTitle: text,
+      buttons: [{
+        text: "OK",
+      }]
+    });
+    alert.present();
+  }
+  showAlertSuccess(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Success!',
       subTitle: text,
       buttons: [{
         text: "OK",
