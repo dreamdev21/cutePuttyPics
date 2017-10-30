@@ -146,52 +146,10 @@ export class SendmoneyPage {
                    if(transactiondata.senderid==that.sendmoneyData.senderid && transactiondata.state == 1){
                      console.log(transactiondata);
                      that.presentToast("Receiver "+that.sendmoneyData.receivername + " scanned QR code!");
+                     that.goPaypal(transactiondata);
 
-                     that.payPal.init({
-                        PayPalEnvironmentProduction: 'Abz2z7-VNrOi97Z48yEnBYjpwJhv_r43Ri6yBI-ir5L29mQvG-jHufS4NiaFV9WiZyzLiPMOSFrIe9sE',
-                        PayPalEnvironmentSandbox: 'AR4senT79-ZVTD5b1DOekkVdfTbk7PqPbb8zgTxogDlTsdMm5a_XEHpg55WApFXciCqscYc01L79R8eO'
-                      }).then(() => {
-                      // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-                      that.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-                        // Only needed if you get an "Internal Service Error" after PayPal login!
-                        //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-                      })).then(() => {
-                        let payment = new PayPalPayment(transactiondata.sendmoney, 'USD', 'Description', 'sale');
-                        payment.payeeEmail = transactiondata.receiverpaypalemail;
-                        that.payPal.renderSinglePaymentUI(payment).then(() => {
-                          // Successfully paid
-
-                          // Example sandbox response
-                          //
-                          // {
-                          //   "client": {
-                          //     "environment": "sandbox",
-                          //     "product_name": "PayPal iOS SDK",
-                          //     "paypal_sdk_version": "2.16.0",
-                          //     "platform": "iOS"
-                          //   },
-                          //   "response_type": "payment",
-                          //   "response": {
-                          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-                          //     "state": "approved",
-                          //     "create_time": "2016-10-03T13:33:33Z",
-                          //     "intent": "sale"
-                          //   }
-                          // }
-                        }, () => {
-                          // Error or render dialog closed without being successful
-                        });
-                      }, () => {
-                        // Error in configuration
-                      });
-                    }, () => {
-                      // Error in initialization, maybe PayPal isn't supported or something else
-                    });
                    }
                 });
-
-
-
             }
             catch(e){
               console.error(e);
@@ -202,6 +160,48 @@ export class SendmoneyPage {
       ]
     });
     confirm.present();
+  }
+  goPaypal(transactiondata){
+    this.payPal.init({
+      PayPalEnvironmentProduction: 'Abz2z7-VNrOi97Z48yEnBYjpwJhv_r43Ri6yBI-ir5L29mQvG-jHufS4NiaFV9WiZyzLiPMOSFrIe9sE',
+      PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
+    }).then(() => {
+    // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+    this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+      // Only needed if you get an "Internal Service Error" after PayPal login!
+      //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+    })).then(() => {
+      let payment = new PayPalPayment('150.12', 'USD', 'Description', 'sale');
+      payment.payeeEmail = "chrisweber828-facilitator@zoho.com";
+      this.payPal.renderSinglePaymentUI(payment).then(() => {
+        // Successfully paid
+
+        // Example sandbox response
+        //
+        // {
+        //   "client": {
+        //     "environment": "sandbox",
+        //     "product_name": "PayPal iOS SDK",
+        //     "paypal_sdk_version": "2.16.0",
+        //     "platform": "iOS"
+        //   },
+        //   "response_type": "payment",
+        //   "response": {
+        //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+        //     "state": "approved",
+        //     "create_time": "2016-10-03T13:33:33Z",
+        //     "intent": "sale"
+        //   }
+        // }
+      }, () => {
+        // Error or render dialog closed without being successful
+      });
+    }, () => {
+      // Error in configuration
+    });
+  }, () => {
+    // Error in initialization, maybe PayPal isn't supported or something else
+  });
   }
   showAlert(text) {
     let alert = this.alertCtrl.create({
