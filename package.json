@@ -25,11 +25,14 @@
     "@ionic-native/core": "4.3.0",
     "@ionic-native/file": "^4.3.2",
     "@ionic-native/file-path": "^4.3.2",
+    "@ionic-native/paypal": "^4.3.2",
     "@ionic-native/splash-screen": "4.3.0",
     "@ionic-native/status-bar": "4.3.0",
     "@ionic-native/transfer": "^3.14.0",
     "@ionic/storage": "2.0.1",
     "angularfire2": "^5.0.0-rc.2",
+    "card.io.cordova.mobilesdk": "^2.1.0",
+    "com.paypal.cordova.mobilesdk": "^3.5.0",
     "cordova-android": "~6.3.0",
     "cordova-browser": "^4.1.0",
     "cordova-ios": "^4.4.0",
@@ -75,7 +78,8 @@
       },
       "cordova-plugin-file": {},
       "cordova-plugin-file-transfer": {},
-      "cordova-plugin-filepath": {}
+      "cordova-plugin-filepath": {},
+      "com.paypal.cordova.mobilesdk": {}
     },
     "platforms": [
       "browser",

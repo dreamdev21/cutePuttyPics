@@ -6,6 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
+import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 
 /**
  * Generated class for the SendmoneyPage page.
@@ -35,6 +36,7 @@ export class SendmoneyPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
+    private payPal: PayPal
   ) {
     this.http = http;
     this.sender = navParams.get("user");
@@ -53,9 +55,6 @@ export class SendmoneyPage {
         }
         });
     });
-
-
-
 
     console.log(that.receivers);
   }
@@ -145,10 +144,49 @@ export class SendmoneyPage {
                 receiverRef.on("child_changed", function(data) {
                    var transactiondata = data.val();
                    if(transactiondata.senderid==that.sendmoneyData.senderid && transactiondata.state == 1){
-
-
-                     console.log(transactiondata.transactionid);
+                     console.log(transactiondata);
                      that.presentToast("Receiver "+that.sendmoneyData.receivername + " scanned QR code!");
+
+                     that.payPal.init({
+                        PayPalEnvironmentProduction: 'Abz2z7-VNrOi97Z48yEnBYjpwJhv_r43Ri6yBI-ir5L29mQvG-jHufS4NiaFV9WiZyzLiPMOSFrIe9sE',
+                        PayPalEnvironmentSandbox: 'AR4senT79-ZVTD5b1DOekkVdfTbk7PqPbb8zgTxogDlTsdMm5a_XEHpg55WApFXciCqscYc01L79R8eO'
+                      }).then(() => {
+                      // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+                      that.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+                        // Only needed if you get an "Internal Service Error" after PayPal login!
+                        //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+                      })).then(() => {
+                        let payment = new PayPalPayment(transactiondata.sendmoney, 'USD', 'Description', 'sale');
+                        payment.payeeEmail = transactiondata.receiverpaypalemail;
+                        that.payPal.renderSinglePaymentUI(payment).then(() => {
+                          // Successfully paid
+
+                          // Example sandbox response
+                          //
+                          // {
+                          //   "client": {
+                          //     "environment": "sandbox",
+                          //     "product_name": "PayPal iOS SDK",
+                          //     "paypal_sdk_version": "2.16.0",
+                          //     "platform": "iOS"
+                          //   },
+                          //   "response_type": "payment",
+                          //   "response": {
+                          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+                          //     "state": "approved",
+                          //     "create_time": "2016-10-03T13:33:33Z",
+                          //     "intent": "sale"
+                          //   }
+                          // }
+                        }, () => {
+                          // Error or render dialog closed without being successful
+                        });
+                      }, () => {
+                        // Error in configuration
+                      });
+                    }, () => {
+                      // Error in initialization, maybe PayPal isn't supported or something else
+                    });
                    }
                 });
 

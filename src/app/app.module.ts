@@ -36,6 +36,7 @@ import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 
+import { PayPal } from '@ionic-native/paypal';
 @NgModule({
   declarations: [
     MyApp,
@@ -92,7 +93,8 @@ import { Camera } from '@ionic-native/camera';
     File,
     Transfer,
     Camera,
-    FilePath
+    FilePath,
+    PayPal
   ]
 })
 export class AppModule {}
