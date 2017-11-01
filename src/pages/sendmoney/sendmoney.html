@@ -14,6 +14,7 @@
 
 
 <ion-content padding>
+
     <div class="present">
         <ion-row>
             <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer">
@@ -60,6 +61,11 @@
             </ion-list>
         </ion-col>
     </ion-row>
+    <ion-card *ngIf="createdCode">
+        <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+        <ion-card-content>
+        </ion-card-content>
+    </ion-card>
     <ion-row style="height: 30px;">
         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
             <p style="text-align:left">Fee</p>
@@ -130,7 +136,8 @@
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
 
-            <button class="signup" ion-button (click)="sendMoney(sendmoneyData)">Send Now</button>
+            <button class="signup" ion-button (click)="sendMoney(sendmoneyData)">Create QR code</button>
         </ion-col>
     </ion-row>
+
 </ion-content>

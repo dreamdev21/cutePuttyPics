@@ -7,7 +7,7 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 /**
  * Generated class for the SendmoneyPage page.
  *
@@ -21,6 +21,9 @@ import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal
   templateUrl: 'sendmoney.html',
 })
 export class SendmoneyPage {
+  qrData = "QR test data";
+  createdCode = null;
+  scannedCode = null;
   public sendmoneyData = {} as sendmoneyData;
   public sendmethodtext:any;
   public toastText:string;
@@ -30,6 +33,7 @@ export class SendmoneyPage {
   public receiver = {} as User;
   public transactiondata = {} as sendmoneyData;
   constructor(
+    private barcodeScanner: BarcodeScanner,
     public toastCtrl: ToastController,
     public http : Http,
     public afd: AngularFireDatabase,
@@ -103,10 +107,13 @@ export class SendmoneyPage {
           text: 'Yes',
           handler: () => {
             try{
+
               var now = new Date();
               sendmoneyData.transactionid = now.getTime();
               sendmoneyData.state = 0;
               sendmoneyData.receiverid = this.receiver.id;
+              console.log(this.sendmoneyData.transactionid.toString());
+              this.createdCode = btoa(this.sendmoneyData.transactionid.toString());
               var that = this;
 
               var query = firebase.database().ref("users").orderByKey();
@@ -128,13 +135,13 @@ export class SendmoneyPage {
                       that.sendmoneyData.senderpaypalverifystate = that.sender.paypalverifystate;
                       that.sendmoneyData.sendername = that.sender.fullname;
                       that.afd.list('/transactions/').push(sendmoneyData);
-                      var link = 'http://tipqrbackend.com.candypickers.com/sendtransactionemail?senderemail=' + that.sender.email + '&sendername='+ that.sender.fullname +'&receiveremail='+ childSnapshot.val().email + '&receivername='+ childSnapshot.val().fullname + '&qrcode='+ btoa(that.sendmoneyData.transactionid.toString());
-                      that.http.get(link).map(res => res.json())
-                      .subscribe(data => {
-                        console.log(data);
-                      }, error => {
-                      console.log("Oooops!");
-                      });
+                      // var link = 'http://tipqrbackend.com.candypickers.com/sendtransactionemail?senderemail=' + that.sender.email + '&sendername='+ that.sender.fullname +'&receiveremail='+ childSnapshot.val().email + '&receivername='+ childSnapshot.val().fullname + '&qrcode='+ btoa(that.sendmoneyData.transactionid.toString());
+                      // that.http.get(link).map(res => res.json())
+                      // .subscribe(data => {
+                      //   console.log(data);
+                      // }, error => {
+                      // console.log("Oooops!");
+                      // });
                       that.showAlertSuccess("QR code sent to receiver.This transaction will be expired after 1 hour.");
                     }
 
