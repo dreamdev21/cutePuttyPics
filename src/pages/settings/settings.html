@@ -73,7 +73,7 @@
             TOTAL MONEY SENT
         </ion-card-header>
         <ion-card-content>
-            $ 300.99
+            $ {{ transactiontotalmoney }}
         </ion-card-content>
     </ion-card>
     <ion-card *ngIf="olduserData.role == 0">
@@ -81,7 +81,7 @@
             TOTAL MONEY RECEIVED
         </ion-card-header>
         <ion-card-content>
-            $ 300.99
+            $ {{ transactiontotalmoney }}
         </ion-card-content>
     </ion-card>
     <ion-row>

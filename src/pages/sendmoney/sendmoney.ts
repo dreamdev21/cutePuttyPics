@@ -24,6 +24,7 @@ export class SendmoneyPage {
   qrData = "QR test data";
   createdCode = null;
   scannedCode = null;
+  public findtransaction = false;
   public sendmoneyData = {} as sendmoneyData;
   public sendmethodtext:any;
   public toastText:string;
@@ -72,30 +73,27 @@ export class SendmoneyPage {
       this.showAlert("Please enter money!");
     }else if(!this.receiver.id){
       this.showAlert("Please select  receiver!")
-    }else if(!this.sendmoneyData.sendmethod){
-      this.showAlert("Please select your payment method!")
-    }else if(!this.sendmoneyData.receivemethod){
-      this.showAlert("Please select receiver payment method!")
     }else{
       this.showConfirm(sendmoneyData);
+      console.log(sendmoneyData);
     };
 
   }
 
   showConfirm(sendmoneyData) {
-    if(this.sendmoneyData.sendmethod == 0){
-       this.sendmethodtext = "Paypal";
-    }else{
-       this.sendmethodtext = "Debit card";
-    }
-    if(this.sendmoneyData.receivemethod == 0){
-       this.receivemethodtext = "Paypal";
-    }else{
-       this.receivemethodtext = "Debit card";
-    }
+    // if(this.sendmoneyData.sendmethod == 0){
+    //    this.sendmethodtext = "Paypal";
+    // }else{
+    //    this.sendmethodtext = "Debit card";
+    // }
+    // if(this.sendmoneyData.receivemethod == 0){
+    //    this.receivemethodtext = "Paypal";
+    // }else{
+    //    this.receivemethodtext = "Debit card";
+    // }
     let confirm = this.alertCtrl.create({
       title: 'Confirm',
-      message: 'You will send $ '+this.sendmoneyData.sendmoney + ' from your  ' +this.sendmethodtext+' to receiver`s '+this.receivemethodtext,
+      message: 'You will send $ '+this.sendmoneyData.sendmoney + ' from your paypal to receiver`s paypal',
       buttons: [
         {
           text: 'No',
@@ -142,7 +140,7 @@ export class SendmoneyPage {
                       // }, error => {
                       // console.log("Oooops!");
                       // });
-                      that.showAlertSuccess("QR code sent to receiver.This transaction will be expired after 1 hour.");
+
                     }
 
                   });
@@ -154,6 +152,38 @@ export class SendmoneyPage {
                    if(that.transactiondata.senderid==that.sendmoneyData.senderid && that.transactiondata.state == 1){
                      console.log(that.transactiondata);
                      that.presentToast("Receiver "+that.sendmoneyData.receivername + " scanned QR code!");
+
+                     var query = firebase.database().ref("transactions").orderByKey();
+                     that.findtransaction = false;
+                     query.once("value").then(function (snapshot) {
+                       snapshot.forEach(function (childSnapshot) {
+                           if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
+                             if(childSnapshot.val().state == 1){
+                               console.log(childSnapshot.val().transactionid);
+                               var ref = firebase.database().ref().child('transactions');
+                               var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
+                               refUserId.once('value', function(snapshot) {
+                                 if (snapshot.hasChildren()) {
+                                     snapshot.forEach(
+                                       function(snap){
+                                         console.log(snap.val());
+                                         snap.ref.update({
+                                           'transactionstate':0
+                                         });
+                                         that.findtransaction = true;
+                                         return true;
+                                     });
+                                 } else {
+                                   console.log('wrong');
+                                 }
+                               });
+                           }else{
+                             that.findtransaction = true;
+                            //  that.showAlert("This transaction was completed already!");
+                           }
+                         }
+                       });
+                     });
                      console.log(that.transactiondata.receiverpaypalemail);
                      console.log(that.transactiondata.sendmoney);
                      that.payPal.init({
@@ -170,6 +200,8 @@ export class SendmoneyPage {
                        payment.payeeEmail = that.transactiondata.receiverpaypalemail;
 
                        that.payPal.renderSinglePaymentUI(payment).then(() => {
+
+
 
                          // this.showAlertSuccess("Transaction completed sucessfully.");
                          // Successfully paid
@@ -203,6 +235,35 @@ export class SendmoneyPage {
 
                    }
                 });
+                query = firebase.database().ref("transactions").orderByKey();
+                that.findtransaction = false;
+                query.once("value").then(function (snapshot) {
+                  snapshot.forEach(function (childSnapshot) {
+                      if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
+                        if(childSnapshot.val().state == 1){
+                          console.log(childSnapshot.val().transactionid);
+                          var ref = firebase.database().ref().child('transactions');
+                          var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
+                          refUserId.once('value', function(snapshot) {
+                            if (snapshot.hasChildren()) {
+                                snapshot.forEach(
+                                  function(snap){
+                                    console.log(snap.val());
+                                    snap.ref.update({
+                                      'transactionstate':1
+                                    });
+                                    that.findtransaction = true;
+                                    return true;
+                                });
+                            } else {
+                              console.log('wrong');
+                            }
+                          });
+                        }
+                    }
+                  });
+                });
+
             }
             catch(e){
               console.error(e);

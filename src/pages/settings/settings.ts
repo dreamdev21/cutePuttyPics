@@ -23,6 +23,7 @@ declare var cordova: any;
   selector: 'page-settings',
   templateUrl: 'settings.html',
 })
+
 export class SettingsPage {
 
   public olduserData= {} as User;
@@ -33,6 +34,15 @@ export class SettingsPage {
   firestore = firebase.storage();
   public storageDirectory : string;
   public toastText:string;
+  public user:any;
+  public transactions:any;
+  public transaction = {
+    avatar:[],
+    name:[],
+    date:[],
+    amount:[],
+  };
+  public transactiontotalmoney:number;
   constructor(
     public zone: NgZone,
     private camera: Camera,
@@ -66,6 +76,28 @@ export class SettingsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
     console.log(this.olduserData.avatar);
+    var that = this;
+    that.transactiontotalmoney = 0;
+        var query = firebase.database().ref("transactions").orderByKey();
+        query.once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              if(that.olduserData.role == 1){
+                if (childSnapshot.val().senderid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
+                  that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
+                  console.log(childSnapshot.val().transactionid);
+                  console.log('sender');
+                }
+              }else if(that.olduserData.role == 0){
+                if (childSnapshot.val().receiverid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
+                  that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
+                  console.log(childSnapshot.val().transactionid);
+                }
+              }else{
+
+              }
+
+            });
+        });
   }
   updateUser(newuserData){
     if(newuserData.fullname){
