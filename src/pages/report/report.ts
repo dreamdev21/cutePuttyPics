@@ -56,7 +56,7 @@ export class ReportPage {
           amount:[],
         }
         if(that.user.role == 0){
-          if (childSnapshot.val().receiverid == that.user.id && childSnapshot.val().state == 1){
+          if (childSnapshot.val().receiverid == that.user.id && childSnapshot.val().state == 2){
             var senderid = childSnapshot.val().senderid;
             var query = firebase.database().ref("users").orderByKey();
             query.once("value").then(function(snapshot) {
@@ -75,7 +75,7 @@ export class ReportPage {
             that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
           }
         }else{
-          if (childSnapshot.val().senderid == that.user.id && childSnapshot.val().state == 1){
+          if (childSnapshot.val().senderid == that.user.id && childSnapshot.val().state == 2){
             var receiverid = childSnapshot.val().receiverid;
             query = firebase.database().ref("users").orderByKey();
             query.once("value").then(function(snapshot) {

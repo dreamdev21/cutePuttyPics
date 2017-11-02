@@ -25,8 +25,8 @@ export class ReceivemoneyPage {
   loading: Loading;
   scannedCode = null;
   public user = {} as User;
-  public findtransaction = false;
   public transactionid = null;
+  public fundtransaction = null;
   constructor(
     public loadingCtrl: LoadingController,
     public http : Http,
@@ -44,76 +44,65 @@ export class ReceivemoneyPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceivemoneyPage');
     this.scanCode();
+
   }
   scanCode() {
-    this.findtransaction = false;
+
     this.barcodeScanner.scan().then(barcodeData => {
       this.transactionid=atob(barcodeData.text);
-      this.findtransaction = false;
+
       var that = this;
       var query = firebase.database().ref("transactions").orderByKey();
       query.once("value").then(function (snapshot) {
+        that.fundtransaction = 0;
         snapshot.forEach(function (childSnapshot) {
             if (childSnapshot.val().transactionid == that.transactionid){
-              if(childSnapshot.val().state == 0){
-                console.log(childSnapshot.val().transactionid);
+              that.fundtransaction = 1;
+              if(childSnapshot.val().state == 0 || childSnapshot.val().state == 3){
                 var ref = firebase.database().ref().child('transactions');
                 var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
                 refUserId.once('value', function(snapshot) {
                   if (snapshot.hasChildren()) {
-                      snapshot.forEach(
-                        function(snap){
-                          console.log(snap.val());
-                          snap.ref.update({
-                            'state':1
-                          });
-                          that.findtransaction = true;
-                          // that.showAlertSuccess("This transaction is completed successfully!");
-                          return true;
-                      });
-                  } else {
-                    console.log('wrong');
+                    snapshot.forEach(
+                      function(snap){
+                        snap.ref.update({
+                          'state':1
+                        });
+                        return true;
+                    });
                   }
                 });
-            }else{
-              that.findtransaction = true;
-              that.showAlert("This transaction was completed already!");
-            }
-          }
+              }
+           }
         });
       });
-      var receiverRef = firebase.database().ref("transactions/");
-      receiverRef.on("child_changed", function(data) {
-        console.log(data.val());
-        console.log(that.transactionid);
-        if(data.val().transactionid = that.transactionid && data.val().state == 1){
-          if( data.val().transactionstate == 0){
-            that.loading = that.loadingCtrl.create({
-              content: 'Processing...',
-            });
-            that.loading.present();
-          }else{
-            that.loading.dismissAll();
-            that.showAlertSuccess("Transaction completed!");
-            that.navCtrl.push(ReportPage, {
-              user:that.user
-            });
-          }
+      if(this.fundtransaction == 0){
+        this.showAlert("QR code invalid or expired already!");
+      }
+
+
+    var receiverRef = firebase.database().ref("transactions/");
+    receiverRef.on("child_changed", function(data) {
+       var transactiondata = data.val();
+       if(transactiondata.receiverid==this.user.id && transactiondata.transactionid == this.transactionid){
+        if(transactiondata.state == 1){
+          this.loading = this.loadingCtrl.create({
+            content: 'Processing...',
+          });
+        }else if(transactiondata.state == 2){
+          this.loading.dismissAll();
+          this.showAlertSuccess("Transaction complete!");
+          this.navCtrl.push(ReportPage, {
+            user:this.user
+          });
+        }else if(transactiondata.state == 3){
+          this.loading.dismissAll();
+          this.showAlert("Something wrong!");
         }
-      });
-    }, (err) => {
-      console.log('Error: ', err);
+       }
+
     });
-
-
-
-  }
-  presentLoading() {
-    let loader = this.loadingCtrl.create({
-      content: "Please wait...",
-      duration: 3000
-    });
-    loader.present();
+  });
   }
   showAlert(text) {
     let alert = this.alertCtrl.create({

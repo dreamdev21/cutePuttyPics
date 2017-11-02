@@ -110,13 +110,13 @@ export class LoginPage {
     var text =  'Checking...';
     this.showLoading(text);
     if (!user.fullname){
-      this.showAlert("Please enter your username or email");
+      this.showAlert("Please enter your email");
       this.validatestate = false;
-    }
-
-    if (!user.password || user.password.length<6){
-      this.showAlert("Password length must be at least 6 letter.");
-      this.validatestate = false;
+    }else{
+      if (!user.password || user.password.length<6){
+        this.showAlert("Password length must be at least 6 letter.");
+        this.validatestate = false;
+      }
     }
     this.loading.dismiss();
     return this.validatestate;
@@ -150,7 +150,6 @@ export class LoginPage {
         if (snapshot.hasChildren()) {
             snapshot.forEach(
               function(snap){
-                console.log(snap.val());
                 snap.ref.update({
                   'permission':1
                 });
@@ -204,7 +203,6 @@ export class LoginPage {
           alert.present();
   }
   showConfirm() {
-    console.log();
     let confirm = this.alertCtrl.create({
       title: 'Confirm',
       message: 'You have no permission yet.Do you scan QR code now?',

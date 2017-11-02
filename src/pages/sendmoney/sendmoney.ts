@@ -7,7 +7,7 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { ReportPage } from '../report/report';
 /**
  * Generated class for the SendmoneyPage page.
  *
@@ -34,7 +34,6 @@ export class SendmoneyPage {
   public receiver = {} as User;
   public transactiondata = {} as sendmoneyData;
   constructor(
-    private barcodeScanner: BarcodeScanner,
     public toastCtrl: ToastController,
     public http : Http,
     public afd: AngularFireDatabase,
@@ -62,35 +61,23 @@ export class SendmoneyPage {
         });
     });
 
-    console.log(that.receivers);
   }
   sendmoneySelect(money){
     this.sendmoneyData.sendmoney = money;
   }
   sendMoney(sendmoneyData){
-    console.log(this.receiver.id);
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){
       this.showAlert("Please enter money!");
     }else if(!this.receiver.id){
       this.showAlert("Please select  receiver!")
     }else{
       this.showConfirm(sendmoneyData);
-      console.log(sendmoneyData);
     };
 
   }
 
   showConfirm(sendmoneyData) {
-    // if(this.sendmoneyData.sendmethod == 0){
-    //    this.sendmethodtext = "Paypal";
-    // }else{
-    //    this.sendmethodtext = "Debit card";
-    // }
-    // if(this.sendmoneyData.receivemethod == 0){
-    //    this.receivemethodtext = "Paypal";
-    // }else{
-    //    this.receivemethodtext = "Debit card";
-    // }
+
     let confirm = this.alertCtrl.create({
       title: 'Confirm',
       message: 'You will send $ '+this.sendmoneyData.sendmoney + ' from your paypal to receiver`s paypal',
@@ -110,7 +97,6 @@ export class SendmoneyPage {
               sendmoneyData.transactionid = now.getTime();
               sendmoneyData.state = 0;
               sendmoneyData.receiverid = this.receiver.id;
-              console.log(this.sendmoneyData.transactionid.toString());
               this.createdCode = btoa(this.sendmoneyData.transactionid.toString());
               var that = this;
 
@@ -118,7 +104,6 @@ export class SendmoneyPage {
               query.once("value").then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     if (childSnapshot.val().id == that.receiver.id){
-                      console.log(childSnapshot.val().email);
                       that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalemail;
                       that.sendmoneyData.receivercardnumber = childSnapshot.val().cardnumber;
                       that.sendmoneyData.receivercardexpirydate = childSnapshot.val().expirydate;
@@ -149,119 +134,143 @@ export class SendmoneyPage {
                 var receiverRef = firebase.database().ref("transactions/");
                 receiverRef.on("child_changed", function(data) {
                    that.transactiondata = data.val();
-                   if(that.transactiondata.senderid==that.sendmoneyData.senderid && that.transactiondata.state == 1){
-                     console.log(that.transactiondata);
+                   if(that.transactiondata.senderid==that.sendmoneyData.senderid && that.transactiondata.transactionid == that.sendmoneyData.transactionid){
+
+                    if(that.transactiondata.state == 1){
+
+                      console.log(that.transactiondata);
+
                      that.presentToast("Receiver "+that.sendmoneyData.receivername + " scanned QR code!");
 
-                     var query = firebase.database().ref("transactions").orderByKey();
-                     that.findtransaction = false;
-                     query.once("value").then(function (snapshot) {
-                       snapshot.forEach(function (childSnapshot) {
-                           if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
-                             if(childSnapshot.val().state == 1){
-                               console.log(childSnapshot.val().transactionid);
-                               var ref = firebase.database().ref().child('transactions');
-                               var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                               refUserId.once('value', function(snapshot) {
-                                 if (snapshot.hasChildren()) {
-                                     snapshot.forEach(
-                                       function(snap){
-                                         console.log(snap.val());
-                                         snap.ref.update({
-                                           'transactionstate':0
-                                         });
-                                         that.findtransaction = true;
-                                         return true;
-                                     });
-                                 } else {
-                                   console.log('wrong');
-                                 }
-                               });
-                           }else{
-                             that.findtransaction = true;
-                            //  that.showAlert("This transaction was completed already!");
-                           }
-                         }
-                       });
-                     });
-                     console.log(that.transactiondata.receiverpaypalemail);
-                     console.log(that.transactiondata.sendmoney);
                      that.payPal.init({
                       PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
                       PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
                      }).then(() => {
-                     // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+
                      that.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
                        // Only needed if you get an "Internal Service Error" after PayPal login!
                        //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
                      })).then(() => {
-                       let payment = new PayPalPayment(that.transactiondata.sendmoney.toString(), 'USD', 'Description', 'sale');
+
+                      let payment = new PayPalPayment(that.transactiondata.sendmoney.toString(), 'USD', 'Description', 'sale');
 
                        payment.payeeEmail = that.transactiondata.receiverpaypalemail;
 
                        that.payPal.renderSinglePaymentUI(payment).then(() => {
 
+                         query = firebase.database().ref("transactions").orderByKey();
+                         query.once("value").then(function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                              if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
+                                if(childSnapshot.val().state == 1 ){
+                                  var ref = firebase.database().ref().child('transactions');
+                                  var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
+                                  refUserId.once('value', function(snapshot) {
+                                    if (snapshot.hasChildren()) {
+                                        snapshot.forEach(
+                                          function(snap){
+                                            snap.ref.update({
+                                              'state':2
+                                            });
+                                            return true;
+                                        });
+                                    }
+                                  });
+                                }
+                              }
+                            });
+                         });
 
-
-                         // this.showAlertSuccess("Transaction completed sucessfully.");
-                         // Successfully paid
-
-                         // Example sandbox response
-                         //
-                         // {
-                         //   "client": {
-                         //     "environment": "sandbox",
-                         //     "product_name": "PayPal iOS SDK",
-                         //     "paypal_sdk_version": "2.16.0",
-                         //     "platform": "iOS"
-                         //   },
-                         //   "response_type": "payment",
-                         //   "response": {
-                         //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-                         //     "state": "approved",
-                         //     "create_time": "2016-10-03T13:33:33Z",
-                         //     "intent": "sale"
-                         //   }
-                         // }
                        }, () => {
                          // Error or render dialog closed without being successful
+                         that.showAlert("Transaction is not completed.Please rescan qr code.");
+                         that.showAlert("Something wrong.");
+                         query = firebase.database().ref("transactions").orderByKey();
+                         query.once("value").then(function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                              if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
+                                if(childSnapshot.val().state == 1 ){
+                                  var ref = firebase.database().ref().child('transactions');
+                                  var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
+                                  refUserId.once('value', function(snapshot) {
+                                    if (snapshot.hasChildren()) {
+                                        snapshot.forEach(
+                                          function(snap){
+                                            snap.ref.update({
+                                              'state':3
+                                            });
+                                            return true;
+                                        });
+                                    }
+                                  });
+                                }
+                              }
+                            });
+                         });
                        });
                      }, () => {
                        // Error in configuration
+                       that.showAlert("Paypal configration error.Please rescan qr code.");
+                       that.showAlert("Something wrong.");
+                       query = firebase.database().ref("transactions").orderByKey();
+                       query.once("value").then(function (snapshot) {
+                          snapshot.forEach(function (childSnapshot) {
+                            if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
+                              if(childSnapshot.val().state == 1 ){
+                                var ref = firebase.database().ref().child('transactions');
+                                var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
+                                refUserId.once('value', function(snapshot) {
+                                  if (snapshot.hasChildren()) {
+                                      snapshot.forEach(
+                                        function(snap){
+                                          snap.ref.update({
+                                            'state':3
+                                          });
+                                          return true;
+                                      });
+                                  }
+                                });
+                              }
+                            }
+                          });
+                       });
                      });
                    }, () => {
                      // Error in initialization, maybe PayPal isn't supported or something else
+                     that.showAlert("Something wrong.Please rescan qr code.");
+                     query = firebase.database().ref("transactions").orderByKey();
+                     query.once("value").then(function (snapshot) {
+                        snapshot.forEach(function (childSnapshot) {
+                          if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
+                            if(childSnapshot.val().state == 1 ){
+                              var ref = firebase.database().ref().child('transactions');
+                              var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
+                              refUserId.once('value', function(snapshot) {
+                                if (snapshot.hasChildren()) {
+                                    snapshot.forEach(
+                                      function(snap){
+                                        snap.ref.update({
+                                          'state':3
+                                        });
+                                        return true;
+                                    });
+                                }
+                              });
+                            }
+                          }
+                        });
+                     });
                    });
+                  }else if(that.transactiondata.state == 2){
+                    that.showAlertSuccess("Transaction completed!");
+                    that.navCtrl.push(ReportPage, {
+                      user:that.sender
+                    });
+                  }else{
+                    // that.showAlert("Transaction not completed!");
+                  }
 
                    }
-                });
-                query = firebase.database().ref("transactions").orderByKey();
-                that.findtransaction = false;
-                query.once("value").then(function (snapshot) {
-                  snapshot.forEach(function (childSnapshot) {
-                      if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
-                        if(childSnapshot.val().state == 1){
-                          console.log(childSnapshot.val().transactionid);
-                          var ref = firebase.database().ref().child('transactions');
-                          var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                          refUserId.once('value', function(snapshot) {
-                            if (snapshot.hasChildren()) {
-                                snapshot.forEach(
-                                  function(snap){
-                                    console.log(snap.val());
-                                    snap.ref.update({
-                                      'transactionstate':1
-                                    });
-                                    that.findtransaction = true;
-                                    return true;
-                                });
-                            } else {
-                              console.log('wrong');
-                            }
-                          });
-                        }
-                    }
-                  });
                 });
 
             }
