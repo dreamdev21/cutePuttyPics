@@ -1,15 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Loading,LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
-// import { AngularFireDatabase } from 'angularfire2/database';
-// import { Observable } from 'rxjs/Observable';
-// import { AngularFireAuth } from 'angularfire2/auth';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-
-
+import { AngularFireDatabase } from 'angularfire2/database';
 @IonicPage()
 @Component({
   selector: 'page-requestadmin',
@@ -21,68 +16,64 @@ export class RequestadminPage {
   public user = {} as User;
   public item = {} as User;
   public users: any;
-  qrData = 'null';
+  adminNote = null;
   createdCode = null;
-  scannedCode = null;
-
-
   public items: Array<{
-      fullname: any,
+      id:any,
+      fullName: any,
       email: any,
       password: any,
-      cardname: any,
-      cardnumber: any,
-      expirydate: any,
-      cvv: any,
-     }>
+      avatar,
+     }>;
+  public loginUser;
   constructor(
 
     public navCtrl: NavController,
     public firebaseProvider: FirebaseProvider,
+    public afd: AngularFireDatabase,
     public http : Http,
     private loadingCtrl: LoadingController ,
     public navParams: NavParams,
-    public alertCtrl: AlertController,
-    private barcodeScanner: BarcodeScanner
+    public alertCtrl: AlertController
   ) {
     this.http = http;
+    this.loginUser = navParams.data;
   }
 
   ionViewDidLoad() {
     var text =  'Loading...';
     this.showLoading(text);
     console.log('ionViewDidLoad RequestadminPage');
-
-    console.log('that.items');
     var that = this;
     that.items = [];
-    // var starCountRef = firebase.database().ref('users/');
     var query = firebase.database().ref("users").orderByKey();
     console.log(query);
     query.once("value").then(function (snapshot) {
-
       snapshot.forEach(function (childSnapshot) {
-        if(childSnapshot.val().role == 2 && childSnapshot.val().permission == 0){
-
+        if(childSnapshot.val().role == 0 && childSnapshot.val().permission == 0){
             that.items.push({
-              fullname: childSnapshot.val().fullname,
+              id:childSnapshot.val().id,
+              fullName: childSnapshot.val().fullName,
               email: childSnapshot.val().email,
               password: childSnapshot.val().password,
-              cardname: childSnapshot.val().cardname,
-              cardnumber: childSnapshot.val().cardnumber,
-              expirydate: childSnapshot.val().expirydate,
-              cvv: childSnapshot.val().cvv
+              avatar:childSnapshot.val().avatar,
           });
         }
       });
     });
     that.loading.dismiss();
   }
-  createCode(user) {
-    console.log(user);
-    this.createdCode = btoa(user.email + user.password + user.fullname);
-    console.log(this.createdCode);
-    var link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailqrcode?email=' + user.email + '&username='+ user.fullname +'&qrcode='+ this.createdCode;
+  createCode() {
+    console.log(this.loginUser);
+    console.log(this.user.id.toString());
+    this.afd.list('/qrdatas/').push({
+      userInfoId:this.user.id,
+      type:0,
+      verify:0,
+      superadminNote:this.adminNote,
+    });
+    this.createdCode = btoa(this.user.id.toString());
+    var link = 'http://localhost:8000/sendhtmlionicmailqrcode?email=' + this.loginUser.email + '&username='+ this.loginUser.fullName +'&qrcode='+ this.createdCode + '&qruseremail=' + this.user.email + '&qrusername=' + this.user.fullName + '&qradminnote=' + this.adminNote;
     console.log(link);
     this.http.get(link).map(res => res.json())
     .subscribe(data => {
@@ -92,13 +83,6 @@ export class RequestadminPage {
     });
   }
 
-  scanCode() {
-    this.barcodeScanner.scan().then(barcodeData => {
-      this.scannedCode = barcodeData.text;
-    }, (err) => {
-        console.log('Error: ', err);
-    });
-  }
   showLoading(text) {
     this.loading = this.loadingCtrl.create({
       content: text,
@@ -107,30 +91,36 @@ export class RequestadminPage {
     });
     this.loading.present();
   }
-  showConfirm() {
-    console.log();
-    let confirm = this.alertCtrl.create({
-      title: 'Confirm',
-      message: 'Do you want to generate a QR code for this User?',
+  showPrompt() {
+    let prompt = this.alertCtrl.create({
+      title: 'User QR code generate',
+      message: "Enter a name for this new user",
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name'
+        },
+      ],
       buttons: [
         {
-          text: 'No',
-          handler: () => {
-            console.log('No clicked');
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
           }
         },
         {
-          text: 'Yes',
-          handler: () => {
-            this.createCode(this.item);
+          text: 'Create',
+          handler: data => {
+            this.adminNote = data.name;
+            this.createCode();
           }
         }
       ]
     });
-    confirm.present();
+    prompt.present();
   }
-  generateQRcode(user){
-    this.item = user;
-    this.showConfirm();
+  generateQRcode(item){
+    this.user = item;
+    this.showPrompt();
   }
 }

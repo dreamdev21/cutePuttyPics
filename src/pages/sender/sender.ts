@@ -6,6 +6,7 @@ import { VerifypaypalPage } from '../verifypaypal/verifypaypal';
 import { ReportPage } from '../report/report';
 import { SettingsPage } from '../settings/settings';
 import { LoginPage } from '../login/login';
+import { VerifyQRcodePage } from '../verify-q-rcode/verify-q-rcode';
 import { User } from '../../models/user';
 
 /**
@@ -24,7 +25,6 @@ export class SenderPage {
   public user = {} as User;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.user = navParams.get("user");
-    console.log(this.user.paypalverifystate);
   }
 
   ionViewDidLoad() {
@@ -54,6 +54,11 @@ export class SenderPage {
   this.navCtrl.push(SettingsPage, {
     user:this.user
   });
+ }
+ goVerifyQRcode(){
+   this.navCtrl.push(VerifyQRcodePage,{
+     user:this.user
+   });
  }
  goLogout(){
   this.navCtrl.push(LoginPage, {

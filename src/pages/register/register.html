@@ -9,7 +9,7 @@
     <ion-list>
         <ion-item>
             <ion-label stacked>FULL NAME</ion-label>
-            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="user.fullname"></ion-input>
+            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="user.fullName"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label stacked>PASSWORD</ion-label>
@@ -20,38 +20,13 @@
             <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="user.email"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label>Role</ion-label>
-            <ion-select [(ngModel)]="user.role">
-                <ion-option value="0">Receiver</ion-option>
-                <ion-option value="1">Sender</ion-option>
-                <ion-option value="2">Admin</ion-option>
-            </ion-select>
+            <ion-label stacked>Paypal EMAIL</ion-label>
+            <ion-input type="email" placeholder="Enter your Paypal Email" [(ngModel)]="user.paypalEmail"></ion-input>
         </ion-item>
-
-        <ion-label stacked class="paymentlabel">PAYMENT METHOD</ion-label>
-
-        <div class="paypalinput">
-            <img src="assets/paypal.png" class="paypalimg">
-            <ion-list>
-                <ion-item>
-                    <ion-input class="cardname" type="number" cMaxLength="16" placeholder="Card number" [(ngModel)]="user.cardnumber"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input id="cardname" type="text" placeholder="Card holder name" [(ngModel)]="user.cardname"></ion-input>
-                    <ion-input class="cardname" type="number" cMaxLength="3" placeholder="CVV" [(ngModel)]="user.cvv"></ion-input>
-                </ion-item>
-                <!-- <ion-item>
-                    <ion-input class="cardname" type="text" placeholder="Expiry date" [(ngModel)]="user.expirydate"></ion-input>
-                    <ion-input class="cardname" type="text" placeholder="CVV" [(ngModel)]="user.cvv"></ion-input>
-                </ion-item> -->
-                <ion-item>
-                    <ion-label style="font-size: 0.6em;margin-bottom: 0px; color: midnightblue;margin-left:10px;">Expiry Date</ion-label>
-                    <ion-datetime displayFormat="M/YYYY" min="2017" max="2027" [(ngModel)]="user.expirydate"></ion-datetime>
-                </ion-item>
-                <ion-item>
-                </ion-item>
-            </ion-list>
-        </div>
+        <ion-item>
+            <ion-label stacked>Paypal PASSWORD</ion-label>
+            <ion-input type="password" placeholder="Enter your Paypal Email" [(ngModel)]="user.paypalPassword"></ion-input>
+        </ion-item>
         <ion-item>
             <ion-label><span>By signing up you are agree</span><span class="terms"><u>Terms & Conditions</u></span>
             </ion-label>
@@ -60,9 +35,6 @@
         </ion-item>
     </ion-list>
     <div class="row text-right">
-
         <button class="signup" ion-button (click)="register(user)">Sign Up</button>
     </div>
-
-
 </ion-content>

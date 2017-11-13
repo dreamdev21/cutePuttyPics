@@ -11,7 +11,7 @@
     <ion-list>
 
         <ion-item>
-            <ion-input type="email" placeholder="User email" [(ngModel)]="user.fullname"></ion-input>
+            <ion-input type="email" placeholder="User email" [(ngModel)]="user.email"></ion-input>
         </ion-item>
     </ion-list>
     <ion-list>
@@ -20,26 +20,11 @@
         </ion-item>
     </ion-list>
     <ion-list>
-
         <button ion-button full (click)="Login(user)">SIGN IN</button>
-
     </ion-list>
-    <!-- <div class="login-signwith">
-        <P>or Sign in With</P>
-    </div> -->
-    <!-- <ion-col text-center>
-        <img class="facebook" src="assets/facebook.png">
-        <img class="facebook" src="assets/google.png">
-    </ion-col> -->
     <div class="bottom-text">
         <p class="signup-question">Don't have an account? </p>
         <p class="signup" (click)="goRegister()"> Sign Up</p>
         <p class="forgot">Forgot password!</p>
     </div>
-    <ion-card *ngIf="scannedCode">
-        <ion-card-content>
-            Result from Scan: {{ scannedCode }}
-        </ion-card-content>
-    </ion-card>
-
 </ion-content>

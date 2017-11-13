@@ -21,9 +21,8 @@ import { ReportPage } from '../report/report';
   templateUrl: 'sendmoney.html',
 })
 export class SendmoneyPage {
-  qrData = "QR test data";
-  createdCode = null;
   scannedCode = null;
+  createdCode = null;
   public findtransaction = false;
   public sendmoneyData = {} as sendmoneyData;
   public sendmethodtext:any;
@@ -68,11 +67,8 @@ export class SendmoneyPage {
   sendMoney(sendmoneyData){
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){
       this.showAlert("Please enter money!");
-    }else if(!this.receiver.id){
-      this.showAlert("Please select  receiver!")
-    }else{
       this.showConfirm(sendmoneyData);
-    };
+    }
 
   }
 
@@ -118,13 +114,6 @@ export class SendmoneyPage {
                       that.sendmoneyData.senderpaypalverifystate = that.sender.paypalverifystate;
                       that.sendmoneyData.sendername = that.sender.fullname;
                       that.afd.list('/transactions/').push(sendmoneyData);
-                      // var link = 'http://tipqrbackend.com.candypickers.com/sendtransactionemail?senderemail=' + that.sender.email + '&sendername='+ that.sender.fullname +'&receiveremail='+ childSnapshot.val().email + '&receivername='+ childSnapshot.val().fullname + '&qrcode='+ btoa(that.sendmoneyData.transactionid.toString());
-                      // that.http.get(link).map(res => res.json())
-                      // .subscribe(data => {
-                      //   console.log(data);
-                      // }, error => {
-                      // console.log("Oooops!");
-                      // });
 
                     }
 

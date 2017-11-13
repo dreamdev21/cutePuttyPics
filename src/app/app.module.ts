@@ -1,3 +1,5 @@
+import { UsermanagerPage } from '../pages/usermanager/usermanager';
+import { VerifyQRcodePage} from '../pages/verify-q-rcode/verify-q-rcode'
 import { SettingsPage } from '../pages/settings/settings';
 import { VerifypaypalPage} from '../pages/verifypaypal/verifypaypal';
 import { ReportPage } from '../pages/report/report';
@@ -53,6 +55,8 @@ import { PayPal } from '@ionic-native/paypal';
     VerifypaypalPage,
     SettingsPage,
     ReportPage,
+    VerifyQRcodePage,
+    UsermanagerPage,
     MaxLengthDirective
   ],
   imports: [
@@ -79,6 +83,8 @@ import { PayPal } from '@ionic-native/paypal';
     ReceivemoneyPage,
     VerifypaypalPage,
     ReportPage,
+    VerifyQRcodePage,
+    UsermanagerPage,
     SettingsPage
   ],
   providers: [

@@ -1,18 +1,15 @@
 export interface User {
     id:number;
-    fullname: string;
+    fullName: string;
     email: string;
     password: string;
-    cardname: string;
-    cardnumber: number;
-    expirydate: Date;
-    role:number;
-    cvv: number;
+    groupId:number;
     permission:number;
     gender:number;
+    role:number;
     avatar:string;
     birthday:Date;
-    paypalemail:string;
-    paypalpassword:string;
-    paypalverifystate:number;
+    paypalEmail:string;
+    paypalPassword:string;
+    paypalVerifyState:number;
 }

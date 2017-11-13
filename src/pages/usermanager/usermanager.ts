@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AdminmanagerPage } from '../adminmanager/adminmanager';
-import { UsermanagerPage } from '../usermanager/usermanager';
+import { RequestadminPage} from '../requestadmin/requestadmin';
+import { RegisteredadminPage } from '../registeredadmin/registeredadmin';
 import { User } from '../../models/user';
-
 /**
- * Generated class for the SuperadminPage page.
+ * Generated class for the UsermanagerPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -13,28 +12,25 @@ import { User } from '../../models/user';
 
 @IonicPage()
 @Component({
-  selector: 'page-superadmin',
-  templateUrl: 'superadmin.html',
+  selector: 'page-usermanager',
+  templateUrl: 'usermanager.html',
 })
-export class SuperadminPage {
+export class UsermanagerPage {
   public user = {} as User;
+  loginUser ={} as User;
+  requestadmintab = RequestadminPage;
+  registeredadmintab = RegisteredadminPage;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+
   ) {
     this.user = navParams.get("user");
+    this.loginUser = this.user;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SuperadminPage');
+    console.log('ionViewDidLoad AdminmanagerPage');
   }
-  goUserManager(){
-    this.navCtrl.push(UsermanagerPage, {
-      user:this.user
-    });
-  }
-  goAdminManager() {
-    this.navCtrl.push(AdminmanagerPage, {
-    });
-  }
+
 }
