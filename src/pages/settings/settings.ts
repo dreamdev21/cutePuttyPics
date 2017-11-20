@@ -9,12 +9,7 @@ import { Http } from '@angular/http';
 import { ActionSheetController, Platform, LoadingController, Loading } from 'ionic-angular';
 
 import { Camera } from '@ionic-native/camera';
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 declare var cordova: any;
 
@@ -59,7 +54,6 @@ export class SettingsPage {
       this.olduserData = navParams.get("user");
       this.http = http;
       this.platform.ready().then(() => {
-        // make sure this is on a device, not an emulation (e.g. chrome tools device mode)
         if(!this.platform.is('cordova')) {
             return false;
         }
@@ -78,78 +72,62 @@ export class SettingsPage {
     console.log(this.olduserData.avatar);
     var that = this;
     that.transactiontotalmoney = 0;
-        var query = firebase.database().ref("transactions").orderByKey();
-        query.once("value").then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-              if(that.olduserData.role == 1){
-                if (childSnapshot.val().senderid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
-                  that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
-                  console.log(childSnapshot.val().transactionid);
-                  console.log('sender');
-                }
-              }else if(that.olduserData.role == 0){
-                if (childSnapshot.val().receiverid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
-                  that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
-                  console.log(childSnapshot.val().transactionid);
-                }
-              }else{
+    var query = firebase.database().ref("transactions").orderByKey();
+    query.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          if(that.olduserData.role == 1){
+            if (childSnapshot.val().senderid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
+              that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
+              console.log(childSnapshot.val().transactionid);
+              console.log('sender');
+            }
+          }else if(that.olduserData.role == 0){
+            if (childSnapshot.val().receiverid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
+              that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
+              console.log(childSnapshot.val().transactionid);
+            }
+          }else{
 
-              }
+          }
 
-            });
         });
+    });
   }
   updateUser(newuserData){
-    if(newuserData.fullname){
+    if(newuserData.fullName){
       if(newuserData.password){
         if(newuserData.email){
           if(newuserData.birthday){
             if(newuserData.gender){
-              if(newuserData.paypalemail){
-                if(newuserData.cardname){
-                  if(newuserData.cardnumber){
-                    if(newuserData.cvv){
-                      if(newuserData.expirydate){
-                        var that= this;
-                        var ref = firebase.database().ref().child('/users');
-                        var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
-                        refUserId.once('value', function(snapshot) {
-                          if (snapshot.hasChildren()) {
-                              snapshot.forEach(
-                                function(snap){
-                                  console.log(snap.val());
-                                  snap.ref.update({
-                                    "fullname": newuserData.fullname,
-                                    "email": newuserData.email,
-                                    "password": newuserData.password,
-                                    "gender":newuserData.gender,
-                                    "avatar":newuserData.avatar,
-                                    "birthday":newuserData.birthday,
-                                    "paypalemail":newuserData.paypalemail,
-                                    "cardname": newuserData.cardname,
-                                    "cardnumber": newuserData.cardnumber,
-                                    "expirydate": newuserData.expirydate,
-                                    "cvv": newuserData.cvv
-                                    // "paypalpassword":string;
-                                  });
-                                  that.presentToast("Your profile updated successfully!");
-                                  return true;
-                                });
-                          } else {
-                            console.log('wrong');
-                          }
-                        });
-                      }else{
-                        this.showAlert("Please enter your card expiry date");
-                      }
-                    }else{
-                      this.showAlert("Please enter your cvv");
+              if(newuserData.paypalEmail){
+                if(newuserData.paypalPassword){
+                  var that= this;
+                  var ref = firebase.database().ref().child('/users');
+                  var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
+                  refUserId.once('value', function(snapshot) {
+                    if (snapshot.hasChildren()) {
+                        snapshot.forEach(
+                          function(snap){
+                            console.log(snap.val());
+                            snap.ref.update({
+                              "fullName": newuserData.fullName,
+                              "email": newuserData.email,
+                              "password": newuserData.password,
+                              "gender":newuserData.gender,
+                              "avatar":newuserData.avatar,
+                              "birthday":newuserData.birthday,
+                              "paypalEmail":newuserData.paypalEmail,
+                              "paypalPassword":newuserData.paypalPassword
+                            });
+                            that.presentToast("Your profile updated successfully!");
+                            return true;
+                          });
+                    } else {
+                      console.log('wrong');
                     }
-                  }else{
-                    this.showAlert("Please enter your card number");
-                  }
-                }else{
-                  this.showAlert("Please enter your cardname");
+                  });
+                } else {
+                  this.showAlert("Please enter your paypal password");
                 }
               }else{
                 this.showAlert("Please enter your paypal email");
@@ -223,7 +201,6 @@ export class SettingsPage {
 
 public takePicture(sourceType) {
 
-    // Create options for the Camera Dialog
     var options = {
         quality: 100,
         sourceType: sourceType,
@@ -234,7 +211,6 @@ public takePicture(sourceType) {
         mediaType: this.camera.MediaType.PICTURE,
     };
 
-    // Get the data of an image
     this.camera.getPicture(options).then((imagePath) => {
         this.captureDataUrl = 'data:image/jpeg;base64,' + imagePath;
         this.uploadImage();
@@ -245,33 +221,34 @@ public takePicture(sourceType) {
 
 public uploadImage() {
 
-    if(this.captureDataUrl != undefined){
+  if(this.captureDataUrl != undefined){
 
-        let storageRef = firebase.storage().ref();
-        var filename = Math.floor(Date.now() / 1000);
-        // Create a reference to 'images/todays-date.jpg'
-        const imageRef = storageRef.child(`images/${filename}.jpg`);
+      let storageRef = firebase.storage().ref();
+      var filename = Math.floor(Date.now() / 1000);
 
-        this.loading = this.loadingCtrl.create({
-            content: 'Uploading...',
-        });
-        this.loading.present();
+      const imageRef = storageRef.child(`images/${filename}.jpg`);
 
-        imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
+      this.loading = this.loadingCtrl.create({
+          content: 'Uploading...',
+      });
+      this.loading.present();
 
-            this.loading.dismissAll()
-            this.presentToast('Upload Success!');
-            this.firestore.ref().child(`images/${filename}.jpg`).getDownloadURL().then((url) => {
-              this.olduserData.avatar = url;
-          })
+      imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
 
-        }, (err) => {
-            this.loading.dismissAll();
-            this.presentToast('Upload Failed!');
-        });
+          this.loading.dismissAll()
+          this.presentToast('Upload Success!');
+          this.firestore.ref().child(`images/${filename}.jpg`).getDownloadURL().then((url) => {
+            this.olduserData.avatar = url;
+        })
+
+      }, (err) => {
+          this.loading.dismissAll();
+          this.presentToast('Upload Failed!');
+      });
     }
     else{
         this.showAlert('Please select an image.');
     }
-}
+  }
+
 }

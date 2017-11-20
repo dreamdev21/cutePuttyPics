@@ -114,27 +114,5 @@ export class ReportPage {
       });
     });
   }
-  // showConfirm() {
-  //   let confirm = this.alertCtrl.create({
-  //     title: 'Are you sure?',
-  //     message: 'Do you agree to delete this transaction?',
-  //     buttons: [
-  //       {
-  //         text: 'Disagree',
-  //         handler: () => {
-  //           console.log('Disagree clicked');
-  //           return true;
-  //         }
-  //       },
-  //       {
-  //         text: 'Agree',
-  //         handler: () => {
-  //           console.log('Agree clicked');
-  //           return true;
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   confirm.present();
-  // }
+
 }

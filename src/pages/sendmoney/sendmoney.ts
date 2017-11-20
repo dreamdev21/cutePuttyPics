@@ -100,19 +100,13 @@ export class SendmoneyPage {
               query.once("value").then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     if (childSnapshot.val().id == that.receiver.id){
-                      that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalemail;
-                      that.sendmoneyData.receivercardnumber = childSnapshot.val().cardnumber;
-                      that.sendmoneyData.receivercardexpirydate = childSnapshot.val().expirydate;
-                      that.sendmoneyData.receivercardcvv = childSnapshot.val().cvv;
-                      that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalverifystate;
-                      that.sendmoneyData.receivername = childSnapshot.val().fullname;
-                      that.sendmoneyData.senderpaypalemail = that.sender.paypalemail;
-                      that.sendmoneyData.senderpaypalpassword = that.sender.paypalpassword;
-                      that.sendmoneyData.sendercardnumner = that.sender.cardnumber;
-                      that.sendmoneyData.sendercardexpirydate = that.sender.expirydate;
-                      that.sendmoneyData.sendercardcvv = that.sender.cvv;
-                      that.sendmoneyData.senderpaypalverifystate = that.sender.paypalverifystate;
-                      that.sendmoneyData.sendername = that.sender.fullname;
+                      that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
+                      that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
+                      that.sendmoneyData.receivername = childSnapshot.val().fullName;
+                      that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
+                      that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
+                      that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
+                      that.sendmoneyData.sendername = that.sender.fullName;
                       that.afd.list('/transactions/').push(sendmoneyData);
 
                     }

@@ -77,6 +77,7 @@ export class LoginPage {
                   that.goLogin(user);
                 }else{
                   that.showAlert("Password is incorrect!");
+                  that.checkstate = false;
                 }
               }
             }

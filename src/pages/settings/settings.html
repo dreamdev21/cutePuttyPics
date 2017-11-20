@@ -19,7 +19,7 @@
     <ion-list>
         <ion-item>
             <ion-label stacked>FULL NAME</ion-label>
-            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="olduserData.fullname"></ion-input>
+            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="olduserData.fullName"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label stacked>PASSWORD</ion-label>
@@ -42,34 +42,16 @@
         </ion-item>
         <ion-item>
             <ion-label stacked>Paypal Email</ion-label>
-            <ion-input type="email" placeholder="Enter your Paypal Email" [(ngModel)]="olduserData.paypalemail"></ion-input>
+            <ion-input type="email" placeholder="Enter your Paypal Email" [(ngModel)]="olduserData.paypalEmail"></ion-input>
         </ion-item>
-        <div class="paypalinput">
-            <ion-list>
-                <ion-item>
-                    <ion-label stacked>CARD NAME</ion-label>
-                    <ion-input type="text" placeholder="Enter your card name" [(ngModel)]="olduserData.cardname"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label stacked>CARD NUMBER</ion-label>
-                    <ion-input type="number" cMaxLength="16" placeholder="Enter your card number" [(ngModel)]="olduserData.cardnumber"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label stacked>CARD CVV</ion-label>
-                    <ion-input type="number" cMaxLength="3" placeholder="Enter your card cvv" [(ngModel)]="olduserData.cvv"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label stacked>CARD EXPIRY DATE</ion-label>
-                    <ion-datetime displayFormat="M/YYYY" min="2017" max="2027" [(ngModel)]="olduserData.expirydate" style="height:3rem;"></ion-datetime>
-                </ion-item>
-                <ion-item>
-                </ion-item>
-            </ion-list>
-        </div>
+        <ion-item>
+            <ion-label stacked>Paypal Password</ion-label>
+            <ion-input type="password" placeholder="Enter your Paypal Password" [(ngModel)]="olduserData.paypalPassword"></ion-input>
+        </ion-item>
         <ion-item>
         </ion-item>
     </ion-list>
-    <ion-card *ngIf="olduserData.role == 1">
+    <!-- <ion-card *ngIf="olduserData.role == 1">
         <ion-card-header>
             TOTAL MONEY SENT
         </ion-card-header>
@@ -84,7 +66,7 @@
         <ion-card-content>
             $ {{ transactiontotalmoney }}
         </ion-card-content>
-    </ion-card>
+    </ion-card> -->
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <button class="signup" ion-button (click)="updateUser(olduserData)">UPDATE</button>

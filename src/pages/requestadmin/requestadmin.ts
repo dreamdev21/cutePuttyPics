@@ -47,7 +47,6 @@ export class RequestadminPage {
     var that = this;
     that.items = [];
     var query = firebase.database().ref("users").orderByKey();
-    console.log(query);
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if(childSnapshot.val().role == 0 && childSnapshot.val().permission == 0){
