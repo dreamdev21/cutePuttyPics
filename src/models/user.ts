@@ -4,6 +4,7 @@ export interface User {
     email: string;
     password: string;
     groupId:number;
+    qrId:number;
     permission:number;
     gender:number;
     role:number;

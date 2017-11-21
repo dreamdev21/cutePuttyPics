@@ -120,8 +120,8 @@ export class SuperadminPage {
       groupUsers:0,
 
     });
-    this.createdCode = btoa(this.qrcodeName.toString());
-    var link = 'http://localhost:8000/sendhtmlionicmailgroupqrcode?email=' + this.loginUser.email + '&username=' + this.loginUser.fullName + '&qrcode=' + this.createdCode + '&qrGroupName=' + this.qrcodeName;
+    this.createdCode = btoa(this.qrcodeId.toString());
+    var link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailgroupqrcode?email=' + this.loginUser.email + '&username=' + this.loginUser.fullName + '&qrcode=' + this.createdCode + '&qrGroupName=' + this.qrcodeName;
     console.log(link);
     this.http.get(link).map(res => res.json())
       .subscribe(data => {
@@ -140,8 +140,8 @@ export class SuperadminPage {
       verify:0,
 
     });
-    this.createdCode = btoa(this.qrcodeName.toString());
-    var link = 'http://localhost:8000/sendhtmlionicmailuserqrcode?email=' + this.loginUser.email + '&username=' + this.loginUser.fullName + '&qrcode=' + this.createdCode + '&qrGroupName=' + this.qrcodeName;
+    this.createdCode = btoa(this.qrcodeId.toString());
+    var link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailuserqrcode?email=' + this.loginUser.email + '&username=' + this.loginUser.fullName + '&qrcode=' + this.createdCode + '&qrGroupName=' + this.qrcodeName;
     console.log(link);
     this.http.get(link).map(res => res.json())
       .subscribe(data => {
