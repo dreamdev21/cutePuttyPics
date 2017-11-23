@@ -51,11 +51,21 @@ export class VerifyQRcodePage {
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
     this.qrId = atob(barcodeData.text);
-    // this.qrId = 1511402875788 ;
+    // this.qrId = 1511412868474 ;
       this.qrVerifyState = 0;
       this.findQRcode = 0;
-        var that = this;
-        var query = firebase.database().ref("qrdatas").orderByKey();
+      var that = this;
+      var query = firebase.database().ref("users").orderByKey();
+      query.once("value").then(function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          if (childSnapshot.val().qrId == that.qrId) {
+            that.qrVerifyState = 1;
+            that.showAlert("QRcode expired already.");
+          }
+        });
+        console.log(that.qrVerifyState);
+      if (that.qrVerifyState == 0){
+        query = firebase.database().ref("qrdatas").orderByKey();
         query.once("value").then(function (snapshot) {
           snapshot.forEach(function (childSnapshot) {
             if (childSnapshot.val().id == that.qrId ) {
@@ -116,8 +126,9 @@ export class VerifyQRcodePage {
             that.showAlert("QR code invalid");
           }
         });
+      }
       });
-
+    });
   }
   updateQRcodeverify(qrnumber){
     var that = this;
@@ -139,7 +150,7 @@ export class VerifyQRcodePage {
   updateQRgroup(qrnumber) {
     var that = this;
     var ref = firebase.database().ref().child('qrdatas');
-    var refUserId = ref.orderByChild('id').equalTo(qrnumber);
+    // var refUserId = ref.orderByChild('id').equalTo(qrnumber);
     // refUserId.once('value', function (snapshot) {
     //   if (snapshot.hasChildren()) {
     //     snapshot.forEach(
