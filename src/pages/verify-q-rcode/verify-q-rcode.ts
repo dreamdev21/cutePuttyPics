@@ -159,7 +159,7 @@ export class VerifyQRcodePage {
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().role == 3) {
-          var link = 'http://localhost:8000/sendhtmlionicmailuserqrverifiedconfirm?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + that.qrName + '&qrUserName=' + that.user.fullName + '&qrUserEmail=' + that.user.email  ;
+          var link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailuserqrverifiedconfirm?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + that.qrName + '&qrUserName=' + that.user.fullName + '&qrUserEmail=' + that.user.email  ;
           console.log(link);
           that.http.get(link).map(res => res.json())
             .subscribe(data => {
@@ -177,7 +177,7 @@ export class VerifyQRcodePage {
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().role == 3) {
-          var link = 'http://localhost:8000/sendhtmlionicmailgroupqrverifiedconfirm?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + that.qrName + '&qrUserName=' + that.user.fullName + '&qrUserEmail=' + that.user.email;
+          var link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailgroupqrverifiedconfirm?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + that.qrName + '&qrUserName=' + that.user.fullName + '&qrUserEmail=' + that.user.email;
           console.log(link);
           that.http.get(link).map(res => res.json())
             .subscribe(data => {

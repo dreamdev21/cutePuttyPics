@@ -200,7 +200,6 @@ export class SendmoneyPage {
                   let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
                   payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
                   this.payPal.renderSinglePaymentUI(payment).then(() => {
-                    this.showAlert(this.sendmoneyData);
                     this.afd.list('transactions').push(sendmoneyData);
                     this.navCtrl.push(ReportPage,{
                       'user':this.sender
