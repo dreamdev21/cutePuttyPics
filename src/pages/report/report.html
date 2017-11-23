@@ -14,65 +14,89 @@
 
 
 <ion-content padding>
-    <ion-card>
-        <ion-card-header>
-            TOTAL BALANCE
-        </ion-card-header>
-        <ion-card-content>
-            $ {{transactiontotalmoney}}
-        </ion-card-content>
-    </ion-card>
-    <ion-row>
-        <ion-col col-3 col-sm-4 col-md-4 col-lg-4 col-xl-4>
-            <ion-list>
-                <ion-item-sliding>
-                    <ion-item class="moneyinputblank">
-                        <ion-label style="text-align: -webkit-center;"></ion-label>
+    <div [ngSwitch]="switch">
+        <ion-card *ngSwitchCase="'received'">
+            <ion-card-header>
+                TOTAL BALANCE
+            </ion-card-header>
+            <ion-card-content>
+                $ {{transactiontotalmoneyreceived}}
+            </ion-card-content>
+        </ion-card>
+        <ion-card *ngSwitchCase="'sent'">
+            <ion-card-header>
+                TOTAL BALANCE
+            </ion-card-header>
+            <ion-card-content>
+                $ {{transactiontotalmoneysent}}
+            </ion-card-content>
+        </ion-card>
+    </div>
+
+    <div padding>
+        <ion-segment [(ngModel)]="switch">
+            <ion-segment-button value="sent">
+                SENT
+            </ion-segment-button>
+            <ion-segment-button value="received">
+                RECEIVED
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <div [ngSwitch]="switch">
+        <ion-list *ngSwitchCase="'sent'" ngSelected="selected">
+            <ion-item>
+                <ion-item-sliding *ngFor="let transaction of senttransactions">
+                    <ion-item class="sentmoneylist">
+                        <ion-avatar item-start>
+                            <img src="{{transaction.avatar}}">
+                        </ion-avatar>
+                        <ion-row>
+                            <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                                <h2>{{transaction.name[0]}}</h2>
+                                <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
+                            </ion-col>
+                            <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                                <h1 style=" color: red;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1>
+                            </ion-col>
+                        </ion-row>
+
                     </ion-item>
-                </ion-item-sliding>
-            </ion-list>
-        </ion-col>
-        <ion-col col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4>
-            <ion-list>
-                <ion-item class="moneyinput" *ngIf="user.role == 1">
-                    <ion-label style="text-align: -webkit-center;">SENT</ion-label>
-                </ion-item>
-                <ion-item class="moneyinput" *ngIf="user.role == 0">
-                    <ion-label style="text-align: -webkit-center;">RECEIVED</ion-label>
-                </ion-item>
-            </ion-list>
-        </ion-col>
-        <ion-col col-3 col-sm-4 col-md-4 col-lg-4 col-xl-4>
-            <ion-list>
-                <ion-item class="moneyinputblank">
-                    <ion-label style="text-align: -webkit-center;"></ion-label>
-                </ion-item>
-            </ion-list>
-        </ion-col>
-    </ion-row>
-    <ion-list>
-
-        <ion-item-sliding *ngFor="let transaction of transactions">
-            <ion-item class="sentmoneylist">
-                <ion-avatar item-start>
-                    <img src="{{transaction.avatar}}">
-                </ion-avatar>
-                <ion-row>
-                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                        <h2>{{transaction.name[0]}}</h2>
-                        <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
-                    </ion-col>
-                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                        <h1 style=" color: red;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1>
-                    </ion-col>
-                </ion-row>
-
-            </ion-item>
-            <ion-item-options side="right">
-                <button ion-button color="danger" (click)="deleteTransaction(transaction.date)">
+                    <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="deleteTransaction(transaction.date)">
                   DELETE
                 </button>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-item>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'received'">
+            <ion-item>
+                <ion-item-sliding *ngFor="let transaction of receivetransactions">
+                    <ion-item class="sentmoneylist">
+                        <ion-avatar item-start>
+                            <img src="{{transaction.avatar}}">
+                        </ion-avatar>
+                        <ion-row>
+                            <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                                <h2>{{transaction.name[0]}}</h2>
+                                <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
+                            </ion-col>
+                            <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                                <h1 style=" color: red;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1>
+                            </ion-col>
+                        </ion-row>
+
+                    </ion-item>
+                    <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="deleteTransaction(transaction.date)">
+                  DELETE
+                </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>

@@ -91,22 +91,28 @@
             </p>
         </ion-col>
     </ion-row> -->
-    <!-- <ion-row>
+    <ion-row *ngIf="qrType">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <ion-list>
                 <ion-item>
                     <ion-label>Receiver</ion-label>
-                    <ion-select [(ngModel)]="receiver.id">
-                        <ion-option *ngFor="let receiver of receivers" value="{{receiver.id}}">{{receiver.fullname}}</ion-option>
+                    <ion-select [(ngModel)]="qr">
+                        <ion-option *ngFor="let receiver of groupReceivers" value="{{receiver.qrId}}">{{receiver.fullName}}</ion-option>
                     </ion-select>
                 </ion-item>
             </ion-list>
         </ion-col>
-    </ion-row> -->
-    <ion-row>
+    </ion-row>
+    <ion-row *ngIf="!qrId">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
 
             <button class="signup" ion-button (click)="sendMoney(sendmoneyData)">Scan QR code</button>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="qrType">
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+
+            <button class="signup" ion-button (click)="findReceiver(qr)">Send Money</button>
         </ion-col>
     </ion-row>
 

@@ -1,7 +1,6 @@
 import { changeExtension } from '@ionic/app-scripts/dist';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
@@ -22,106 +21,78 @@ import { ReportPage } from '../report/report';
   templateUrl: 'receivemoney.html',
 })
 export class ReceivemoneyPage {
-  loading: Loading;
-  scannedCode = null;
-  public user = {} as User;
-  public transactionid = null;
-  public fundtransaction = null;
+  public user: any;
+  public receivetransactions: any;
+  public transaction = {
+    avatar: [],
+    name: [],
+    date: [],
+    amount: [],
+  };
+  public transactiontotalmoneyreceived: number;
   constructor(
-    public loadingCtrl: LoadingController,
-    public http : Http,
+    public alertCtrl: AlertController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public http: Http,
     public afd: AngularFireDatabase,
     public firebaseProvider: FirebaseProvider,
-    public navCtrl: NavController,
-    private alertCtrl: AlertController,
-    public navParams: NavParams,
-    private barcodeScanner: BarcodeScanner,
   ) {
-    this.http = http;
     this.user = navParams.get("user");
+    this.http = http;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReceivemoneyPage');
-    this.scanCode();
-
-  }
-  scanCode() {
-
-    this.barcodeScanner.scan().then(barcodeData => {
-      this.transactionid=atob(barcodeData.text);
-
-      var that = this;
-      var query = firebase.database().ref("transactions").orderByKey();
-      query.once("value").then(function (snapshot) {
-        that.fundtransaction = 0;
-        snapshot.forEach(function (childSnapshot) {
-            if (childSnapshot.val().transactionid == that.transactionid){
-              that.fundtransaction = 1;
-              if(childSnapshot.val().state == 0 || childSnapshot.val().state == 3){
-                var ref = firebase.database().ref().child('transactions');
-                var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                refUserId.once('value', function(snapshot) {
-                  if (snapshot.hasChildren()) {
-                    snapshot.forEach(
-                      function(snap){
-                        snap.ref.update({
-                          'state':1
-                        });
-                        return true;
-                    });
-                  }
-                });
-              }
-           }
-        });
-      });
-      if(this.fundtransaction == 0){
-        this.showAlert("QR code invalid or expired already!");
-      }
-
-
-    var receiverRef = firebase.database().ref("transactions/");
-    receiverRef.on("child_changed", function(data) {
-       var transactiondata = data.val();
-       if(transactiondata.receiverid==this.user.id && transactiondata.transactionid == this.transactionid){
-        if(transactiondata.state == 1){
-          this.loading = this.loadingCtrl.create({
-            content: 'Processing...',
-          });
-        }else if(transactiondata.state == 2){
-          this.loading.dismissAll();
-          this.showAlertSuccess("Transaction complete!");
-          this.navCtrl.push(ReportPage, {
-            user:this.user
-          });
-        }else if(transactiondata.state == 3){
-          this.loading.dismissAll();
-          this.showAlert("Something wrong!");
+    console.log('ionViewDidLoad ReportPage');
+    var that = this;
+    that.receivetransactions = [];
+    that.transactiontotalmoneyreceived = 0;
+    var query = firebase.database().ref("transactions").orderByKey();
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        var transaction = {
+          avatar: [],
+          name: [],
+          date: [],
+          amount: [],
         }
-       }
+        if (that.user.role == 0) {
+          if (childSnapshot.val().receiverid == that.user.id) {
+            var senderid = childSnapshot.val().senderid;
+            var query = firebase.database().ref("users").orderByKey();
+            query.once("value").then(function (snapshot) {
+              snapshot.forEach(function (childSnapshot) {
+                if (childSnapshot.val().id == senderid) {
+                  transaction.avatar.push(childSnapshot.val().avatar);
+                  transaction.name.push(childSnapshot.val().fullName);
+                }
+              });
+            });
+           transaction.date.push(childSnapshot.val().transactionid);
+            transaction.amount.push(childSnapshot.val().sendmoney);
+            that.receivetransactions.push(transaction);
+            that.transactiontotalmoneyreceived += Number(childSnapshot.val().sendmoney);
+          }
+        }
+      });
+    });
+  }
+  deleteTransaction(id) {
+    console.log(id);
+    var that = this;
+    var query = firebase.database().ref("transactions").orderByKey();
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        if (childSnapshot.val().transactionid == id) {
+          // if(that.showConfirm()){
+          childSnapshot.ref.remove();
+          that.navCtrl.push(ReportPage, {
+            user: that.user
+          });
+        }
+        // }
+      });
+    });
+  }
 
-    });
-  });
-  }
-  showAlert(text) {
-    let alert = this.alertCtrl.create({
-      title: 'Warning!',
-      subTitle: text,
-      buttons: [{
-        text: "OK",
-      }]
-    });
-    alert.present();
-  }
-  showAlertSuccess(text) {
-    let alert = this.alertCtrl.create({
-      title: 'Success!',
-      subTitle: text,
-      buttons: [{
-        text: "OK",
-      }]
-    });
-    alert.present();
-  }
 }

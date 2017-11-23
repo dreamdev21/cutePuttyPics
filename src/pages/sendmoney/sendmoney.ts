@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { User } from '../../models/user';
 import { sendmoneyData } from '../../models/sendmoneyData';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -8,13 +8,7 @@ import firebase from 'firebase';
 import { Http } from '@angular/http';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import { ReportPage } from '../report/report';
-/**
- * Generated class for the SendmoneyPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 @IonicPage()
 @Component({
   selector: 'page-sendmoney',
@@ -22,7 +16,9 @@ import { ReportPage } from '../report/report';
 })
 export class SendmoneyPage {
   scannedCode = null;
-  createdCode = null;
+  findQRcode = 0;
+  qrType = null;
+  public qrId = null;
   public findtransaction = false;
   public sendmoneyData = {} as sendmoneyData;
   public sendmethodtext:any;
@@ -32,6 +28,10 @@ export class SendmoneyPage {
   public sender = {} as User;
   public receiver = {} as User;
   public transactiondata = {} as sendmoneyData;
+  public groupReceivers: Array<{
+    fullName: any,
+    qrId: any,
+  }>
   constructor(
     public toastCtrl: ToastController,
     public http : Http,
@@ -40,7 +40,8 @@ export class SendmoneyPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    private payPal: PayPal
+    private payPal: PayPal,
+    private barcodeScanner: BarcodeScanner
   ) {
     this.http = http;
     this.sender = navParams.get("user");
@@ -49,16 +50,7 @@ export class SendmoneyPage {
   ionViewDidLoad() {
     this.sendmoneyData.senderid = this.sender.id;
     console.log('ionViewDidLoad SendmoneyPage');
-    var that = this;
-    that.receivers = [];
-    var query = firebase.database().ref("users").orderByKey();
-    query.once("value").then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-        if (childSnapshot.val().role == 0 ) {
-          that.receivers.push(childSnapshot.val());
-        }
-        });
-    });
+    this.groupReceivers = [];
 
   }
   sendmoneySelect(money){
@@ -67,16 +59,121 @@ export class SendmoneyPage {
   sendMoney(sendmoneyData){
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){
       this.showAlert("Please enter money!");
-      this.showConfirm(sendmoneyData);
+    }else{
+      this.scanCode();
     }
 
   }
+  scanCode() {
+    this.barcodeScanner.scan().then(barcodeData => {
+    // this.qrId = 1511347280139;
+      this.qrId = atob(barcodeData.text);
+      // this.showAlert(this.qrId);
+      var that = this;
+      var query = firebase.database().ref("qrdatas").orderByKey();
+      query.once("value").then(function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
 
+          if (Number(childSnapshot.val().id) == Number(that.qrId)) {
+
+            that.findQRcode = 1;
+            if (childSnapshot.val().type == 0) {
+              // if (childSnapshot.val().verify == 1) {
+                that.findReceiver(that.qrId);
+              // }
+            } else {
+              that.findGroupReceivers(that.qrId);
+              that.qrType = 1;
+            }
+          }
+        });
+        if (that.findQRcode == 0) {
+          that.showAlert("QR code invalid!");
+        }
+      });
+
+    });
+
+  }
+  findReceiver(qrnumber){
+    var that = this;
+    var query = firebase.database().ref("users").orderByKey();
+
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+          if (childSnapshot.val().qrId == qrnumber) {
+
+
+              that.sendmoneyData.receiverid = childSnapshot.val().id;
+              that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
+              that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
+              that.sendmoneyData.receivername = childSnapshot.val().fullName;
+              that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
+              that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
+              that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
+              that.sendmoneyData.sendername = that.sender.fullName;
+              console.log(that.sendmoneyData);
+              that.showConfirm(that.sendmoneyData);
+          }
+      });
+    });
+
+  }
+  findGroupReceivers(qrnumber) {
+    var that = this;
+    var query = firebase.database().ref("users").orderByKey();
+
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        if (childSnapshot.val().groupId == qrnumber) {
+          if(childSnapshot.val().id != that.sender.id){
+            that.groupReceivers.push({
+              fullName:childSnapshot.val().fullName,
+              qrId:childSnapshot.val().qrId
+            });
+          }
+        }
+      });
+    });
+    // this.selectReceiver(this.groupReceivers);
+
+
+  }
+  selectReceiver(groupReceivers:any) {
+    console.log(groupReceivers);
+    let alert = this.alertCtrl.create();
+
+    for (let key in this.groupReceivers) {
+
+      let receiver = this.groupReceivers[key];
+      console.log(receiver);
+      alert.addInput({
+        type: 'radio',
+        label: receiver.fullName,
+        value: receiver.qrId,
+        checked: false
+      });
+
+    }
+    alert.setTitle('Select Group Receiver');
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'OK',
+      handler: data => {
+        this.findReceiver(data);
+      }
+    });
+    alert.present();
+
+  }
+  goTransaction(receiver){
+
+  }
   showConfirm(sendmoneyData) {
 
     let confirm = this.alertCtrl.create({
-      title: 'Confirm',
-      message: 'You will send $ '+this.sendmoneyData.sendmoney + ' from your paypal to receiver`s paypal',
+      title: 'Are you sure?',
+      message: 'You will send $ '+this.sendmoneyData.sendmoney + ' to ' + this.sendmoneyData.receivername,
       buttons: [
         {
           text: 'No',
@@ -87,189 +184,62 @@ export class SendmoneyPage {
         {
           text: 'Yes',
           handler: () => {
-            try{
 
               var now = new Date();
               sendmoneyData.transactionid = now.getTime();
-              sendmoneyData.state = 0;
-              sendmoneyData.receiverid = this.receiver.id;
-              this.createdCode = btoa(this.sendmoneyData.transactionid.toString());
-              var that = this;
-
-              var query = firebase.database().ref("users").orderByKey();
-              query.once("value").then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                    if (childSnapshot.val().id == that.receiver.id){
-                      that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
-                      that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
-                      that.sendmoneyData.receivername = childSnapshot.val().fullName;
-                      that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-                      that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
-                      that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
-                      that.sendmoneyData.sendername = that.sender.fullName;
-                      that.afd.list('/transactions/').push(sendmoneyData);
-
-                    }
-
-                  });
-                });
-
-                var receiverRef = firebase.database().ref("transactions/");
-                receiverRef.on("child_changed", function(data) {
-                   that.transactiondata = data.val();
-                   if(that.transactiondata.senderid==that.sendmoneyData.senderid && that.transactiondata.transactionid == that.sendmoneyData.transactionid){
-
-                    if(that.transactiondata.state == 1){
-
-                      console.log(that.transactiondata);
-
-                     that.presentToast("Receiver "+that.sendmoneyData.receivername + " scanned QR code!");
-
-                     that.payPal.init({
-                      PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
-                      PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
-                     }).then(() => {
-
-                     that.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-                       // Only needed if you get an "Internal Service Error" after PayPal login!
-                       //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-                     })).then(() => {
-
-                      let payment = new PayPalPayment(that.transactiondata.sendmoney.toString(), 'USD', 'Description', 'sale');
-
-                       payment.payeeEmail = that.transactiondata.receiverpaypalemail;
-
-                       that.payPal.renderSinglePaymentUI(payment).then(() => {
-
-                         query = firebase.database().ref("transactions").orderByKey();
-                         query.once("value").then(function (snapshot) {
-                            snapshot.forEach(function (childSnapshot) {
-                              if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
-                                if(childSnapshot.val().state == 1 ){
-                                  var ref = firebase.database().ref().child('transactions');
-                                  var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                                  refUserId.once('value', function(snapshot) {
-                                    if (snapshot.hasChildren()) {
-                                        snapshot.forEach(
-                                          function(snap){
-                                            snap.ref.update({
-                                              'state':2
-                                            });
-                                            return true;
-                                        });
-                                    }
-                                  });
-                                }
-                              }
-                            });
-                         });
-
-                       }, () => {
-                         // Error or render dialog closed without being successful
-                         that.showAlert("Transaction is not completed.Please rescan qr code.");
-                         that.showAlert("Something wrong.");
-                         query = firebase.database().ref("transactions").orderByKey();
-                         query.once("value").then(function (snapshot) {
-                            snapshot.forEach(function (childSnapshot) {
-                              if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
-                                if(childSnapshot.val().state == 1 ){
-                                  var ref = firebase.database().ref().child('transactions');
-                                  var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                                  refUserId.once('value', function(snapshot) {
-                                    if (snapshot.hasChildren()) {
-                                        snapshot.forEach(
-                                          function(snap){
-                                            snap.ref.update({
-                                              'state':3
-                                            });
-                                            return true;
-                                        });
-                                    }
-                                  });
-                                }
-                              }
-                            });
-                         });
-                       });
-                     }, () => {
-                       // Error in configuration
-                       that.showAlert("Paypal configration error.Please rescan qr code.");
-                       that.showAlert("Something wrong.");
-                       query = firebase.database().ref("transactions").orderByKey();
-                       query.once("value").then(function (snapshot) {
-                          snapshot.forEach(function (childSnapshot) {
-                            if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
-                              if(childSnapshot.val().state == 1 ){
-                                var ref = firebase.database().ref().child('transactions');
-                                var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                                refUserId.once('value', function(snapshot) {
-                                  if (snapshot.hasChildren()) {
-                                      snapshot.forEach(
-                                        function(snap){
-                                          snap.ref.update({
-                                            'state':3
-                                          });
-                                          return true;
-                                      });
-                                  }
-                                });
-                              }
-                            }
-                          });
-                       });
-                     });
-                   }, () => {
-                     // Error in initialization, maybe PayPal isn't supported or something else
-                     that.showAlert("Something wrong.Please rescan qr code.");
-                     query = firebase.database().ref("transactions").orderByKey();
-                     query.once("value").then(function (snapshot) {
-                        snapshot.forEach(function (childSnapshot) {
-                          if (childSnapshot.val().transactionid == that.sendmoneyData.transactionid){
-                            if(childSnapshot.val().state == 1 ){
-                              var ref = firebase.database().ref().child('transactions');
-                              var refUserId = ref.orderByChild('transactionid').equalTo(childSnapshot.val().transactionid);
-                              refUserId.once('value', function(snapshot) {
-                                if (snapshot.hasChildren()) {
-                                    snapshot.forEach(
-                                      function(snap){
-                                        snap.ref.update({
-                                          'state':3
-                                        });
-                                        return true;
-                                    });
-                                }
-                              });
-                            }
-                          }
-                        });
-                     });
-                   });
-                  }else if(that.transactiondata.state == 2){
-                    that.showAlertSuccess("Transaction completed!");
-                    that.navCtrl.push(ReportPage, {
-                      user:that.sender
+              console.log(this.sendmoneyData);
+              this.payPal.init({
+                PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
+                PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
+              }).then(() => {
+                // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+                this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+                  // Only needed if you get an "Internal Service Error" after PayPal login!
+                  //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+                })).then(() => {
+                  let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
+                  payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
+                  this.payPal.renderSinglePaymentUI(payment).then(() => {
+                    this.showAlert(this.sendmoneyData);
+                    this.afd.list('transactions').push(sendmoneyData);
+                    this.navCtrl.push(ReportPage,{
+                      'user':this.sender
                     });
-                  }else{
-                    // that.showAlert("Transaction not completed!");
-                  }
+                    // Successfully paid
 
-                   }
+                    // Example sandbox response
+                    //
+                    // {
+                    //   "client": {
+                    //     "environment": "sandbox",
+                    //     "product_name": "PayPal iOS SDK",
+                    //     "paypal_sdk_version": "2.16.0",
+                    //     "platform": "iOS"
+                    //   },
+                    //   "response_type": "payment",
+                    //   "response": {
+                    //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+                    //     "state": "approved",
+                    //     "create_time": "2016-10-03T13:33:33Z",
+                    //     "intent": "sale"
+                    //   }
+                    // }
+                  }, () => {
+                    // Error or render dialog closed without being successful
+                  });
+                }, () => {
+                  // Error in configuration
                 });
-
+              }, () => {
+                // Error in initialization, maybe PayPal isn't supported or something else
+              });
             }
-            catch(e){
-              console.error(e);
-              this.showAlert("Something wrong");
-            }
-          }
         }
       ]
     });
     confirm.present();
   }
-  goPaypal(transactiondata){
 
-  }
   showAlert(text) {
     let alert = this.alertCtrl.create({
       title: 'Warning!',
@@ -303,4 +273,5 @@ export class SendmoneyPage {
 
     toast.present();
   }
+
 }

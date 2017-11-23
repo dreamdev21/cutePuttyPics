@@ -12,11 +12,41 @@
 
 </ion-header>
 
-
 <ion-content padding>
-    <ion-card *ngIf="scannedCode">
+
+    <ion-card>
+        <ion-card-header>
+            TOTAL BALANCE
+        </ion-card-header>
         <ion-card-content>
-            Result from Scan: {{ scannedCode }}
+            $ {{transactiontotalmoneyreceived}}
         </ion-card-content>
     </ion-card>
+
+    <ion-list>
+        <ion-item>
+            <ion-item-sliding *ngFor="let transaction of receivetransactions">
+                <ion-item class="sentmoneylist">
+                    <ion-avatar item-start>
+                        <img src="{{transaction.avatar}}">
+                    </ion-avatar>
+                    <ion-row>
+                        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                            <h2>{{transaction.name[0]}}</h2>
+                            <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
+                        </ion-col>
+                        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                            <h1 style=" color: red;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1>
+                        </ion-col>
+                    </ion-row>
+
+                </ion-item>
+                <ion-item-options side="right">
+                    <button ion-button color="danger" (click)="deleteTransaction(transaction.date)">
+                  DELETE
+                </button>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-item>
+    </ion-list>
 </ion-content>

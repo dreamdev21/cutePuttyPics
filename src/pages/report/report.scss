@@ -56,4 +56,44 @@ page-report {
     .list-ios .item-block .item-inner {
         border-bottom: 0px solid #dedede;
     }
+    .segment-ios .segment-button:first-of-type {
+        font-size: 16px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 4px;
+        margin-right: 0;
+    }
+    .segment-ios .segment-button.segment-activated {
+        font-size: 16px;
+        color: #fff;
+        background-color: #456388;
+        opacity: 1;
+        -webkit-transition: .1s all linear;
+        transition: .1s all linear;
+    }
+    .segment-md .segment-button:first-of-type {
+        font-size: 16px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 8px;
+        margin-right: 0;
+    }
+    .segment-md .segment-button:last-of-type {
+        font-size: 16px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 0;
+        margin-right: 0;
+    }
+    .segment-md .segment-button.segment-activated {
+        font-size: 16px;
+        color: #fff;
+        background-color: #456388;
+        opacity: 1;
+        -webkit-transition: .1s all linear;
+        transition: .1s all linear;
+    }
 }

@@ -28,6 +28,7 @@ export class VerifyQRcodePage {
   findQRcode = 0;
   public user = {} as User;
   public qrId = null;
+  public qrName = null;
   constructor(
     public loadingCtrl: LoadingController,
     public http: Http,
@@ -50,88 +51,157 @@ export class VerifyQRcodePage {
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
     this.qrId = atob(barcodeData.text);
-    this.showAlert(this.qrId);
+    // this.qrId = 1511402875788 ;
       this.qrVerifyState = 0;
       this.findQRcode = 0;
         var that = this;
         var query = firebase.database().ref("qrdatas").orderByKey();
         query.once("value").then(function (snapshot) {
           snapshot.forEach(function (childSnapshot) {
-            if (childSnapshot.val().id == that.qrId && that.findQRcode == 0 ) {
+            if (childSnapshot.val().id == that.qrId ) {
+              if (that.findQRcode == 0 ){
               that.findQRcode = 1;
               if (childSnapshot.val().type == 0) {
                 if (childSnapshot.val().verify == 0){
-
-                  var ref = firebase.database().ref().child('users');
-                  var refUserId = ref.orderByChild('id').equalTo(that.user.id);
+                  that.qrName = childSnapshot.val().name;
+                   var ref = firebase.database().ref().child('users');
+                   var refUserId = ref.orderByChild('id').equalTo(that.user.id);
                   refUserId.once('value', function (snapshot) {
                     if (snapshot.hasChildren()) {
                       snapshot.forEach(
                         function (snap) {
                           snap.ref.update({
                             'permission': 1,
-                            'qrId':that.qrId
+                            'qrId':that.qrId,
+                            'qrName':that.qrName
                           });
+
                           return true;
                         });
                     }
                   });
-                  ref = firebase.database().ref().child('qrdatas');
-                  refUserId = ref.orderByChild('id').equalTo(that.qrId);
-                  refUserId.once('value', function (snapshot) {
-                    if (snapshot.hasChildren()) {
-                      snapshot.forEach(
-                        function (snap) {
-                          snap.ref.update({
-                            'verify': 1,
-                          });
-                          return true;
-                        });
-                    }
-                  });
-                  that.showAlert("User QRcode verified");
+
+                  that.showAlertSuccess("User QRcode verified");
+                  that.verifyConfirmMail(that.user.id);
+                  that.updateQRcodeverify(that.qrId);
                 }else{
                   that.showAlert("User QRcode expired");
                 }
 
               }else{
-                 ref = firebase.database().ref().child('users');
-                 refUserId = ref.orderByChild('id').equalTo(that.user.id);
+                that.qrName = childSnapshot.val().name;
+                ref = firebase.database().ref().child('users');
+                refUserId = ref.orderByChild('id').equalTo(that.user.id);
                 refUserId.once('value', function (snapshot) {
                   if (snapshot.hasChildren()) {
                     snapshot.forEach(
                       function (snap) {
                         snap.ref.update({
-                          'groupId': that.qrId
+                          'groupId': that.qrId,
+                          'groupName': that.qrName
                         });
+                        that.updateQRgroup(that.qrId);
                         return true;
                       });
                   }
                 });
-                ref = firebase.database().ref().child('qrdatas');
-                refUserId = ref.orderByChild('id').equalTo(that.qrId);
-                refUserId.once('value', function (snapshot) {
-                  if (snapshot.hasChildren()) {
-                    snapshot.forEach(
-                      function (snap) {
-                        snap.ref.update({
-                          'groupUsers': Number(childSnapshot.val().groupUsers) + 1,
-                        });
-                        return true;
-                      });
-                  }
-                });
-                that.showAlert("Group QRcode verified");
+
+                that.showAlertSuccess("Group QRcode verified");
+                that.groupverifyConfirmMail(that.user.id);
               }
             }
+          }
           });
+          if(that.findQRcode == 0){
+            that.showAlert("QR code invalid");
+          }
         });
       });
 
   }
+  updateQRcodeverify(qrnumber){
+    var that = this;
+    var ref = firebase.database().ref().child('qrdatas');
+    var refUserId = ref.orderByChild('id').equalTo(qrnumber);
+    refUserId.once('value', function (snapshot) {
+      if (snapshot.hasChildren()) {
+        snapshot.forEach(
+          function (snap) {
+            snap.ref.update({
+              'verify': 1,
+            });
+
+            return true;
+          });
+      }
+    });
+  }
+  updateQRgroup(qrnumber) {
+    var that = this;
+    var ref = firebase.database().ref().child('qrdatas');
+    var refUserId = ref.orderByChild('id').equalTo(qrnumber);
+    // refUserId.once('value', function (snapshot) {
+    //   if (snapshot.hasChildren()) {
+    //     snapshot.forEach(
+    //       function (snap) {
+    //         snap.ref.update({
+    //           'groupUsers',
+    //         });
+
+    //         return true;
+    //       });
+    //   }
+    // });
+  }
+  verifyConfirmMail(userId){
+    var that = this;
+    var query = firebase.database().ref("users").orderByKey();
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        if (childSnapshot.val().role == 3) {
+          var link = 'http://localhost:8000/sendhtmlionicmailuserqrverifiedconfirm?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + that.qrName + '&qrUserName=' + that.user.fullName + '&qrUserEmail=' + that.user.email  ;
+          console.log(link);
+          that.http.get(link).map(res => res.json())
+            .subscribe(data => {
+              console.log(data);
+            }, error => {
+              console.log("Oooops!");
+            });
+        }
+      });
+    });
+  }
+  groupverifyConfirmMail(userId) {
+    var that = this;
+    var query = firebase.database().ref("users").orderByKey();
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        if (childSnapshot.val().role == 3) {
+          var link = 'http://localhost:8000/sendhtmlionicmailgroupqrverifiedconfirm?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + that.qrName + '&qrUserName=' + that.user.fullName + '&qrUserEmail=' + that.user.email;
+          console.log(link);
+          that.http.get(link).map(res => res.json())
+            .subscribe(data => {
+              console.log(data);
+            }, error => {
+              console.log("Oooops!");
+            });
+        }
+      });
+    });
+  }
   showAlert(text) {
     let alert = this.alertCtrl.create({
       title: 'Warning!',
+      subTitle: text,
+      buttons: [{
+        text: "OK",
+      }]
+    });
+    alert.present();
+  }
+  showAlertSuccess(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Success!',
       subTitle: text,
       buttons: [{
         text: "OK",

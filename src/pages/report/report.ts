@@ -21,14 +21,17 @@ import { Http } from '@angular/http';
 })
 export class ReportPage {
   public user:any;
-  public transactions:any;
+  public senttransactions:any;
+  public receivetransactions:any;
   public transaction = {
     avatar:[],
     name:[],
     date:[],
     amount:[],
   };
-  public transactiontotalmoney:number;
+  public transactiontotalmoneysent:number;
+  public transactiontotalmoneyreceived:number;
+  switch: string;
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
@@ -40,12 +43,17 @@ export class ReportPage {
     this.user = navParams.get("user");
     this.http = http;
   }
+  ionViewWillEnter() {
+    this.switch = "sent";
 
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReportPage');
     var that = this;
-    that.transactions = [];
-    that.transactiontotalmoney = 0;
+    that.senttransactions = [];
+    that.receivetransactions = [];
+    that.transactiontotalmoneysent = 0;
+    that.transactiontotalmoneyreceived = 0;
     var query = firebase.database().ref("transactions").orderByKey();
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
@@ -55,45 +63,40 @@ export class ReportPage {
           date:[],
           amount:[],
         }
-        if(that.user.role == 0){
-          if (childSnapshot.val().receiverid == that.user.id && childSnapshot.val().state == 2){
+          if (childSnapshot.val().receiverid == that.user.id){
             var senderid = childSnapshot.val().senderid;
             var query = firebase.database().ref("users").orderByKey();
             query.once("value").then(function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().id == senderid ) {
                   transaction.avatar.push(childSnapshot.val().avatar);
-                  transaction.name.push(childSnapshot.val().fullname);
+                  transaction.name.push(childSnapshot.val().fullName);
                 }
                 });
             });
             transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
             console.log(transaction);
-            that.transactions.push(transaction);
-            console.log(that.transactions);
-            that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
+            that.receivetransactions.push(transaction);
+            that.transactiontotalmoneyreceived += Number(childSnapshot.val().sendmoney);
           }
-        }else{
-          if (childSnapshot.val().senderid == that.user.id && childSnapshot.val().state == 2){
+          if (childSnapshot.val().senderid == that.user.id){
             var receiverid = childSnapshot.val().receiverid;
             query = firebase.database().ref("users").orderByKey();
             query.once("value").then(function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().id == receiverid ) {
                   transaction.avatar.push(childSnapshot.val().avatar);
-                  transaction.name.push(childSnapshot.val().fullname);
+                  transaction.name.push(childSnapshot.val().fullName);
                 }
                 });
             });
             transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
             console.log(transaction);
-            that.transactions.push(transaction);
-            console.log(that.transactions);
-            that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
+            that.senttransactions.push(transaction);
+            that.transactiontotalmoneysent += Number(childSnapshot.val().sendmoney);
           }
-        }
       });
     });
   }

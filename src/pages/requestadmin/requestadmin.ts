@@ -32,7 +32,7 @@ export class RequestadminPage {
     public firebaseProvider: FirebaseProvider,
     public afd: AngularFireDatabase,
     public http : Http,
-    private loadingCtrl: LoadingController ,
+    private loadingCtrl: LoadingController,
     public navParams: NavParams,
     public alertCtrl: AlertController
   ) {

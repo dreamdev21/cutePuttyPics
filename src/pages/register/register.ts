@@ -68,6 +68,9 @@ export class RegisterPage {
                 user.permission = 0;
                 user.groupId = 0;
                 user.role = 0;
+                user.qrName = null;
+                user.qrId = null;
+                user.groupName = null;
                 that.afd.list('/users/').push(user);
                 var query = firebase.database().ref("users").orderByKey();
                 query.once("value").then(function (snapshot) {
