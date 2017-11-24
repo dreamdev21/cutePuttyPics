@@ -77,7 +77,7 @@ export class RegisterPage {
                   snapshot.forEach(function (childSnapshot) {
                         if (childSnapshot.val().role == 3){
                           console.log(childSnapshot.val().fullName);
-                          var link = 'http://localhost:8000/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername='+ childSnapshot.val().fullName +'&usermail='+ user.email + '&username='+ user.fullName + '&userpassword='+ user.password;
+                          var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername='+ childSnapshot.val().fullName +'&usermail='+ user.email + '&username='+ user.fullName + '&userpassword='+ user.password;
                           console.log(link);
                           that.http.get(link).map(res => res.json())
                           .subscribe(data => {
