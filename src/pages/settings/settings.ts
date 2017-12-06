@@ -38,6 +38,7 @@ export class SettingsPage {
     amount:[],
   };
   public transactiontotalmoney:number;
+  public admincheck:number;
   constructor(
     public zone: NgZone,
     private camera: Camera,
@@ -69,7 +70,12 @@ export class SettingsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
-    console.log(this.olduserData.avatar);
+    console.log(this.olduserData.role);
+    if(this.olduserData.role == 3){
+      this.admincheck = 1;
+    }else{
+      this.admincheck = 0;
+    }
     var that = this;
     that.transactiontotalmoney = 0;
     var query = firebase.database().ref("transactions").orderByKey();
@@ -100,7 +106,7 @@ export class SettingsPage {
           if(newuserData.birthday){
             if(newuserData.gender){
               if(newuserData.paypalEmail){
-                if(newuserData.paypalPassword){
+
                   var that= this;
                   var ref = firebase.database().ref().child('/users');
                   var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
@@ -116,8 +122,7 @@ export class SettingsPage {
                               "gender":newuserData.gender,
                               "avatar":newuserData.avatar,
                               "birthday":newuserData.birthday,
-                              "paypalEmail":newuserData.paypalEmail,
-                              "paypalPassword":newuserData.paypalPassword
+                              "paypalEmail":newuserData.paypalEmail
                             });
                             that.presentToast("Your profile updated successfully!");
                             return true;
@@ -126,9 +131,7 @@ export class SettingsPage {
                       console.log('wrong');
                     }
                   });
-                } else {
-                  this.showAlert("Please enter your paypal password");
-                }
+
               }else{
                 this.showAlert("Please enter your paypal email");
               }
@@ -250,5 +253,57 @@ public uploadImage() {
         this.showAlert('Please select an image.');
     }
   }
+  goContactUs(userdata){
+    this.presentPrompt();
+  }
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Please message here.',
+      inputs: [
+        {
+          name: 'message',
+          placeholder: 'Message'
+        },
 
+      ],
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            console.log(data.message);
+            var that = this;
+            var query = firebase.database().ref("users").orderByKey();
+            query.once("value").then(function (snapshot) {
+              snapshot.forEach(function (childSnapshot) {
+                if (childSnapshot.val().role == 3) {
+                  var link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailsupportemail?email=' + childSnapshot.val().email + '&username=' + childSnapshot.val().fullName + '&qrName=' + data.message + '&qrUserName=' + that.olduserData.fullName + '&qrUserEmail=' + that.olduserData.email;
+                  console.log(link);
+                  that.http.get(link).map(res => res.json())
+                    .subscribe(data => {
+                      console.log(data);
+                    }, error => {
+                      console.log("Oooops!");
+                    });
+                }
+              });
+            });
+          }
+        }
+      ]
+    });
+    // alert.addInput({
+    //   type: 'textarea',
+    //   name: 'about',
+    //   placeholder: 'Optional message'
+    // });
+    alert.present();
+  }
 }

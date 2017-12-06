@@ -44,10 +44,10 @@
             <ion-label stacked>Paypal Email</ion-label>
             <ion-input type="email" placeholder="Enter your Paypal Email" [(ngModel)]="olduserData.paypalEmail"></ion-input>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
             <ion-label stacked>Paypal Password</ion-label>
             <ion-input type="password" placeholder="Enter your Paypal Password" [(ngModel)]="olduserData.paypalPassword"></ion-input>
-        </ion-item>
+        </ion-item> -->
         <ion-item>
         </ion-item>
     </ion-list>
@@ -72,4 +72,10 @@
             <button class="signup" ion-button (click)="updateUser(olduserData)">UPDATE</button>
         </ion-col>
     </ion-row>
+    <ion-row *ngIf="!admincheck">
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+            <button class="signup" ion-button (click)="goContactUs(olduserData)">CONTACT US</button>
+        </ion-col>
+    </ion-row>
+
 </ion-content>

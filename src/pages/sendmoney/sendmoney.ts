@@ -9,6 +9,7 @@ import { Http } from '@angular/http';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import { ReportPage } from '../report/report';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { SenderPage } from '../sender/sender';
 @IonicPage()
 @Component({
   selector: 'page-sendmoney',
@@ -28,6 +29,7 @@ export class SendmoneyPage {
   public sender = {} as User;
   public receiver = {} as User;
   public transactiondata = {} as sendmoneyData;
+  public receiverAvatar : any;
   public groupReceivers: Array<{
     fullName: any,
     qrId: any,
@@ -51,6 +53,7 @@ export class SendmoneyPage {
     this.sendmoneyData.senderid = this.sender.id;
     console.log('ionViewDidLoad SendmoneyPage');
     this.groupReceivers = [];
+    this.scanCode();
 
   }
   sendmoneySelect(money){
@@ -60,7 +63,7 @@ export class SendmoneyPage {
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){
       this.showAlert("Please enter money!");
     }else{
-      this.scanCode();
+      this.showConfirm(sendmoneyData);
     }
 
   }
@@ -89,6 +92,9 @@ export class SendmoneyPage {
         });
         if (that.findQRcode == 0) {
           that.showAlert("QR code invalid!");
+          that.navCtrl.push(SenderPage, {
+            user: that.sender
+          });
         }
       });
 
@@ -108,16 +114,40 @@ export class SendmoneyPage {
               that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
               that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
               that.sendmoneyData.receivername = childSnapshot.val().fullName;
+              that.receiverAvatar = childSnapshot.val().avatar();
               that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
               that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
               that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
               that.sendmoneyData.sendername = that.sender.fullName;
               console.log(that.sendmoneyData);
-              that.showConfirm(that.sendmoneyData);
+
           }
       });
     });
 
+  }
+  paytoReceiver(qrnumber) {
+    // this.showAlert(qrnumber);
+    var that = this;
+    var query = firebase.database().ref("users").orderByKey();
+
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        if (childSnapshot.val().qrId == Number(qrnumber)) {
+          that.sendmoneyData.receiverid = childSnapshot.val().id;
+          that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
+          that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
+          that.sendmoneyData.receivername = childSnapshot.val().fullName;
+          that.receiverAvatar = childSnapshot.val().avatar();
+          that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
+          that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
+          that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
+          that.sendmoneyData.sendername = that.sender.fullName;
+
+        }
+      });
+    });
+    this.sendMoney(this.sendmoneyData);
   }
   findGroupReceivers(qrnumber) {
     var that = this;
@@ -272,5 +302,9 @@ export class SendmoneyPage {
 
     toast.present();
   }
-
+  // gotoHome(){
+  //   this.navCtrl.push(SenderPage, {
+  //     user: this.sender
+  //   });
+  // }
 }

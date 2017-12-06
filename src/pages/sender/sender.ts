@@ -8,7 +8,7 @@ import { SettingsPage } from '../settings/settings';
 import { LoginPage } from '../login/login';
 import { VerifyQRcodePage } from '../verify-q-rcode/verify-q-rcode';
 import { User } from '../../models/user';
-
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the SenderPage page.
  *
@@ -23,7 +23,7 @@ import { User } from '../../models/user';
 })
 export class SenderPage {
   public user = {} as User;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
     this.user = navParams.get("user");
   }
 
@@ -61,8 +61,7 @@ export class SenderPage {
    });
  }
  goLogout(){
-  this.navCtrl.push(LoginPage, {
-    user:this.user
-  });
+  this.storage.remove('currentUser');
+  this.navCtrl.push(LoginPage);
  }
 }

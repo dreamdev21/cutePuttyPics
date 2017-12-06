@@ -158,12 +158,8 @@ export class RegisterPage {
           if (!user.paypalEmail){
             this.showAlert("Please enter your Paypal email");
             validatestate = false;
-          }else{
-            if (!user.paypalPassword || user.paypalPassword.length<6){
-              this.showAlert("Password length must be at least 6 letter.");
-              validatestate = false;
-            }
           }
+
         }
       }
     }

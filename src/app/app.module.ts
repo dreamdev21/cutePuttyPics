@@ -18,7 +18,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+// import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { MaxLengthDirective } from '../directives/c-maxlength/c-maxlength';
 
 import { MyApp } from './app.component';
@@ -62,6 +63,7 @@ import { PayPal } from '@ionic-native/paypal';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     AngularFireAuthModule,

@@ -1,3 +1,4 @@
+import { VerifyQRcodePage } from '../verify-q-rcode/verify-q-rcode';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
@@ -7,9 +8,11 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import { RegisterPage} from '../register/register';
 import { SuperadminPage } from '../superadmin/superadmin';
 import { SenderPage } from '../sender/sender';
+import { SendmoneyPage } from '../sendmoney/sendmoney';
 
 /**
  * Generated class for the LoginPage page.
@@ -46,6 +49,7 @@ export class LoginPage {
     private loadingCtrl: LoadingController ,
     public navParams: NavParams,
     public firebaseProvider: FirebaseProvider,
+    private storage : Storage,
     ) {
   }
 
@@ -61,8 +65,8 @@ export class LoginPage {
               if (childSnapshot.val().email == user.email){
                 if (childSnapshot.val().password == user.password){
                   that.checkstate = false;
-                  that.permission = childSnapshot.val().permission;
                   that.user.id = childSnapshot.val().id;
+                  that.user.permission = childSnapshot.val().permission;
                   that.user.avatar = childSnapshot.val().avatar;
                   that.user.fullName = childSnapshot.val().fullName;
                   that.user.password = childSnapshot.val().password;
@@ -75,6 +79,7 @@ export class LoginPage {
                   that.user.paypalVerifyState = childSnapshot.val().paypalVerifyState;
                   that.user.groupId = childSnapshot.val().groupId;
                   that.goLogin(user);
+                  that.storage.set('currentUser',that.user);
                 }else{
                   that.showAlert("Password is incorrect!");
                   that.checkstate = false;
@@ -109,14 +114,22 @@ export class LoginPage {
 
   }
   goLogin(user){
-      if(user.role == 3){
+    console.log(this.user.permission);
+    if(user.role == 3){
       this.navCtrl.push(SuperadminPage, {
         user: user
       });
     }else {
-      this.navCtrl.push(SenderPage, {
-        user:user
-      });
+      //   if (this.user.permission == 0){
+      //     this.navCtrl.push(VerifyQRcodePage, {
+      //       user: user
+      //     });
+      // }else{
+        this.navCtrl.push(SendmoneyPage, {
+          user: user
+        });
+      // }
+
     }
   }
   goRegister(){

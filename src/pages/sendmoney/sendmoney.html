@@ -18,7 +18,7 @@
     <div class="present">
         <ion-row>
             <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer">
-                ${{sendmoneyData.sendmoney}}
+                <img src="{{receiverAvatar}}" class="item-avatar"> ${{sendmoneyData.sendmoney}}{{receiverAvatar}}
             </ion-col>
         </ion-row>
     </div>
@@ -62,14 +62,14 @@
         </ion-col>
     </ion-row>
 
-    <ion-row style="height: 30px;">
+    <!-- <ion-row style="height: 30px;">
         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
             <p style="text-align:left">Fee</p>
         </ion-col>
         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
             <p style="text-align:right">It's free</p>
         </ion-col>
-    </ion-row>
+    </ion-row> -->
     <ion-row style="font-size:1.2rem;">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendmoneylabel" style="text-align: left;">
             <span style="text-align:left !important;color:rgb(66, 98, 131) !important">You pay no fee when sending money domastically with your bank or balance.</span>
@@ -103,17 +103,20 @@
             </ion-list>
         </ion-col>
     </ion-row>
-    <ion-row *ngIf="!qrId">
+    <ion-row *ngIf="!qrType">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-
-            <button class="signup" ion-button (click)="sendMoney(sendmoneyData)">Scan QR code</button>
+            <button class="signup" ion-button (click)="sendMoney(sendmoneyData)">NEXT</button>
         </ion-col>
     </ion-row>
     <ion-row *ngIf="qrType">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-
-            <button class="signup" ion-button (click)="findReceiver(qr)">Send Money</button>
+            <button class="signup" ion-button (click)="paytoReceiver(qr)">NEXT</button>
         </ion-col>
     </ion-row>
+    <!-- <ion-row style="margin-top:10px;">
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+            <button class="signup" ion-button (click)="gotoHome()">Go to Homepage</button>
+        </ion-col>
+    </ion-row> -->
 
 </ion-content>

@@ -7,6 +7,8 @@ import firebase from 'firebase';
 import { Http } from '@angular/http';
 import { User } from '../../models/user';
 import { LoadingController, Loading } from 'ionic-angular';
+import { SenderPage } from '../sender/sender';
+import { ReceivemoneyPage } from '../receivemoney/receivemoney';
 
 /**
  * Generated class for the VerifyQRcodePage page.
@@ -118,6 +120,9 @@ export class VerifyQRcodePage {
 
                 that.showAlertSuccess("Group QRcode verified");
                 that.groupverifyConfirmMail(that.user.id);
+                that.navCtrl.push(ReceivemoneyPage, {
+                  user: that.user
+                });
               }
             }
           }
@@ -145,6 +150,9 @@ export class VerifyQRcodePage {
             return true;
           });
       }
+    });
+    that.navCtrl.push(ReceivemoneyPage,{
+      user:that.user
     });
   }
   updateQRgroup(qrnumber) {
@@ -180,6 +188,11 @@ export class VerifyQRcodePage {
             });
         }
       });
+    });
+  }
+  goHome(){
+    this.navCtrl.push(SenderPage, {
+      user: this.user
     });
   }
   groupverifyConfirmMail(userId) {

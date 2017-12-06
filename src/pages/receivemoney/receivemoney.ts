@@ -1,3 +1,4 @@
+import { SenderPage } from '../sender/sender';
 import { changeExtension } from '@ionic/app-scripts/dist';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-angular';
@@ -8,6 +9,7 @@ import { Http } from '@angular/http';
 import { User } from '../../models/user';
 import { LoadingController ,Loading } from 'ionic-angular';
 import { ReportPage } from '../report/report';
+import { VerifyQRcodePage } from '../verify-q-rcode/verify-q-rcode';
 /**
  * Generated class for the ReceivemoneyPage page.
  *
@@ -30,6 +32,7 @@ export class ReceivemoneyPage {
     amount: [],
   };
   public transactiontotalmoneyreceived: number;
+  public qrRequest:number;
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
@@ -43,7 +46,13 @@ export class ReceivemoneyPage {
   }
 
   ionViewDidLoad() {
+    console.log(this.user);
     console.log('ionViewDidLoad ReportPage');
+    if(this.user.permission == 0){
+      this.qrRequest = 0;
+    }else{
+      this.qrRequest = 1;
+    }
     var that = this;
     that.receivetransactions = [];
     that.transactiontotalmoneyreceived = 0;
@@ -93,6 +102,48 @@ export class ReceivemoneyPage {
         // }
       });
     });
+  }
+  requestQRcode(){
+
+    var that = this;
+    var query = firebase.database().ref("users").orderByKey();
+    query.once("value").then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        if (childSnapshot.val().role == 3) {
+          console.log(childSnapshot.val().fullName);
+          var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername=' + childSnapshot.val().fullName + '&usermail=' + that.user.email + '&username=' + that.user.fullName + '&userpassword=' + that.user.password;
+          console.log(link);
+          that.http.get(link).map(res => res.json())
+            .subscribe(data => {
+              console.log(data);
+            }, error => {
+              console.log("Oooops!");
+            });
+        }
+      });
+    });
+    that.showAlertSuccess("Your Request for QR code has been processed!");
+    that.qrRequest = 1;
+  }
+  verifyQRcode(){
+    this.navCtrl.push(VerifyQRcodePage, {
+      user: this.user
+    });
+  }
+  goHome(){
+    this.navCtrl.push(SenderPage, {
+      user: this.user
+    });
+  }
+  showAlertSuccess(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Success!',
+      subTitle: text,
+      buttons: [{
+        text: "OK",
+      }]
+    });
+    alert.present();
   }
 
 }
