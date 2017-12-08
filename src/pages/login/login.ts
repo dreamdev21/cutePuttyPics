@@ -89,7 +89,7 @@ export class LoginPage {
             console.log(that.checkstate);
           });
           if(that.checkstate){
-            var text = "Username or email are incorrect!";
+            var text = "The email address or the password entered seems to be incorrect.";
             that.showAlert(text);
           }
       });
@@ -120,15 +120,15 @@ export class LoginPage {
         user: user
       });
     }else {
-      //   if (this.user.permission == 0){
-      //     this.navCtrl.push(VerifyQRcodePage, {
-      //       user: user
-      //     });
-      // }else{
+        if (this.user.permission == 0){
+          this.navCtrl.push(VerifyQRcodePage, {
+            user: user
+          });
+      }else{
         this.navCtrl.push(SendmoneyPage, {
           user: user
         });
-      // }
+      }
 
     }
   }

@@ -88,7 +88,7 @@ export class RegisterPage {
                         }
                     });
                 });
-                that.showAlertSuccess("You are registered");
+                that.showAlertSuccess("You are successfully registered to the app.");
                 that.navCtrl.push(LoginPage, {
                 });
               }
@@ -129,7 +129,7 @@ export class RegisterPage {
   showAlertSuccess(text) {
 
     let alert = this.alertCtrl.create({
-      title: 'Success!',
+      title: 'Registered Successfully!',
       subTitle: text,
       buttons: [{
         text: "OK",

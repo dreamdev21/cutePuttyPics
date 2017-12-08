@@ -1,5 +1,6 @@
 // import { AdminmanagerPage } from '../pages/adminmanager/adminmanager';
 // import { SuperadminPage } from '../pages/superadmin/superadmin';
+import { VerifyQRcodePage } from '../pages/verify-q-rcode/verify-q-rcode';
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -10,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { Storage } from '@ionic/storage';
 import { IonicPage, Nav, NavParams } from 'ionic-angular';
 import { Inject, ViewChild } from '@angular/core';
+import { SendmoneyPage } from '../pages/sendmoney/sendmoney';
 @Component({
   templateUrl: 'app.html'
 })
@@ -30,9 +32,16 @@ export class MyApp {
               user: val
             });
           }else{
-            this.nav.push(SenderPage, {
-              user: val
-            });
+            if (val.permission == 0){
+              this.nav.push(VerifyQRcodePage, {
+                user: val
+              });
+            }else{
+              this.nav.push(SendmoneyPage, {
+                user: val
+              });
+            }
+
           }
         }
       })
