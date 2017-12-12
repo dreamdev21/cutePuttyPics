@@ -91,7 +91,7 @@ export class SendmoneyPage {
           }
         });
         if (that.findQRcode == 0) {
-          that.showAlert("QR code invalid!");
+          // that.showAlert("QR code invalid!");
           that.navCtrl.push(SenderPage, {
             user: that.sender
           });
@@ -302,9 +302,9 @@ export class SendmoneyPage {
 
     toast.present();
   }
-  // gotoHome(){
-  //   this.navCtrl.push(SenderPage, {
-  //     user: this.sender
-  //   });
-  // }
+  gotoHome(){
+    this.navCtrl.push(SenderPage, {
+      user: this.sender
+    });
+  }
 }

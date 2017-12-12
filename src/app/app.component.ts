@@ -33,11 +33,11 @@ export class MyApp {
             });
           }else{
             if (val.permission == 0){
-              this.nav.push(VerifyQRcodePage, {
+              this.nav.push(SendmoneyPage, {
                 user: val
               });
             }else{
-              this.nav.push(SendmoneyPage, {
+              this.nav.push(SenderPage, {
                 user: val
               });
             }

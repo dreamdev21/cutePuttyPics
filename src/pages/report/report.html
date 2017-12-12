@@ -17,7 +17,7 @@
     <div [ngSwitch]="switch">
         <ion-card *ngSwitchCase="'received'">
             <ion-card-header>
-                TOTAL BALANCE
+                TOTAL RECEIVED
             </ion-card-header>
             <ion-card-content>
                 $ {{transactiontotalmoneyreceived}}
@@ -25,7 +25,7 @@
         </ion-card>
         <ion-card *ngSwitchCase="'sent'">
             <ion-card-header>
-                TOTAL BALANCE
+                TOTAL SENT
             </ion-card-header>
             <ion-card-content>
                 $ {{transactiontotalmoneysent}}

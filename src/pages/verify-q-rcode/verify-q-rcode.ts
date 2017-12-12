@@ -9,7 +9,7 @@ import { User } from '../../models/user';
 import { LoadingController, Loading } from 'ionic-angular';
 import { SenderPage } from '../sender/sender';
 import { ReceivemoneyPage } from '../receivemoney/receivemoney';
-
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the VerifyQRcodePage page.
  *
@@ -40,6 +40,7 @@ export class VerifyQRcodePage {
     public navParams: NavParams,
     private alertCtrl: AlertController,
     private barcodeScanner: BarcodeScanner,
+    private storage : Storage,
   ) {
     this.http = http;
     this.user = navParams.get("user");
@@ -92,7 +93,8 @@ export class VerifyQRcodePage {
                         });
                     }
                   });
-
+                  that.user.permission = 1;
+                  that.storage.set('currentUser', that.user);
                   that.showAlertSuccess("User QRcode verified");
                   that.verifyConfirmMail(that.user.id);
                   that.updateQRcodeverify(that.qrId);
@@ -128,7 +130,7 @@ export class VerifyQRcodePage {
           }
           });
           if(that.findQRcode == 0){
-            that.showAlert("QR code invalid");
+            // that.showAlert("QR code invalid");
           }
         });
       }

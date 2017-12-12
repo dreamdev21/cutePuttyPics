@@ -1,3 +1,26 @@
 page-superadmin {
-
+    .signup {
+        width: 100%;
+    }
+    .sendercontainer {
+        background: #ffffff;
+        border: 1px solid #7ba4c9;
+        height: 10rem;
+        color: rgba(13, 44, 90, 0.73)
+    }
+    .sendertext {
+        margin-top: 0rem !important;
+        margin-bottom: 2rem;
+    }
+    ion-icon {
+        font-size: 4rem;
+        margin-top: 1rem;
+    }
+    .sendercontainer:hover {
+        background-color: #212e41;
+        color: white;
+        p {
+            color: white;
+        }
+    }
 }

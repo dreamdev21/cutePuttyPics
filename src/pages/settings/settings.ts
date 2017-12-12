@@ -103,13 +103,12 @@ export class SettingsPage {
     if(newuserData.fullName){
       if(newuserData.password){
         if(newuserData.email){
-          if(newuserData.birthday){
-            if(newuserData.gender){
-              if(newuserData.paypalEmail){
-
-                  var that= this;
-                  var ref = firebase.database().ref().child('/users');
-                  var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
+          if(newuserData.paypalEmail){
+              var that= this;
+              var ref = firebase.database().ref().child('/users');
+              var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
+              if (!newuserData.gender){
+                if (!newuserData.birthday) {
                   refUserId.once('value', function(snapshot) {
                     if (snapshot.hasChildren()) {
                         snapshot.forEach(
@@ -119,9 +118,7 @@ export class SettingsPage {
                               "fullName": newuserData.fullName,
                               "email": newuserData.email,
                               "password": newuserData.password,
-                              "gender":newuserData.gender,
                               "avatar":newuserData.avatar,
-                              "birthday":newuserData.birthday,
                               "paypalEmail":newuserData.paypalEmail
                             });
                             that.presentToast("Your profile updated successfully!");
@@ -131,15 +128,78 @@ export class SettingsPage {
                       console.log('wrong');
                     }
                   });
+                }else{
+                  refUserId.once('value', function (snapshot) {
+                    if (snapshot.hasChildren()) {
+                      snapshot.forEach(
+                        function (snap) {
+                          console.log(snap.val());
+                          snap.ref.update({
+                            "fullName": newuserData.fullName,
+                            "email": newuserData.email,
+                            "password": newuserData.password,
+                            "avatar": newuserData.avatar,
+                            "birthday": newuserData.birthday,
+                            "paypalEmail": newuserData.paypalEmail
+                          });
+                          that.presentToast("Your profile updated successfully!");
+                          return true;
+                        });
+                    } else {
+                      console.log('wrong');
+                    }
+                  });
+                }
+              }else{
+                if (!newuserData.birthday) {
+                  refUserId.once('value', function (snapshot) {
+                    if (snapshot.hasChildren()) {
+                      snapshot.forEach(
+                        function (snap) {
+                          console.log(snap.val());
+                          snap.ref.update({
+                            "fullName": newuserData.fullName,
+                            "email": newuserData.email,
+                            "password": newuserData.password,
+                            "gender": newuserData.gender,
+                            "avatar": newuserData.avatar,
+                            "paypalEmail": newuserData.paypalEmail
+                          });
+                          that.presentToast("Your profile updated successfully!");
+                          return true;
+                        });
+                    } else {
+                      console.log('wrong');
+                    }
+                  });
+                } else {
+                  refUserId.once('value', function (snapshot) {
+                    if (snapshot.hasChildren()) {
+                      snapshot.forEach(
+                        function (snap) {
+                          console.log(snap.val());
+                          snap.ref.update({
+                            "fullName": newuserData.fullName,
+                            "email": newuserData.email,
+                            "password": newuserData.password,
+                            "gender": newuserData.gender,
+                            "avatar": newuserData.avatar,
+                            "birthday": newuserData.birthday,
+                            "paypalEmail": newuserData.paypalEmail
+                          });
+                          that.presentToast("Your profile updated successfully!");
+                          return true;
+                        });
+                    } else {
+                      console.log('wrong');
+                    }
+                  });
+                }
+              }
 
               }else{
                 this.showAlert("Please enter your paypal email");
-              }
-            }else{
-              this.showAlert("Please enter your gender");
-            }
-          }else{
-            this.showAlert("Please enter your birthday");
+
           }
         }else{
           this.showAlert("Please enter your email");

@@ -5,6 +5,8 @@ import { User } from '../../models/user';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Http } from '@angular/http';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Storage } from '@ionic/storage';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the SuperadminPage page.
@@ -25,6 +27,7 @@ export class SuperadminPage {
   groupUsers = null;
   createdCode = null;
   userQRcodeVerify = 0;
+  qrUserEmail : any;
   constructor(
     public navCtrl: NavController,
     private alertCtrl: AlertController,
@@ -32,6 +35,7 @@ export class SuperadminPage {
     public firebaseProvider: FirebaseProvider,
     public afd: AngularFireDatabase,
     public http: Http,
+    public storage: Storage
   ) {
     this.loginUser = navParams.get("user");
     this.http = http;
@@ -75,6 +79,7 @@ export class SuperadminPage {
           text: 'Create',
           handler: data => {
             this.qrcodeName = data.name;
+
             this.createGroupCode();
           }
         }
@@ -91,6 +96,10 @@ export class SuperadminPage {
           name: 'name',
           placeholder: 'Johnathan'
         },
+        {
+          name: 'email',
+          placeholder: 'john@doe.com'
+        },
       ],
       buttons: [
         {
@@ -103,6 +112,7 @@ export class SuperadminPage {
           text: 'Create',
           handler: data => {
             this.qrcodeName = data.name;
+            this.qrUserEmail = data.email;
             this.createUserCode();
           }
         }
@@ -129,6 +139,7 @@ export class SuperadminPage {
       }, error => {
         console.log("Oooops!");
       });
+    this.showAlertSuccess("QR code successfully generated");
   }
   createUserCode() {
     var now = new Date();
@@ -149,5 +160,28 @@ export class SuperadminPage {
       }, error => {
         console.log("Oooops!");
       });
+    link = 'http://tipqrbackend.com.candypickers.com/sendhtmlionicmailuserqrcodetouser?email=' + this.qrUserEmail + '&qrcode=' + this.createdCode + '&qrGroupName=' + this.qrcodeName;
+    console.log(link);
+    this.http.get(link).map(res => res.json())
+      .subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log("Oooops!");
+      });
+    this.showAlertSuccess("QR code successfully generated");
+  }
+  showAlertSuccess(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Success!',
+      subTitle: text,
+      buttons: [{
+        text: "OK",
+      }]
+    });
+    alert.present();
+  }
+  goLogout() {
+    this.storage.remove('currentUser');
+    this.navCtrl.push(LoginPage);
   }
 }

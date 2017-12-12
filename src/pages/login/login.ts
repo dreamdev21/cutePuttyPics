@@ -121,11 +121,11 @@ export class LoginPage {
       });
     }else {
         if (this.user.permission == 0){
-          this.navCtrl.push(VerifyQRcodePage, {
+          this.navCtrl.push(SendmoneyPage, {
             user: user
           });
       }else{
-        this.navCtrl.push(SendmoneyPage, {
+        this.navCtrl.push(SenderPage, {
           user: user
         });
       }

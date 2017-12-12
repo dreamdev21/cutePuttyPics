@@ -13,12 +13,8 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-row>
-        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 *ngIf="qrRequest">
-
-            <button class="signup" ion-button (click)="requestQRcode()" disabled>Request QR code</button>
-        </ion-col>
-        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 *ngIf="!qrRequest">
+    <ion-row *ngIf="!qrRequest">
+        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
 
             <button class="signup" ion-button (click)="requestQRcode()">Request QR code</button>
         </ion-col>
@@ -53,13 +49,11 @@
                     <ion-row>
                         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
                             <h2>{{transaction.name[0]}} sent you $ {{transaction.amount}}</h2>
-
-                        </ion-col>
-                        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
                             <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
-                            <!-- <h1 style=" color: red;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1> -->
                         </ion-col>
+
                     </ion-row>
+
 
                 </ion-item>
                 <ion-item-options side="right">
