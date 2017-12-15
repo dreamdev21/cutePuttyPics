@@ -266,6 +266,7 @@ public takePicture(sourceType) {
 
     var options = {
         quality: 100,
+        allowEdit:true,
         sourceType: sourceType,
         saveToPhotoAlbum: false,
         correctOrientation: true,
@@ -302,6 +303,7 @@ public uploadImage() {
           this.presentToast('Upload Success!');
           this.firestore.ref().child(`images/${filename}.jpg`).getDownloadURL().then((url) => {
             this.olduserData.avatar = url;
+            this.updateUser(this.olduserData);
         })
 
       }, (err) => {

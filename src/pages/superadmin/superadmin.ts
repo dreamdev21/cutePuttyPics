@@ -98,7 +98,8 @@ export class SuperadminPage {
         },
         {
           name: 'email',
-          placeholder: 'john@doe.com'
+          placeholder: 'john@doe.com',
+          type: 'email'
         },
       ],
       buttons: [

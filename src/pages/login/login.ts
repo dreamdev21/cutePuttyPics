@@ -13,6 +13,7 @@ import { RegisterPage} from '../register/register';
 import { SuperadminPage } from '../superadmin/superadmin';
 import { SenderPage } from '../sender/sender';
 import { SendmoneyPage } from '../sendmoney/sendmoney';
+import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 
 /**
  * Generated class for the LoginPage page.
@@ -31,6 +32,7 @@ export class LoginPage {
   registerpage = RegisterPage;
   superadminpage = SuperadminPage;
   senderpage = SenderPage;
+  forgotpasswordpage = ForgotPasswordPage;
   scannedCode = null;
 
   loading:any;
@@ -67,6 +69,7 @@ export class LoginPage {
                   that.checkstate = false;
                   that.user.id = childSnapshot.val().id;
                   that.user.permission = childSnapshot.val().permission;
+                  that.user.qrRequested = childSnapshot.val().qrRequested;
                   that.user.avatar = childSnapshot.val().avatar;
                   that.user.fullName = childSnapshot.val().fullName;
                   that.user.password = childSnapshot.val().password;
@@ -136,7 +139,10 @@ export class LoginPage {
     this.navCtrl.push(RegisterPage, {
   });
   }
-
+  goForgotPassword(){
+    this.navCtrl.push(ForgotPasswordPage, {
+    });
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }

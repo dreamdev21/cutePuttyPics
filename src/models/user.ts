@@ -8,6 +8,7 @@ export interface User {
     qrId:number;
     qrName:string;
     permission:number;
+    qrRequested:number;
     gender:number;
     role:number;
     avatar:string;

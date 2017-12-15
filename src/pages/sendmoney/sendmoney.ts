@@ -10,6 +10,7 @@ import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal
 import { ReportPage } from '../report/report';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SenderPage } from '../sender/sender';
+import { Storage } from '@ionic/storage';
 @IonicPage()
 @Component({
   selector: 'page-sendmoney',
@@ -43,6 +44,7 @@ export class SendmoneyPage {
     public navParams: NavParams,
     private alertCtrl: AlertController,
     private payPal: PayPal,
+    private storage: Storage,
     private barcodeScanner: BarcodeScanner
   ) {
     this.http = http;
@@ -54,6 +56,7 @@ export class SendmoneyPage {
     console.log('ionViewDidLoad SendmoneyPage');
     this.groupReceivers = [];
     this.scanCode();
+    // this.findReceiver(1513105416026);
 
   }
   sendmoneySelect(money){
@@ -114,9 +117,8 @@ export class SendmoneyPage {
               that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
               that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
               that.sendmoneyData.receivername = childSnapshot.val().fullName;
-              that.receiverAvatar = childSnapshot.val().avatar();
+              that.receiverAvatar = childSnapshot.val().avatar;
               that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-              that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
               that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
               that.sendmoneyData.sendername = that.sender.fullName;
               console.log(that.sendmoneyData);
@@ -217,7 +219,8 @@ export class SendmoneyPage {
 
               var now = new Date();
               sendmoneyData.transactionid = now.getTime();
-              console.log(this.sendmoneyData);
+              this.storage.set('transaction', 1);
+
               this.payPal.init({
                 PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
                 PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
@@ -230,10 +233,17 @@ export class SendmoneyPage {
                   let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
                   payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
                   this.payPal.renderSinglePaymentUI(payment).then(() => {
-                    this.afd.list('transactions').push(sendmoneyData);
-                    this.navCtrl.push(ReportPage,{
-                      'user':this.sender
+                    this.afd.list('/transactions/').push(sendmoneyData);
+                    this.showAlertSuccess("Transaction completed!");
+
+                    this.storage.remove('transaction');
+                    this.storage.get('currentUser').then((val) => {
+                      this.navCtrl.push(ReportPage, {
+                        'user': val
+                      });
                     });
+
+
                     // Successfully paid
 
                     // Example sandbox response
@@ -267,6 +277,7 @@ export class SendmoneyPage {
       ]
     });
     confirm.present();
+
   }
 
   showAlert(text) {

@@ -24,27 +24,33 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
       storage.get('currentUser').then((val) => {
         console.log('User data ', val);
-        if(val){
-          if(val.role == 3){
-            this.nav.push(SuperadminPage, {
-              user: val
-            });
-          }else{
-            if (val.permission == 0){
-              this.nav.push(SendmoneyPage, {
-                user: val
-              });
-            }else{
-              this.nav.push(SenderPage, {
-                user: val
-              });
-            }
+        if (val) {
+          storage.get('transaction').then((transaction_state) => {
+              if (transaction_state != 1) {
+                if (val.role == 3) {
+                  this.nav.push(SuperadminPage, {
+                    user: val
+                  });
+                } else {
+                  if (val.permission == 0) {
+                    this.nav.push(SendmoneyPage, {
+                      user: val
+                    });
+                  } else {
+                    this.nav.push(SenderPage, {
+                      user: val
+                    });
+                  }
+                }
+              }
+          })
 
-          }
         }
       })
+
     });
   }
 }

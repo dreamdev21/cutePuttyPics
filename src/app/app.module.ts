@@ -1,3 +1,5 @@
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
+import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { UsermanagerPage } from '../pages/usermanager/usermanager';
 import { VerifyQRcodePage} from '../pages/verify-q-rcode/verify-q-rcode'
 import { SettingsPage } from '../pages/settings/settings';
@@ -58,6 +60,8 @@ import { PayPal } from '@ionic-native/paypal';
     ReportPage,
     VerifyQRcodePage,
     UsermanagerPage,
+    ForgotPasswordPage,
+    ResetPasswordPage,
     MaxLengthDirective
   ],
   imports: [
@@ -87,7 +91,9 @@ import { PayPal } from '@ionic-native/paypal';
     ReportPage,
     VerifyQRcodePage,
     UsermanagerPage,
-    SettingsPage
+    SettingsPage,
+    ForgotPasswordPage,
+    ResetPasswordPage
   ],
   providers: [
     StatusBar,

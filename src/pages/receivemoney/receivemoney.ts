@@ -10,6 +10,7 @@ import { User } from '../../models/user';
 import { LoadingController ,Loading } from 'ionic-angular';
 import { ReportPage } from '../report/report';
 import { VerifyQRcodePage } from '../verify-q-rcode/verify-q-rcode';
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the ReceivemoneyPage page.
  *
@@ -33,6 +34,7 @@ export class ReceivemoneyPage {
   };
   public transactiontotalmoneyreceived: number;
   public qrRequest:number;
+  public qrVerified:number;
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
@@ -40,6 +42,7 @@ export class ReceivemoneyPage {
     public http: Http,
     public afd: AngularFireDatabase,
     public firebaseProvider: FirebaseProvider,
+    private storage: Storage,
   ) {
     this.user = navParams.get("user");
     this.http = http;
@@ -49,10 +52,16 @@ export class ReceivemoneyPage {
     console.log(this.user);
     console.log('ionViewDidLoad ReportPage');
     if(this.user.permission == 0){
-      this.qrRequest = 0;
+      this.qrVerified = 0;
     }else{
+      this.qrVerified = 1;
+    }
+    if (this.user.qrRequested == 0) {
+      this.qrRequest = 0;
+    } else {
       this.qrRequest = 1;
     }
+
     var that = this;
     that.receivetransactions = [];
     that.transactiontotalmoneyreceived = 0;
@@ -124,6 +133,22 @@ export class ReceivemoneyPage {
     });
     that.showAlertSuccess("Your Request for QR code has been processed!");
     that.qrRequest = 1;
+    that.user.qrRequested = 1;
+    that.storage.set('currentUser', that.user);
+    var ref = firebase.database().ref().child('users');
+    var refUserId = ref.orderByChild('id').equalTo(that.user.id);
+    refUserId.once('value', function (snapshot) {
+      if (snapshot.hasChildren()) {
+        snapshot.forEach(
+          function (snap) {
+            snap.ref.update({
+              'qrRequested': 1
+            });
+
+            return true;
+          });
+      }
+    });
   }
   verifyQRcode(){
     this.navCtrl.push(VerifyQRcodePage, {

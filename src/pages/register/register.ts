@@ -66,6 +66,7 @@ export class RegisterPage {
                 user.gender = 0;
                 user.paypalVerifyState = 0;
                 user.permission = 0;
+                user.qrRequested = 0;
                 user.groupId = 0;
                 user.role = 0;
                 user.qrName = null;

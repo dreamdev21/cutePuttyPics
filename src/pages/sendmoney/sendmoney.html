@@ -17,14 +17,19 @@
 
     <div class="present">
         <ion-row>
-            <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer">
-                <img src="{{receiverAvatar}}" class="item-avatar"> ${{sendmoneyData.sendmoney}}{{receiverAvatar}}
+            <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer" style="padding:0;margin:0;">
+                <img src="{{receiverAvatar}}" class="item-avatar" style="border-radius: 50%;" *ngIf="receiverAvatar">
+            </ion-col>
+        </ion-row>
+        <ion-row style="color:#ffffff;position:absolute;margin-top:-50px;text-align:center;margin-left:30px;font-weight:bold;">
+            <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer" style="padding:0;margin:0;">
+                <!-- <span *ngIf="sendmoneyData.sendmoney">${{sendmoneyData.sendmoney}}</span> -->
             </ion-col>
         </ion-row>
     </div>
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendmoneylabel">
-            Enter amount
+            {{sendmoneyData.receivername}}
         </ion-col>
     </ion-row>
     <ion-row>
