@@ -11,6 +11,8 @@ import { ReportPage } from '../report/report';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SenderPage } from '../sender/sender';
 import { Storage } from '@ionic/storage';
+import { CurrencyPipe } from '@angular/common';
+import { LoginPage } from '../login/login';
 @IonicPage()
 @Component({
   selector: 'page-sendmoney',
@@ -25,6 +27,7 @@ export class SendmoneyPage {
   public sendmoneyData = {} as sendmoneyData;
   public sendmethodtext:any;
   public toastText:string;
+  public box_price_formatted : string;
   public receivemethodtext:any;
   public receivers:any;
   public sender = {} as User;
@@ -36,6 +39,7 @@ export class SendmoneyPage {
     qrId: any,
   }>
   constructor(
+    private currencyPipe: CurrencyPipe,
     public toastCtrl: ToastController,
     public http : Http,
     public afd: AngularFireDatabase,
@@ -53,10 +57,9 @@ export class SendmoneyPage {
 
   ionViewDidLoad() {
     this.sendmoneyData.senderid = this.sender.id;
-    console.log('ionViewDidLoad SendmoneyPage');
     this.groupReceivers = [];
     this.scanCode();
-    // this.findReceiver(1513105416026);
+    // this.findReceiver(1515508748065);
 
   }
   sendmoneySelect(money){
@@ -64,9 +67,66 @@ export class SendmoneyPage {
   }
   sendMoney(sendmoneyData){
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){
-      this.showAlert("Please enter money!");
+      this.showAlert("You forgot to enter a tip!");
     }else{
-      this.showConfirm(sendmoneyData);
+      // this.showConfirm(sendmoneyData);
+
+
+      var now = new Date();
+      sendmoneyData.transactionid = now.getTime();
+      this.storage.set('transaction', 1);
+
+      this.payPal.init({
+        PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
+        PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
+      }).then(() => {
+        // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+        this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+          // Only needed if you get an "Internal Service Error" after PayPal login!
+          //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+        })).then(() => {
+          let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
+          // payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
+          this.payPal.renderSinglePaymentUI(payment).then(() => {
+            this.afd.list('/transactions/').push(sendmoneyData);
+            this.showAlertSuccess("Transaction completed!");
+
+            this.storage.remove('transaction');
+            this.storage.get('currentUser').then((val) => {
+              this.navCtrl.push(SenderPage, {
+                'user': val
+              });
+            });
+
+
+            // Successfully paid
+
+            // Example sandbox response
+            //
+            // {
+            //   "client": {
+            //     "environment": "sandbox",
+            //     "product_name": "PayPal iOS SDK",
+            //     "paypal_sdk_version": "2.16.0",
+            //     "platform": "iOS"
+            //   },
+            //   "response_type": "payment",
+            //   "response": {
+            //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+            //     "state": "approved",
+            //     "create_time": "2016-10-03T13:33:33Z",
+            //     "intent": "sale"
+            //   }
+            // }
+          }, () => {
+            // Error or render dialog closed without being successful
+          });
+        }, () => {
+          // Error in configuration
+        });
+      }, () => {
+        // Error in initialization, maybe PayPal isn't supported or something else
+      });
     }
 
   }
@@ -74,19 +134,23 @@ export class SendmoneyPage {
     this.barcodeScanner.scan().then(barcodeData => {
     // this.qrId = 1511347280139;
       this.qrId = atob(barcodeData.text);
-      // this.showAlert(this.qrId);
+      this.showAlert(this.qrId);
+      if (that.sender.id == that.sendmoneyData.receiverid) {
+        that.showAlert("Sorry, You can't pay yourself");
+        that.gotoHome();
+      }
       var that = this;
       var query = firebase.database().ref("qrdatas").orderByKey();
       query.once("value").then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
 
           if (Number(childSnapshot.val().id) == Number(that.qrId)) {
-
+            that.showAlert(that.qrId);
             that.findQRcode = 1;
             if (childSnapshot.val().type == 0) {
-              // if (childSnapshot.val().verify == 1) {
+              if (childSnapshot.val().verify == 1) {
                 that.findReceiver(that.qrId);
-              // }
+              }
             } else {
               that.findGroupReceivers(that.qrId);
               that.qrType = 1;
@@ -94,11 +158,12 @@ export class SendmoneyPage {
           }
         });
         if (that.findQRcode == 0) {
-          // that.showAlert("QR code invalid!");
+          that.showAlert("QR code invalid!");
           that.navCtrl.push(SenderPage, {
             user: that.sender
           });
         }
+
       });
 
     });
@@ -112,21 +177,23 @@ export class SendmoneyPage {
       snapshot.forEach(function (childSnapshot) {
           if (childSnapshot.val().qrId == qrnumber) {
 
-
               that.sendmoneyData.receiverid = childSnapshot.val().id;
-              that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
-              that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
+              // that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
+              // that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
               that.sendmoneyData.receivername = childSnapshot.val().fullName;
               that.receiverAvatar = childSnapshot.val().avatar;
-              that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-              that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
+              // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
+              // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
               that.sendmoneyData.sendername = that.sender.fullName;
               console.log(that.sendmoneyData);
 
           }
       });
     });
-
+    if(that.sender.id == that.sendmoneyData.receiverid){
+      that.showAlert("Sorry, You can't pay yourself");
+      that.gotoHome();
+    }
   }
   paytoReceiver(qrnumber) {
     // this.showAlert(qrnumber);
@@ -137,13 +204,13 @@ export class SendmoneyPage {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().qrId == Number(qrnumber)) {
           that.sendmoneyData.receiverid = childSnapshot.val().id;
-          that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
-          that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
+          // that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
+          // that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
           that.sendmoneyData.receivername = childSnapshot.val().fullName;
           that.receiverAvatar = childSnapshot.val().avatar();
-          that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-          that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
-          that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
+          // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
+          // that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
+          // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
           that.sendmoneyData.sendername = that.sender.fullName;
 
         }
@@ -201,88 +268,88 @@ export class SendmoneyPage {
   goTransaction(receiver){
 
   }
-  showConfirm(sendmoneyData) {
+  // showConfirm(sendmoneyData) {
 
-    let confirm = this.alertCtrl.create({
-      title: 'Are you sure?',
-      message: 'You will send $ '+this.sendmoneyData.sendmoney + ' to ' + this.sendmoneyData.receivername,
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            console.log('No clicked');
-          }
-        },
-        {
-          text: 'Yes',
-          handler: () => {
+  //   let confirm = this.alertCtrl.create({
+  //     title: 'Are you sure?',
+  //     message: 'You will send $ '+this.sendmoneyData.sendmoney + ' to ' + this.sendmoneyData.receivername,
+  //     buttons: [
+  //       {
+  //         text: 'No',
+  //         handler: () => {
+  //           console.log('No clicked');
+  //         }
+  //       },
+  //       {
+  //         text: 'Yes',
+  //         handler: () => {
 
-              var now = new Date();
-              sendmoneyData.transactionid = now.getTime();
-              this.storage.set('transaction', 1);
+  //             var now = new Date();
+  //             sendmoneyData.transactionid = now.getTime();
+  //             this.storage.set('transaction', 1);
 
-              this.payPal.init({
-                PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
-                PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
-              }).then(() => {
-                // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-                this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-                  // Only needed if you get an "Internal Service Error" after PayPal login!
-                  //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-                })).then(() => {
-                  let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
-                  payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
-                  this.payPal.renderSinglePaymentUI(payment).then(() => {
-                    this.afd.list('/transactions/').push(sendmoneyData);
-                    this.showAlertSuccess("Transaction completed!");
+  //             this.payPal.init({
+  //               PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
+  //               PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
+  //             }).then(() => {
+  //               // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+  //               this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+  //                 // Only needed if you get an "Internal Service Error" after PayPal login!
+  //                 //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+  //               })).then(() => {
+  //                 let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
+  //                 payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
+  //                 this.payPal.renderSinglePaymentUI(payment).then(() => {
+  //                   this.afd.list('/transactions/').push(sendmoneyData);
+  //                   this.showAlertSuccess("Transaction completed!");
 
-                    this.storage.remove('transaction');
-                    this.storage.get('currentUser').then((val) => {
-                      this.navCtrl.push(ReportPage, {
-                        'user': val
-                      });
-                    });
+  //                   this.storage.remove('transaction');
+  //                   this.storage.get('currentUser').then((val) => {
+  //                     this.navCtrl.push(ReportPage, {
+  //                       'user': val
+  //                     });
+  //                   });
 
 
-                    // Successfully paid
+  //                   // Successfully paid
 
-                    // Example sandbox response
-                    //
-                    // {
-                    //   "client": {
-                    //     "environment": "sandbox",
-                    //     "product_name": "PayPal iOS SDK",
-                    //     "paypal_sdk_version": "2.16.0",
-                    //     "platform": "iOS"
-                    //   },
-                    //   "response_type": "payment",
-                    //   "response": {
-                    //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-                    //     "state": "approved",
-                    //     "create_time": "2016-10-03T13:33:33Z",
-                    //     "intent": "sale"
-                    //   }
-                    // }
-                  }, () => {
-                    // Error or render dialog closed without being successful
-                  });
-                }, () => {
-                  // Error in configuration
-                });
-              }, () => {
-                // Error in initialization, maybe PayPal isn't supported or something else
-              });
-            }
-        }
-      ]
-    });
-    confirm.present();
+  //                   // Example sandbox response
+  //                   //
+  //                   // {
+  //                   //   "client": {
+  //                   //     "environment": "sandbox",
+  //                   //     "product_name": "PayPal iOS SDK",
+  //                   //     "paypal_sdk_version": "2.16.0",
+  //                   //     "platform": "iOS"
+  //                   //   },
+  //                   //   "response_type": "payment",
+  //                   //   "response": {
+  //                   //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+  //                   //     "state": "approved",
+  //                   //     "create_time": "2016-10-03T13:33:33Z",
+  //                   //     "intent": "sale"
+  //                   //   }
+  //                   // }
+  //                 }, () => {
+  //                   // Error or render dialog closed without being successful
+  //                 });
+  //               }, () => {
+  //                 // Error in configuration
+  //               });
+  //             }, () => {
+  //               // Error in initialization, maybe PayPal isn't supported or something else
+  //             });
+  //           }
+  //       }
+  //     ]
+  //   });
+  //   confirm.present();
 
-  }
+  // }
 
   showAlert(text) {
     let alert = this.alertCtrl.create({
-      title: 'Warning!',
+      title: 'Oops!',
       subTitle: text,
       buttons: [{
         text: "OK",
@@ -318,4 +385,18 @@ export class SendmoneyPage {
       user: this.sender
     });
   }
+  // onChangePrice(evt) {
+  //   this.sendmoneyData.sendmoney = evt.replace(/[^0-9.]/g, "");
+  //   if (this.sendmoneyData.sendmoney) {
+  //     this.box_price_formatted = this.getCurrency(this.sendmoneyData.sendmoney)
+  //     console.log("box_price_formatted: " + this.sendmoneyData.sendmoney);
+  //   }
+  // }
+  // onPriceUp(evt) {
+  //   this.sendmoneyData.sendmoney = evt.replace(/[^0-9.]/g, "");
+  //   this.box_price_formatted = String(this.sendmoneyData.sendmoney);
+  // }
+  // getCurrency(amount: number) {
+  //   return this.currencyPipe.transform(amount, 'USD', true, '1.2-2');
+  // }
 }

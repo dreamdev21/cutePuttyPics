@@ -5,6 +5,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
+import { LoginPage } from '../login/login';
+import { SenderPage } from '../sender/sender';
 
 import { ActionSheetController, Platform, LoadingController, Loading } from 'ionic-angular';
 
@@ -49,6 +52,7 @@ export class SettingsPage {
     public afd: AngularFireDatabase,
     public navCtrl: NavController,
     private alertCtrl: AlertController,
+    private storage: Storage,
     public navParams: NavParams,
     public toastCtrl: ToastController,
     public firebaseProvider: FirebaseProvider,) {
@@ -103,104 +107,36 @@ export class SettingsPage {
     if(newuserData.fullName){
       if(newuserData.password){
         if(newuserData.email){
-          if(newuserData.paypalEmail){
-              var that= this;
-              var ref = firebase.database().ref().child('/users');
-              var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
-              if (!newuserData.gender){
-                if (!newuserData.birthday) {
-                  refUserId.once('value', function(snapshot) {
-                    if (snapshot.hasChildren()) {
-                        snapshot.forEach(
-                          function(snap){
-                            console.log(snap.val());
-                            snap.ref.update({
-                              "fullName": newuserData.fullName,
-                              "email": newuserData.email,
-                              "password": newuserData.password,
-                              "avatar":newuserData.avatar,
-                              "paypalEmail":newuserData.paypalEmail
-                            });
-                            that.presentToast("Your profile updated successfully!");
-                            return true;
-                          });
-                    } else {
-                      console.log('wrong');
-                    }
-                  });
-                }else{
-                  refUserId.once('value', function (snapshot) {
-                    if (snapshot.hasChildren()) {
-                      snapshot.forEach(
-                        function (snap) {
-                          console.log(snap.val());
-                          snap.ref.update({
-                            "fullName": newuserData.fullName,
-                            "email": newuserData.email,
-                            "password": newuserData.password,
-                            "avatar": newuserData.avatar,
-                            "birthday": newuserData.birthday,
-                            "paypalEmail": newuserData.paypalEmail
-                          });
-                          that.presentToast("Your profile updated successfully!");
-                          return true;
-                        });
-                    } else {
-                      console.log('wrong');
-                    }
-                  });
-                }
-              }else{
-                if (!newuserData.birthday) {
-                  refUserId.once('value', function (snapshot) {
-                    if (snapshot.hasChildren()) {
-                      snapshot.forEach(
-                        function (snap) {
-                          console.log(snap.val());
-                          snap.ref.update({
-                            "fullName": newuserData.fullName,
-                            "email": newuserData.email,
-                            "password": newuserData.password,
-                            "gender": newuserData.gender,
-                            "avatar": newuserData.avatar,
-                            "paypalEmail": newuserData.paypalEmail
-                          });
-                          that.presentToast("Your profile updated successfully!");
-                          return true;
-                        });
-                    } else {
-                      console.log('wrong');
-                    }
-                  });
-                } else {
-                  refUserId.once('value', function (snapshot) {
-                    if (snapshot.hasChildren()) {
-                      snapshot.forEach(
-                        function (snap) {
-                          console.log(snap.val());
-                          snap.ref.update({
-                            "fullName": newuserData.fullName,
-                            "email": newuserData.email,
-                            "password": newuserData.password,
-                            "gender": newuserData.gender,
-                            "avatar": newuserData.avatar,
-                            "birthday": newuserData.birthday,
-                            "paypalEmail": newuserData.paypalEmail
-                          });
-                          that.presentToast("Your profile updated successfully!");
-                          return true;
-                        });
-                    } else {
-                      console.log('wrong');
-                    }
-                  });
-                }
+
+            var that= this;
+            var ref = firebase.database().ref().child('/users');
+            var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
+
+            refUserId.once('value', function(snapshot) {
+              if (snapshot.hasChildren()) {
+                  snapshot.forEach(
+                    function(snap){
+                      console.log(snap.val());
+                      snap.ref.update({
+                        "fullName": newuserData.fullName,
+                        "email": newuserData.email,
+                        "password": newuserData.password,
+                        "avatar":newuserData.avatar,
+                        "address":newuserData.address
+                      });
+                      that.presentToast("Your profile updated successfully!");
+                      return true;
+                    });
+              } else {
+                console.log('wrong');
               }
+            });
 
-              }else{
-                this.showAlert("Please enter your paypal email");
+            that.navCtrl.push(SenderPage, {
+              user: that.olduserData
+            });
 
-          }
+
         }else{
           this.showAlert("Please enter your email");
         }
@@ -216,7 +152,7 @@ export class SettingsPage {
       let message = toastText;
       let alert = this.alertCtrl.create({
         title: 'Warning!',
-        subTitle: "'" +message +"'",
+        subTitle: " " +message +" ",
         buttons: [{
           text: "OK",
         }]
@@ -283,7 +219,7 @@ public takePicture(sourceType) {
     });
 }
 
-public uploadImage() {
+ public uploadImage() {
 
   if(this.captureDataUrl != undefined){
 
@@ -367,5 +303,9 @@ public uploadImage() {
     //   placeholder: 'Optional message'
     // });
     alert.present();
+  }
+  goLogout() {
+    this.storage.remove('currentUser');
+    this.navCtrl.push(LoginPage);
   }
 }

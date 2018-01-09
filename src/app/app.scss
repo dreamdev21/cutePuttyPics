@@ -13,12 +13,14 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 .content-ios {
-    background-color: #212e41 !important;
+    // background-color: #212e41 !important;
+    background: linear-gradient(#F0B42F, #FA5D34) !important;
     text-align: center;
 }
 
 .content-md {
-    background-color: #212e41 !important;
+    // background-color: #212e41 !important;
+    background: linear-gradient(#F0B42F, #FA5D34) !important;
     text-align: center;
 }
 

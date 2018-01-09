@@ -60,8 +60,5 @@ export class SenderPage {
      user:this.user
    });
  }
- goLogout(){
-  this.storage.remove('currentUser');
-  this.navCtrl.push(LoginPage);
- }
+
 }

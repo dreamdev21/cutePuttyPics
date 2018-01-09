@@ -4,8 +4,9 @@ page-sender {
         border-radius: 50%;
         background-position: center center;
         background-size: cover;
-        width: 20rem;
-        height: 20rem;
+        width: 16rem;
+        height: 16rem;
+        margin-top: 5rem;
     }
     p {
         color: #769fc2;
@@ -16,8 +17,8 @@ page-sender {
         margin-bottom: 3rem;
     }
     .sendercontainer {
-        background: #ffffff;
-        border: 1px solid #7ba4c9;
+        background: #F0B42F;
+        border: 1px solid #FA5D34;
         height: 10rem;
         color: rgba(13, 44, 90, 0.73)
     }
@@ -28,6 +29,7 @@ page-sender {
     ion-icon {
         font-size: 4rem;
         margin-top: 1rem;
+        color: #FA5D34;
     }
     .sendercontainer:hover {
         background-color: #212e41;

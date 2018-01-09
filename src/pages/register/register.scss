@@ -1,8 +1,16 @@
                 page-register {
                     img.logo {
                         width: 30%;
-                        margin-top: 3rem;
+                        margin-top: 5rem !important;
                         margin-bottom: 1rem;
+                    }
+                    .item-avatar {
+                        margin-top: 5rem;
+                        border-radius: 50%;
+                        background-position: center center;
+                        background-size: cover;
+                        width: 10rem;
+                        height: 10rem;
                     }
                     .list-ios {
                         margin: -1px 0 2px;
@@ -46,10 +54,10 @@
                     }
                     .text-input::-webkit-input-placeholder {
                         text-indent: 0;
-                        color: #2c3f56;
+                        color: #FDBCB0;
                     }
                     .list-ios .item-block .item-inner {
-                        border-bottom: 0.55px solid #2c3f56;
+                        border-bottom: 0.55px solid #FDBCB0;
                     }
                     .paypalimg {
                         margin-top: 1rem;
@@ -72,7 +80,7 @@
                     }
                     .text-input::-webkit-input-placeholder {
                         text-indent: 0;
-                        color: #2c3f56;
+                        color: #FDBCB0;
                     }
                      ::-webkit-input-placeholder {
                         font-size: 10px;
@@ -176,7 +184,7 @@
                         border-bottom: 0px solid #c8c7cc;
                     }
                     .list-md .item-block .item-inner {
-                        border-bottom: 0.55px solid #2c3f56;
+                        border-bottom: 0.55px solid #FDBCB0;
                     }
                     .checkbox-md .checkbox-icon {
                         border-radius: 20%;

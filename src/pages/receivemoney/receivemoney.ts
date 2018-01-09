@@ -35,6 +35,7 @@ export class ReceivemoneyPage {
   public transactiontotalmoneyreceived: number;
   public qrRequest:number;
   public qrVerified:number;
+  public userAddress:string;
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
@@ -112,43 +113,74 @@ export class ReceivemoneyPage {
       });
     });
   }
-  requestQRcode(){
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Please Enter Home Address.',
+      inputs: [
+        {
+          name: 'address',
+          placeholder: 'Home Address'
+        },
 
-    var that = this;
-    var query = firebase.database().ref("users").orderByKey();
-    query.once("value").then(function (snapshot) {
-      snapshot.forEach(function (childSnapshot) {
-        if (childSnapshot.val().role == 3) {
-          console.log(childSnapshot.val().fullName);
-          var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername=' + childSnapshot.val().fullName + '&usermail=' + that.user.email + '&username=' + that.user.fullName + '&userpassword=' + that.user.password;
-          console.log(link);
-          that.http.get(link).map(res => res.json())
-            .subscribe(data => {
-              console.log(data);
-            }, error => {
-              console.log("Oooops!");
+      ],
+
+      buttons: [
+
+        {
+          text: 'Request',
+          handler: data => {
+            console.log(data.address);
+            this.userAddress =data.address;
+            this.requestQRcode();
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+  requestQRcode(){
+    if(this.userAddress){
+      var that = this;
+      var query = firebase.database().ref("users").orderByKey();
+      query.once("value").then(function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          if (childSnapshot.val().role == 3) {
+            console.log(childSnapshot.val().fullName);
+            var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername=' + childSnapshot.val().fullName + '&usermail=' + that.user.email + '&username=' + that.user.fullName + '&userpassword=' + that.user.password;
+            console.log(link);
+            that.http.get(link).map(res => res.json())
+              .subscribe(data => {
+                console.log(data);
+              }, error => {
+                console.log("Oooops!");
+              });
+          }
+        });
+      });
+      that.showAlertSuccess("Your Request for QR code has been processed!");
+      that.qrRequest = 1;
+      that.user.qrRequested = 1;
+      that.storage.set('currentUser', that.user);
+      var ref = firebase.database().ref().child('users');
+      var refUserId = ref.orderByChild('id').equalTo(that.user.id);
+      refUserId.once('value', function (snapshot) {
+        if (snapshot.hasChildren()) {
+          snapshot.forEach(
+            function (snap) {
+              snap.ref.update({
+                'qrRequested': 1,
+                'address': that.userAddress
+              });
+
+              return true;
             });
         }
       });
-    });
-    that.showAlertSuccess("Your Request for QR code has been processed!");
-    that.qrRequest = 1;
-    that.user.qrRequested = 1;
-    that.storage.set('currentUser', that.user);
-    var ref = firebase.database().ref().child('users');
-    var refUserId = ref.orderByChild('id').equalTo(that.user.id);
-    refUserId.once('value', function (snapshot) {
-      if (snapshot.hasChildren()) {
-        snapshot.forEach(
-          function (snap) {
-            snap.ref.update({
-              'qrRequested': 1
-            });
+    }else{
+      this.showAlert("Please enter home address!");
+    }
 
-            return true;
-          });
-      }
-    });
   }
   verifyQRcode(){
     this.navCtrl.push(VerifyQRcodePage, {
@@ -163,6 +195,16 @@ export class ReceivemoneyPage {
   showAlertSuccess(text) {
     let alert = this.alertCtrl.create({
       title: 'Success!',
+      subTitle: text,
+      buttons: [{
+        text: "OK",
+      }]
+    });
+    alert.present();
+  }
+  showAlert(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Oops!',
       subTitle: text,
       buttons: [{
         text: "OK",
