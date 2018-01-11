@@ -8,6 +8,7 @@ import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { LoginPage } from '../login/login';
 import { SenderPage } from '../sender/sender';
+import { CashOutPage } from '../cash-out/cash-out';
 
 import { ActionSheetController, Platform, LoadingController, Loading } from 'ionic-angular';
 
@@ -107,7 +108,9 @@ export class SettingsPage {
     if(newuserData.fullName){
       if(newuserData.password){
         if(newuserData.email){
-
+            this.olduserData.fullName = newuserData.fullName;
+            this.olduserData.password = newuserData.password;
+            this.olduserData.email = newuserData.email;
             var that= this;
             var ref = firebase.database().ref().child('/users');
             var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
@@ -307,5 +310,10 @@ public takePicture(sourceType) {
   goLogout() {
     this.storage.remove('currentUser');
     this.navCtrl.push(LoginPage);
+  }
+  goCashout(){
+    this.navCtrl.push(CashOutPage, {
+      user: this.olduserData
+    });
   }
 }

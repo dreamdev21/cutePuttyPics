@@ -1,0 +1,138 @@
+<!--
+  Generated template for the CashOutPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Cash out option</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list radio-group>
+        <ion-list-header style="text-align:center">
+            SELECT CASH OUT METHOD
+        </ion-list-header>
+
+        <ion-item>
+            <ion-label style="color:#ffffff">CHECK BY MAIL </ion-label>
+            <ion-radio value="mail" checked (ionSelect)="radio_select('mail')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 1"></ion-radio>
+            <ion-radio value="mail" (ionSelect)="radio_select('mail')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 1"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+            <ion-label style="color:#ffffff">PAYPAL</ion-label>
+            <ion-radio value="paypal" checked (ionSelect)="radio_select('paypal')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 2"></ion-radio>
+            <ion-radio value="paypal" (ionSelect)="radio_select('paypal')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 2"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+            <ion-label style="color:#ffffff">BANK ACCOUNT</ion-label>
+            <ion-radio value="bank" checked (ionSelect)="radio_select('bank')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 3"></ion-radio>
+            <ion-radio value="bank" (ionSelect)="radio_select('bank')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 3"></ion-radio>
+        </ion-item>
+    </ion-list>
+    <ion-card *ngIf="mail" style="padding:20px;">
+        <ion-card-header>
+            CHECK BY MAIL
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                    <ion-label stacked>Street Address 1</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.streetAddress1"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Street Address 2</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.streetAddress2"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>City</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.city"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>State</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.state"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>ZIP code</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.zipCode"></ion-input>
+                </ion-item>
+                <ion-item style="height:0rem !important;min-height:0rem !important;">
+
+                </ion-item>
+
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="paypal" style="padding:20px;">
+        <ion-card-header>
+            PAYPAL
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                    <ion-label stacked>Paypal Email</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.paypalEmail"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label stacked>Paypal Password</ion-label>
+                    <ion-input type="password" [(ngModel)]="olduserData.paypalPassword"></ion-input>
+                </ion-item>
+                <ion-item style="height:0rem !important;min-height:0rem !important;">
+
+                </ion-item>
+
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="bank" style="padding:20px;">
+        <ion-card-header>
+            BANK ACCOUNT
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+
+                <ion-item>
+                    <ion-label stacked>Name on Account</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.bankAccountName"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label stacked>Bank Name</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.bankName"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Account Number</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.bankAccountNumber"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Bank Routing //</ion-label>
+                    <ion-input type="text" [(ngModel)]="olduserData.bankRouting"></ion-input>
+                </ion-item>
+                <ion-item style="height:0rem !important;min-height:0rem !important;">
+
+                </ion-item>
+
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+    <ion-card style="padding:5px;background:transparent;text-align:left;">
+
+        <ion-card-content>
+            <p>Balances will be paid weekly for Paypal and Bank Account options, and bi-weekly for Checks.</p><br/>
+            <p>TipQR will receive 20% for services provided.</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-row>
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+            <button class="signup" ion-button (click)="updateUser(olduserData)">SAVE</button>
+        </ion-col>
+    </ion-row>
+</ion-content>

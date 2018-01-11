@@ -1,3 +1,5 @@
+
+import { CashOutPage } from '../cash-out/cash-out';
 import { SenderPage } from '../sender/sender';
 import { changeExtension } from '@ionic/app-scripts/dist';
 import { Component } from '@angular/core';
@@ -50,7 +52,6 @@ export class ReceivemoneyPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.user);
     console.log('ionViewDidLoad ReportPage');
     if(this.user.permission == 0){
       this.qrVerified = 0;
@@ -212,5 +213,9 @@ export class ReceivemoneyPage {
     });
     alert.present();
   }
-
+  goCashout() {
+    this.navCtrl.push(CashOutPage, {
+      user: this.user
+    });
+  }
 }

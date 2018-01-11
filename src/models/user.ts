@@ -14,7 +14,17 @@ export interface User {
     avatar:string;
     address:string;
     // birthday:Date;
-    // paypalEmail:string;
-    // paypalPassword:string;
+    paypalEmail:string;
+    paypalPassword:string;
     // paypalVerifyState:number;
+    streetAddress1:string;
+    streetAddress2:string;
+    city:string;
+    state:string;
+    zipCode:string;
+    bankAccountName:string;
+    bankAccountNumber:string;
+    bankName:string;
+    bankRouting:string;
+    cashoutMethod:number;
 }

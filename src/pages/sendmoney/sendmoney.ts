@@ -152,8 +152,8 @@ export class SendmoneyPage {
                 that.findReceiver(that.qrId);
               }
             } else {
-              that.findGroupReceivers(that.qrId);
               that.qrType = 1;
+              that.findGroupReceivers(that.qrId);
             }
           }
         });
@@ -166,9 +166,13 @@ export class SendmoneyPage {
 
       });
 
+    }, (err) => {
+      this.navCtrl.push(SenderPage, {
+        user: this.sender
+      });
     });
-
   }
+
   findReceiver(qrnumber){
     var that = this;
     var query = firebase.database().ref("users").orderByKey();
@@ -185,6 +189,7 @@ export class SendmoneyPage {
               // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
               // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
               that.sendmoneyData.sendername = that.sender.fullName;
+              that.sendmoneyData.state = 0;
               console.log(that.sendmoneyData);
 
           }

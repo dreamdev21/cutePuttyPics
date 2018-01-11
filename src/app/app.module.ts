@@ -1,3 +1,7 @@
+import { TransactionDetailPage } from '../pages/transaction-detail/transaction-detail';
+import { AllTransactionsPage } from '../pages/all-transactions/all-transactions';
+import { PendingTransactionsPage } from '../pages/pending-transactions/pending-transactions';
+import { CashOutPage } from '../pages/cash-out/cash-out';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { UsermanagerPage } from '../pages/usermanager/usermanager';
@@ -59,6 +63,10 @@ import { CurrencyPipe } from '@angular/common';
     VerifypaypalPage,
     SettingsPage,
     ReportPage,
+    CashOutPage,
+    AllTransactionsPage,
+    PendingTransactionsPage,
+    TransactionDetailPage,
     VerifyQRcodePage,
     UsermanagerPage,
     ForgotPasswordPage,
@@ -94,7 +102,11 @@ import { CurrencyPipe } from '@angular/common';
     UsermanagerPage,
     SettingsPage,
     ForgotPasswordPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    CashOutPage,
+    TransactionDetailPage,
+    AllTransactionsPage,
+    PendingTransactionsPage
   ],
   providers: [
     StatusBar,

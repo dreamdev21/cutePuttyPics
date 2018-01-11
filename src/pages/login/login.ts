@@ -77,11 +77,22 @@ export class LoginPage {
                   // that.user.birthday = childSnapshot.val().birthday;
                   // that.user.gender = childSnapshot.val().gender;
                   that.user.role = childSnapshot.val().role;
-                  // that.user.paypalEmail = childSnapshot.val().paypalEmail;
-                  // that.user.paypalPassword = childSnapshot.val().paypalPassword;
+                  that.user.paypalEmail = childSnapshot.val().paypalEmail;
+                  that.user.paypalPassword = childSnapshot.val().paypalPassword;
                   // that.user.paypalVerifyState = childSnapshot.val().paypalVerifyState;
                   that.user.groupId = childSnapshot.val().groupId;
                   that.user.address = childSnapshot.val().address;
+                  that.user.cashoutMethod = childSnapshot.val().cashoutMethod;
+                  that.user.streetAddress1 = childSnapshot.val().streetAddress1;
+                  that.user.streetAddress2 = childSnapshot.val().streetAddress2;
+                  that.user.state = childSnapshot.val().state;
+                  that.user.city = childSnapshot.val().city;
+                  that.user.zipCode = childSnapshot.val().zipCode;
+
+                  that.user.bankAccountName = childSnapshot.val().bankAccountName;
+                  that.user.bankAccountNumber = childSnapshot.val().bankAccountNumber;
+                  that.user.bankName = childSnapshot.val().bankName;
+                  that.user.bankRouting = childSnapshot.val().bankRouting;
                   that.goLogin(user);
                   that.storage.set('currentUser',that.user);
                 }else{

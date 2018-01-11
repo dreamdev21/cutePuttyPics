@@ -84,6 +84,17 @@ export class RegisterPage {
                 user.qrId = null;
                 user.groupName = null;
                 user.address = null;
+                user.cashoutMethod = 0;
+                user.streetAddress1 = null;
+                user.streetAddress2 = null;
+                user.city = null;
+                user.zipCode = null;
+                user.paypalEmail = null;
+                user.paypalPassword = null;
+                user.bankAccountName = null;
+                user.bankAccountNumber = null;
+                user.bankName = null;
+                user.bankRouting = null;
                 that.afd.list('/users/').push(user);
                 var query = firebase.database().ref("users").orderByKey();
                 query.once("value").then(function (snapshot) {

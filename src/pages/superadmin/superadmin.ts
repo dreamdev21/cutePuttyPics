@@ -7,6 +7,8 @@ import { Http } from '@angular/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
 import { LoginPage } from '../login/login';
+import { AllTransactionsPage } from '../all-transactions/all-transactions';
+import { PendingTransactionsPage } from '../pending-transactions/pending-transactions';
 
 /**
  * Generated class for the SuperadminPage page.
@@ -184,5 +186,15 @@ export class SuperadminPage {
   goLogout() {
     this.storage.remove('currentUser');
     this.navCtrl.push(LoginPage);
+  }
+  goAllTransactions(){
+    this.navCtrl.push(AllTransactionsPage, {
+      user: this.loginUser
+    });
+  }
+  goPendingTransactions() {
+    this.navCtrl.push(PendingTransactionsPage, {
+      user: this.loginUser
+    });
   }
 }
