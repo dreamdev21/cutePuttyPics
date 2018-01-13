@@ -76,7 +76,7 @@ export class ReceivemoneyPage {
           date: [],
           amount: [],
         }
-        if (that.user.role == 0) {
+        if (childSnapshot.val().state == 1) {
           if (childSnapshot.val().receiverid == that.user.id) {
             var senderid = childSnapshot.val().senderid;
             var query = firebase.database().ref("users").orderByKey();
@@ -162,6 +162,7 @@ export class ReceivemoneyPage {
       that.showAlertSuccess("Your Request for QR code has been processed!");
       that.qrRequest = 1;
       that.user.qrRequested = 1;
+      that.user.address = that.userAddress;
       that.storage.set('currentUser', that.user);
       var ref = firebase.database().ref().child('users');
       var refUserId = ref.orderByChild('id').equalTo(that.user.id);

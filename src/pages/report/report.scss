@@ -56,6 +56,12 @@ page-report {
     .list-ios .item-block .item-inner {
         border-bottom: 0px solid #dedede;
     }
+    .item-md {
+        background: transparent !important;
+    }
+    .item-ios {
+        background: transparent !important;
+    }
     .segment-ios .segment-button:first-of-type {
         font-size: 16px;
         border-top-left-radius: 8px;

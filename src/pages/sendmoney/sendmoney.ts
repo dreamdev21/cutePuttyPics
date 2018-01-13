@@ -59,8 +59,13 @@ export class SendmoneyPage {
     this.sendmoneyData.senderid = this.sender.id;
     this.groupReceivers = [];
     this.scanCode();
-    // this.findReceiver(1515508748065);
+    let amount = 1337.1337;
+    console.log(this.getCurrency(amount));
+    // this.findReceiver(1515660899416);
 
+  }
+  getCurrency(amount: number) {
+    return this.currencyPipe.transform(amount, 'USD', true, '1.2-2');
   }
   sendmoneySelect(money){
     this.sendmoneyData.sendmoney = money;
@@ -69,9 +74,6 @@ export class SendmoneyPage {
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){
       this.showAlert("You forgot to enter a tip!");
     }else{
-      // this.showConfirm(sendmoneyData);
-
-
       var now = new Date();
       sendmoneyData.transactionid = now.getTime();
       this.storage.set('transaction', 1);
@@ -98,26 +100,6 @@ export class SendmoneyPage {
               });
             });
 
-
-            // Successfully paid
-
-            // Example sandbox response
-            //
-            // {
-            //   "client": {
-            //     "environment": "sandbox",
-            //     "product_name": "PayPal iOS SDK",
-            //     "paypal_sdk_version": "2.16.0",
-            //     "platform": "iOS"
-            //   },
-            //   "response_type": "payment",
-            //   "response": {
-            //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-            //     "state": "approved",
-            //     "create_time": "2016-10-03T13:33:33Z",
-            //     "intent": "sale"
-            //   }
-            // }
           }, () => {
             // Error or render dialog closed without being successful
           });
@@ -132,39 +114,42 @@ export class SendmoneyPage {
   }
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
-    // this.qrId = 1511347280139;
       this.qrId = atob(barcodeData.text);
-      this.showAlert(this.qrId);
-      if (that.sender.id == that.sendmoneyData.receiverid) {
-        that.showAlert("Sorry, You can't pay yourself");
-        that.gotoHome();
-      }
-      var that = this;
-      var query = firebase.database().ref("qrdatas").orderByKey();
-      query.once("value").then(function (snapshot) {
-        snapshot.forEach(function (childSnapshot) {
+      if (this.qrId == "") {
+        this.gotoHome();
+      }else{
 
-          if (Number(childSnapshot.val().id) == Number(that.qrId)) {
-            that.showAlert(that.qrId);
-            that.findQRcode = 1;
-            if (childSnapshot.val().type == 0) {
-              if (childSnapshot.val().verify == 1) {
-                that.findReceiver(that.qrId);
+        var that = this;
+        var query = firebase.database().ref("qrdatas").orderByKey();
+        query.once("value").then(function (snapshot) {
+          snapshot.forEach(function (childSnapshot) {
+
+            if (childSnapshot.val().id == that.qrId) {
+              console.log("qr code find");
+              console.log(that.qrId);
+              that.findQRcode = 1;
+              if (childSnapshot.val().type == 0) {
+                // if (childSnapshot.val().verify == 1) {
+                  console.log("user qr code");
+                  that.findReceiver(that.qrId);
+                // }
+              } else {
+                that.qrType = 1;
+                console.log("group qr code");
+                that.findGroupReceivers(that.qrId);
               }
-            } else {
-              that.qrType = 1;
-              that.findGroupReceivers(that.qrId);
             }
-          }
-        });
-        if (that.findQRcode == 0) {
-          that.showAlert("QR code invalid!");
-          that.navCtrl.push(SenderPage, {
-            user: that.sender
           });
-        }
+          if (that.findQRcode == 0) {
+            that.showAlert("QR code invalid!");
+            that.navCtrl.push(SenderPage, {
+              user: that.sender
+            });
+          }
 
-      });
+        });
+      }
+
 
     }, (err) => {
       this.navCtrl.push(SenderPage, {
@@ -174,31 +159,46 @@ export class SendmoneyPage {
   }
 
   findReceiver(qrnumber){
+    console.log("find receiver execute");
     var that = this;
     var query = firebase.database().ref("users").orderByKey();
 
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
-          if (childSnapshot.val().qrId == qrnumber) {
+        if (childSnapshot.val().qrId == qrnumber) {
+          console.log("receiver find ");
 
-              that.sendmoneyData.receiverid = childSnapshot.val().id;
-              // that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
-              // that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
-              that.sendmoneyData.receivername = childSnapshot.val().fullName;
-              that.receiverAvatar = childSnapshot.val().avatar;
-              // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-              // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
-              that.sendmoneyData.sendername = that.sender.fullName;
-              that.sendmoneyData.state = 0;
-              console.log(that.sendmoneyData);
-
+          if (childSnapshot.val().cashoutMethod == 0) {
+            that.showAlert("Sorry, Receiver cashout method did not set");
+            that.gotoHome();
           }
+
+          that.sendmoneyData.receiverid = childSnapshot.val().id;
+          that.sendmoneyData.receivername = childSnapshot.val().fullName;
+          that.receiverAvatar = childSnapshot.val().avatar;
+          that.sendmoneyData.sendername = that.sender.fullName;
+          that.sendmoneyData.state = 0;
+          console.log(that.sendmoneyData.receiverid);
+          // that.showAlert(qrnumber);
+          // that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
+          // that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
+          // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
+          // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
+          console.log(that.sender.id);
+          if (that.sender.id == that.sendmoneyData.receiverid) {
+            that.showAlert("Sorry, You can't pay yourself");
+            that.gotoHome();
+          }
+
+        }
       });
     });
-    if(that.sender.id == that.sendmoneyData.receiverid){
-      that.showAlert("Sorry, You can't pay yourself");
+
+    if(that.sendmoneyData.receiverid){
+      that.showAlert("This QR code didn't verified!");
       that.gotoHome();
     }
+
   }
   paytoReceiver(qrnumber) {
     // this.showAlert(qrnumber);
@@ -239,6 +239,7 @@ export class SendmoneyPage {
         }
       });
     });
+
     // this.selectReceiver(this.groupReceivers);
 
 
