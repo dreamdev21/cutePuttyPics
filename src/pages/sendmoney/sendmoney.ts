@@ -13,6 +13,9 @@ import { SenderPage } from '../sender/sender';
 import { Storage } from '@ionic/storage';
 import { CurrencyPipe } from '@angular/common';
 import { LoginPage } from '../login/login';
+import { SimpleMaskMoney } from 'simple-mask-money'; // import mask
+import { OnInit, AfterViewInit } from '@angular/core';
+
 @IonicPage()
 @Component({
   selector: 'page-sendmoney',
@@ -34,6 +37,8 @@ export class SendmoneyPage {
   public receiver = {} as User;
   public transactiondata = {} as sendmoneyData;
   public receiverAvatar : any;
+  public val = '$0.00';
+  public sendmoneyformatedcurrency : any;
   public groupReceivers: Array<{
     fullName: any,
     qrId: any,
@@ -49,6 +54,7 @@ export class SendmoneyPage {
     private alertCtrl: AlertController,
     private payPal: PayPal,
     private storage: Storage,
+
     private barcodeScanner: BarcodeScanner
   ) {
     this.http = http;
@@ -59,16 +65,31 @@ export class SendmoneyPage {
     this.sendmoneyData.senderid = this.sender.id;
     this.groupReceivers = [];
     this.scanCode();
-    let amount = 1337.1337;
-    console.log(this.getCurrency(amount));
     // this.findReceiver(1515660899416);
+    const options = {
+      prefix: '$',
+      suffix: '',
+      fixed: true,
+      fractionDigits: 2,
+      decimalSeparator: '.',
+      thousandsSeparator: ',',
+      autoCompleteDecimal: false
+    };
+
+    SimpleMaskMoney.setMask('#myInput', options);
+
 
   }
-  getCurrency(amount: number) {
-    return this.currencyPipe.transform(amount, 'USD', true, '1.2-2');
+  send(e) {
+    this.sendmoneyData.sendmoney = SimpleMaskMoney.formatToNumber(this.val);
+    console.log(SimpleMaskMoney.formatToNumber(this.val));
+    if (e.key !== 'Enter') return;
+    // This method return value of your input in format number to save in your database
   }
+
   sendmoneySelect(money){
     this.sendmoneyData.sendmoney = money;
+    this.val = "$"+money+".00";
   }
   sendMoney(sendmoneyData){
     if(this.sendmoneyData.sendmoney == 0 || this.sendmoneyData.sendmoney == null){

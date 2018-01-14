@@ -35,11 +35,20 @@
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <ion-list>
-                <ion-item>
-                    <ion-input type="number" value="" placeholder="$" [(ngModel)]="sendmoneyData.sendmoney">
-                        <!-- <ion-input type="number" value="" placeholder="$" [(ngModel)]="{{sendmoneyData.sendMoney}}" (change)='onChangePrice($event.target.value)' (keyup)="onPriceUp($event.target.value)"> -->
-                        <ion-icon name="ios-eye-outline" item-right></ion-icon>
-                    </ion-input>
+                <ion-item style="text-align:center;">
+                    <!-- <ion-input type="text" value="" placeholder="$" [(ngModel)]="sendmoneyformatedcurrency"> -->
+                    <!-- <ion-input type="text" value="" placeholder="$" [value]="myModelVariable" (keyup)="convert($event)"> -->
+                    <input id="myInput" inputmode="numeric" [(ngModel)]="val" (keyup)="send($event)" style="background:transparent;text-align:center;-webkit-appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 1px;
+    border-width: 0px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;width: 100%;" />
+                    <!-- <ion-input type="number" value="" placeholder="$" [(ngModel)]="{{sendmoneyData.sendMoney}}" (change)='onChangePrice($event.target.value)' (keyup)="onPriceUp($event.target.value)"> -->
+                    <!-- <ion-icon name="ios-eye-outline" item-right></ion-icon> -->
+                    <!-- </ion-input> -->
                 </ion-item>
             </ion-list>
         </ion-col>
