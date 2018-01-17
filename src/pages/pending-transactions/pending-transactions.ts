@@ -57,7 +57,7 @@ export class PendingTransactionsPage {
     console.log('ionViewDidLoad AllTransactionsPage');
     var that = this;
     that.completedTransactions = [];
-    var query = firebase.database().ref("transactions").orderByKey();
+    var query = firebase.database().ref("transactions").orderByChild("transactionid");
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         var transaction = {
@@ -114,7 +114,7 @@ export class PendingTransactionsPage {
           transaction.date.push(childSnapshot.val().transactionid);
           transaction.amount.push(childSnapshot.val().sendmoney);
           transaction.state.push(childSnapshot.val().state);
-          that.completedTransactions.push(transaction);
+          that.completedTransactions.unshift(transaction);
         }
       });
     });
@@ -136,7 +136,7 @@ export class PendingTransactionsPage {
   deleteTransaction(id) {
     console.log(id);
     var that = this;
-    var query = firebase.database().ref("transactions").orderByKey();
+    var query = firebase.database().ref("transactions").orderByChild("transactionid");
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().transactionid == id) {

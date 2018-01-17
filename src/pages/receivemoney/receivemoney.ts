@@ -90,7 +90,7 @@ export class ReceivemoneyPage {
             });
            transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
-            that.receivetransactions.push(transaction);
+            that.receivetransactions.unshift(transaction);
             that.transactiontotalmoneyreceived += Number(childSnapshot.val().sendmoney);
           }
         }

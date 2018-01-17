@@ -113,7 +113,7 @@ export class AllTransactionsPage {
           transaction.date.push(childSnapshot.val().transactionid);
           transaction.amount.push(childSnapshot.val().sendmoney);
           transaction.state.push(childSnapshot.val().state);
-          that.completedTransactions.push(transaction);
+          that.completedTransactions.unshift(transaction);
         }
       });
     });

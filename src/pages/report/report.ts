@@ -77,7 +77,7 @@ export class ReportPage {
             transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
             console.log(transaction);
-            that.receivetransactions.push(transaction);
+            that.receivetransactions.unshift(transaction);
             that.transactiontotalmoneyreceived += Number(childSnapshot.val().sendmoney);
           }
           if (childSnapshot.val().senderid == that.user.id){
@@ -94,7 +94,7 @@ export class ReportPage {
             transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
             console.log(transaction);
-            that.senttransactions.push(transaction);
+            that.senttransactions.unshift(transaction);
             that.transactiontotalmoneysent += Number(childSnapshot.val().sendmoney);
           }
       });

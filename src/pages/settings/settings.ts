@@ -111,6 +111,9 @@ export class SettingsPage {
             this.olduserData.fullName = newuserData.fullName;
             this.olduserData.password = newuserData.password;
             this.olduserData.email = newuserData.email;
+            if(newuserData.address){
+              this.olduserData.address = newuserData.address;
+            }
             var that= this;
             var ref = firebase.database().ref().child('/users');
             var refUserId = ref.orderByChild('id').equalTo(this.olduserData.id);
@@ -136,7 +139,8 @@ export class SettingsPage {
                           "avatar": newuserData.avatar
                         });
                       }
-
+                      that.storage.remove('currentUser');
+                      that.storage.set('currentUser', that.olduserData);
                       that.presentToast("Your profile updated successfully!");
                       return true;
                     });

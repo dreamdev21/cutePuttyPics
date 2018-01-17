@@ -37,6 +37,7 @@ export class CashOutPage {
     public actionSheetCtrl: ActionSheetController,
     public loadingCtrl: LoadingController,
     public afd: AngularFireDatabase,
+    private storage: Storage,
     private alertCtrl: AlertController,
     public toastCtrl: ToastController
   ) {
@@ -133,7 +134,9 @@ export class CashOutPage {
                 "cashoutMethod": that.cashoutMethod
               });
             }
-
+            console.log(that.olduserData);
+            that.storage.remove('currentUser');
+            that.storage.set('currentUser', that.olduserData);
             that.presentToast("Your profile updated successfully!");
             return true;
 
