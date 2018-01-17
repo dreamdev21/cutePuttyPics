@@ -120,13 +120,23 @@ export class SettingsPage {
                   snapshot.forEach(
                     function(snap){
                       console.log(snap.val());
-                      snap.ref.update({
-                        "fullName": newuserData.fullName,
-                        "email": newuserData.email,
-                        "password": newuserData.password,
-                        "avatar":newuserData.avatar,
-                        "address":newuserData.address
-                      });
+                      if(newuserData.address){
+                        snap.ref.update({
+                          "fullName": newuserData.fullName,
+                          "email": newuserData.email,
+                          "password": newuserData.password,
+                          "avatar": newuserData.avatar,
+                          "address": newuserData.address
+                        });
+                      }else{
+                        snap.ref.update({
+                          "fullName": newuserData.fullName,
+                          "email": newuserData.email,
+                          "password": newuserData.password,
+                          "avatar": newuserData.avatar
+                        });
+                      }
+
                       that.presentToast("Your profile updated successfully!");
                       return true;
                     });
