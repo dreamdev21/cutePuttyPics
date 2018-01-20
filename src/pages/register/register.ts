@@ -26,7 +26,7 @@ export class RegisterPage {
   scannedCode = null;
   public toastText: string;
   public imgsources: any;
-  public avatarUrl = "https://firebasestorage.googleapis.com/v0/b/qr-payment-77379.appspot.com/o/images%2Favatar0.png?alt=media&token=9961de60-02e0-4b8e-acf5-3835918eb576";
+  public avatarUrl = "https://firebasestorage.googleapis.com/v0/b/tipqr-164a4.appspot.com/o/images%2Favatar.png?alt=media&token=aa3bc5c5-aeeb-43de-9de4-35c07c50d050";
   public captureDataUrl: string;
   firestore = firebase.storage();
   public storageDirectory: string;
