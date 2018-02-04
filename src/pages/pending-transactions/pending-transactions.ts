@@ -118,12 +118,9 @@ export class PendingTransactionsPage {
         }
       });
     });
-    console.log(this.completedTransactions);
   }
   showDetailTransaction(transactionid) {
     for (let transaction of this.completedTransactions) {
-      console.log(transaction);
-      console.log(transactionid);
       if (transaction.date == transactionid) {
         this.navCtrl.push(TransactionDetailPage, {
           transaction: transaction,
@@ -134,7 +131,6 @@ export class PendingTransactionsPage {
     }
   }
   deleteTransaction(id) {
-    console.log(id);
     var that = this;
     var query = firebase.database().ref("transactions").orderByChild("transactionid");
     query.once("value").then(function (snapshot) {

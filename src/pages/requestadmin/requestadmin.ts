@@ -63,8 +63,6 @@ export class RequestadminPage {
     that.loading.dismiss();
   }
   createCode() {
-    console.log(this.loginUser);
-    console.log(this.user.id.toString());
     this.afd.list('/qrdatas/').push({
       userInfoId:this.user.id,
       type:0,

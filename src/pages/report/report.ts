@@ -76,7 +76,6 @@ export class ReportPage {
             });
             transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
-            console.log(transaction);
             that.receivetransactions.unshift(transaction);
             that.transactiontotalmoneyreceived += Number(childSnapshot.val().sendmoney);
           }
@@ -93,7 +92,6 @@ export class ReportPage {
             });
             transaction.date.push(childSnapshot.val().transactionid);
             transaction.amount.push(childSnapshot.val().sendmoney);
-            console.log(transaction);
             that.senttransactions.unshift(transaction);
             that.transactiontotalmoneysent += Number(childSnapshot.val().sendmoney);
           }
@@ -101,19 +99,16 @@ export class ReportPage {
     });
   }
   deleteTransaction(id){
-    console.log(id);
     var that = this;
     var query = firebase.database().ref("transactions").orderByKey();
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if(childSnapshot.val().transactionid == id){
-          // if(that.showConfirm()){
             childSnapshot.ref.remove();
             that.navCtrl.push(ReportPage, {
               user:that.user
             });
           }
-        // }
       });
     });
   }

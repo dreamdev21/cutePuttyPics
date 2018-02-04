@@ -9,14 +9,11 @@ export interface User {
     qrName:string;
     permission:number;
     qrRequested:number;
-    // gender:number;
     role:number;
     avatar:string;
     address:string;
-    // birthday:Date;
     paypalEmail:string;
     paypalPassword:string;
-    // paypalVerifyState:number;
     streetAddress1:string;
     streetAddress2:string;
     city:string;

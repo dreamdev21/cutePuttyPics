@@ -46,7 +46,6 @@ export class CashOutPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CashOutPage');
-    console.log(this.olduserData);
     if(this.olduserData.cashoutMethod != 0){
       if (this.olduserData.cashoutMethod == 1) {
         this.mail = true;
@@ -98,7 +97,6 @@ export class CashOutPage {
       if (snapshot.hasChildren()) {
         snapshot.forEach(
           function (snap) {
-            console.log(snap.val());
             if(that.cashoutMethod == 1){
               that.olduserData.streetAddress1 = newuserData.streetAddress1;
               that.olduserData.streetAddress2 = newuserData.streetAddress2;
@@ -134,7 +132,6 @@ export class CashOutPage {
                 "cashoutMethod": that.cashoutMethod
               });
             }
-            console.log(that.olduserData);
             that.storage.remove('currentUser');
             that.storage.set('currentUser', that.olduserData);
             that.presentToast("Your profile updated successfully!");
@@ -159,7 +156,6 @@ export class CashOutPage {
     });
 
     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
     });
 
     toast.present();

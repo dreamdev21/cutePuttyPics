@@ -98,19 +98,16 @@ export class ReceivemoneyPage {
     });
   }
   deleteTransaction(id) {
-    console.log(id);
     var that = this;
     var query = firebase.database().ref("transactions").orderByKey();
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().transactionid == id) {
-          // if(that.showConfirm()){
           childSnapshot.ref.remove();
           that.navCtrl.push(ReportPage, {
             user: that.user
           });
         }
-        // }
       });
     });
   }
@@ -130,7 +127,6 @@ export class ReceivemoneyPage {
         {
           text: 'Request',
           handler: data => {
-            console.log(data.address);
             this.userAddress =data.address;
             this.requestQRcode();
           }
@@ -147,7 +143,6 @@ export class ReceivemoneyPage {
       query.once("value").then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           if (childSnapshot.val().role == 3) {
-            console.log(childSnapshot.val().fullName);
             var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername=' + childSnapshot.val().fullName + '&usermail=' + that.user.email + '&username=' + that.user.fullName + '&userpassword=' + that.user.password;
             console.log(link);
             that.http.get(link).map(res => res.json())

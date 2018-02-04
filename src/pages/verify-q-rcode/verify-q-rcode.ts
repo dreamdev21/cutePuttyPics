@@ -54,7 +54,6 @@ export class VerifyQRcodePage {
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
     this.qrId = atob(barcodeData.text);
-    // this.qrId = 1511412868474 ;
       this.qrVerifyState = 0;
       this.findQRcode = 0;
       var that = this;
@@ -130,7 +129,6 @@ export class VerifyQRcodePage {
           }
           });
           if(that.findQRcode == 0){
-            // that.showAlert("QR code invalid");
           }
         });
       }
@@ -160,19 +158,7 @@ export class VerifyQRcodePage {
   updateQRgroup(qrnumber) {
     var that = this;
     var ref = firebase.database().ref().child('qrdatas');
-    // var refUserId = ref.orderByChild('id').equalTo(qrnumber);
-    // refUserId.once('value', function (snapshot) {
-    //   if (snapshot.hasChildren()) {
-    //     snapshot.forEach(
-    //       function (snap) {
-    //         snap.ref.update({
-    //           'groupUsers',
-    //         });
 
-    //         return true;
-    //       });
-    //   }
-    // });
   }
   verifyConfirmMail(userId){
     var that = this;

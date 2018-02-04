@@ -75,7 +75,6 @@ export class SettingsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
-    console.log(this.olduserData.role);
     if(this.olduserData.role == 3){
       this.admincheck = 1;
     }else{
@@ -89,13 +88,10 @@ export class SettingsPage {
           if(that.olduserData.role == 1){
             if (childSnapshot.val().senderid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
               that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
-              console.log(childSnapshot.val().transactionid);
-              console.log('sender');
             }
           }else if(that.olduserData.role == 0){
             if (childSnapshot.val().receiverid == that.olduserData.id && childSnapshot.val().transactionstate == 1) {
               that.transactiontotalmoney += Number(childSnapshot.val().sendmoney);
-              console.log(childSnapshot.val().transactionid);
             }
           }else{
 
@@ -122,7 +118,6 @@ export class SettingsPage {
               if (snapshot.hasChildren()) {
                   snapshot.forEach(
                     function(snap){
-                      console.log(snap.val());
                       if(newuserData.address){
                         snap.ref.update({
                           "fullName": newuserData.fullName,
@@ -293,7 +288,6 @@ public takePicture(sourceType) {
         {
           text: 'Send',
           handler: data => {
-            console.log(data.message);
             var that = this;
             var query = firebase.database().ref("users").orderByKey();
             query.once("value").then(function (snapshot) {
@@ -314,11 +308,6 @@ public takePicture(sourceType) {
         }
       ]
     });
-    // alert.addInput({
-    //   type: 'textarea',
-    //   name: 'about',
-    //   placeholder: 'Optional message'
-    // });
     alert.present();
   }
   goLogout() {

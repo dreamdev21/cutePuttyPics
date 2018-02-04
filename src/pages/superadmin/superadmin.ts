@@ -47,9 +47,6 @@ export class SuperadminPage {
     console.log('ionViewDidLoad SuperadminPage');
   }
   goUserManager(){
-    // this.navCtrl.push(UsermanagerPage, {
-    //   user: this.loginUser
-    // });
     this.showUserPrompt();
   }
   goAdminManager() {

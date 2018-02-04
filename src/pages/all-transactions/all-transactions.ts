@@ -117,12 +117,9 @@ export class AllTransactionsPage {
         }
       });
     });
-    console.log(this.completedTransactions);
   }
   showDetailTransaction(transactionid){
     for (let transaction of this.completedTransactions) {
-      console.log(transaction);
-      console.log(transactionid);
       if(transaction.date == transactionid){
         this.navCtrl.push(TransactionDetailPage, {
           transaction: transaction,
@@ -133,7 +130,6 @@ export class AllTransactionsPage {
     }
   }
   deleteTransaction(id){
-    console.log(id);
     var that = this;
     var query = firebase.database().ref("transactions").orderByKey();
     query.once("value").then(function (snapshot) {

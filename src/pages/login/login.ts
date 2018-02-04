@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController  } from 'ionic-angular';
 import { User } from "../../models/user";
 import { AngularFireDatabase } from 'angularfire2/database';
-// import { Observable } from 'rxjs/Observable';
-// import { AngularFireAuth } from 'angularfire2/auth';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import firebase from 'firebase';
 import { Http } from '@angular/http';
@@ -43,7 +41,6 @@ export class LoginPage {
   public permission;
 
   constructor(
-    // private afAuth: AngularFireAuth,
     public http : Http,
     public afd: AngularFireDatabase,
     public navCtrl: NavController,
@@ -74,12 +71,9 @@ export class LoginPage {
                   that.user.fullName = childSnapshot.val().fullName;
                   that.user.password = childSnapshot.val().password;
                   that.user.email = childSnapshot.val().email;
-                  // that.user.birthday = childSnapshot.val().birthday;
-                  // that.user.gender = childSnapshot.val().gender;
                   that.user.role = childSnapshot.val().role;
                   that.user.paypalEmail = childSnapshot.val().paypalEmail;
                   that.user.paypalPassword = childSnapshot.val().paypalPassword;
-                  // that.user.paypalVerifyState = childSnapshot.val().paypalVerifyState;
                   that.user.groupId = childSnapshot.val().groupId;
                   that.user.address = childSnapshot.val().address;
                   that.user.cashoutMethod = childSnapshot.val().cashoutMethod;
@@ -101,7 +95,6 @@ export class LoginPage {
                 }
               }
             }
-            console.log(that.checkstate);
           });
           if(that.checkstate){
             var text = "The email address or the password entered seems to be incorrect.";
@@ -129,7 +122,6 @@ export class LoginPage {
 
   }
   goLogin(user){
-    console.log(this.user.permission);
     if(user.role == 3){
       this.navCtrl.push(SuperadminPage, {
         user: user

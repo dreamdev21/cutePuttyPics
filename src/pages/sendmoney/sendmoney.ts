@@ -65,7 +65,6 @@ export class SendmoneyPage {
     this.sendmoneyData.senderid = this.sender.id;
     this.groupReceivers = [];
     this.scanCode();
-    // this.findReceiver(1515660899416);
     const options = {
       prefix: '$',
       suffix: '',
@@ -82,9 +81,7 @@ export class SendmoneyPage {
   }
   send(e) {
     this.sendmoneyData.sendmoney = SimpleMaskMoney.formatToNumber(this.val);
-    console.log(SimpleMaskMoney.formatToNumber(this.val));
     if (e.key !== 'Enter') return;
-    // This method return value of your input in format number to save in your database
   }
 
   sendmoneySelect(money){
@@ -146,17 +143,11 @@ export class SendmoneyPage {
           snapshot.forEach(function (childSnapshot) {
 
             if (childSnapshot.val().id == that.qrId) {
-              console.log("qr code find");
-              console.log(that.qrId);
               that.findQRcode = 1;
               if (childSnapshot.val().type == 0) {
-                // if (childSnapshot.val().verify == 1) {
-                  console.log("user qr code");
                   that.findReceiver(that.qrId);
-                // }
               } else {
                 that.qrType = 1;
-                console.log("group qr code");
                 that.findGroupReceivers(that.qrId);
               }
             }
@@ -180,14 +171,12 @@ export class SendmoneyPage {
   }
 
   findReceiver(qrnumber){
-    console.log("find receiver execute");
     var that = this;
     var query = firebase.database().ref("users").orderByKey();
 
     query.once("value").then(function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().qrId == qrnumber) {
-          console.log("receiver find ");
 
           if (childSnapshot.val().cashoutMethod == 0) {
             that.showAlert("Sorry, Receiver cashout method did not set");
@@ -199,13 +188,6 @@ export class SendmoneyPage {
           that.receiverAvatar = childSnapshot.val().avatar;
           that.sendmoneyData.sendername = that.sender.fullName;
           that.sendmoneyData.state = 0;
-          console.log(that.sendmoneyData.receiverid);
-          // that.showAlert(qrnumber);
-          // that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
-          // that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
-          // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-          // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
-          console.log(that.sender.id);
           if (that.sender.id == that.sendmoneyData.receiverid) {
             that.showAlert("Sorry, You can't pay yourself");
             that.gotoHome();
@@ -222,7 +204,6 @@ export class SendmoneyPage {
 
   }
   paytoReceiver(qrnumber) {
-    // this.showAlert(qrnumber);
     var that = this;
     var query = firebase.database().ref("users").orderByKey();
 
@@ -230,13 +211,8 @@ export class SendmoneyPage {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().qrId == Number(qrnumber)) {
           that.sendmoneyData.receiverid = childSnapshot.val().id;
-          // that.sendmoneyData.receiverpaypalemail = childSnapshot.val().paypalEmail;
-          // that.sendmoneyData.receiverpaypalverifystate = childSnapshot.val().paypalVerifyState;
           that.sendmoneyData.receivername = childSnapshot.val().fullName;
           that.receiverAvatar = childSnapshot.val().avatar();
-          // that.sendmoneyData.senderpaypalemail = that.sender.paypalEmail;
-          // that.sendmoneyData.senderpaypalpassword = that.sender.paypalPassword;
-          // that.sendmoneyData.senderpaypalverifystate = that.sender.paypalVerifyState;
           that.sendmoneyData.sendername = that.sender.fullName;
 
         }
@@ -261,18 +237,14 @@ export class SendmoneyPage {
       });
     });
 
-    // this.selectReceiver(this.groupReceivers);
-
 
   }
   selectReceiver(groupReceivers:any) {
-    console.log(groupReceivers);
     let alert = this.alertCtrl.create();
 
     for (let key in this.groupReceivers) {
 
       let receiver = this.groupReceivers[key];
-      console.log(receiver);
       alert.addInput({
         type: 'radio',
         label: receiver.fullName,
@@ -295,84 +267,7 @@ export class SendmoneyPage {
   goTransaction(receiver){
 
   }
-  // showConfirm(sendmoneyData) {
 
-  //   let confirm = this.alertCtrl.create({
-  //     title: 'Are you sure?',
-  //     message: 'You will send $ '+this.sendmoneyData.sendmoney + ' to ' + this.sendmoneyData.receivername,
-  //     buttons: [
-  //       {
-  //         text: 'No',
-  //         handler: () => {
-  //           console.log('No clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Yes',
-  //         handler: () => {
-
-  //             var now = new Date();
-  //             sendmoneyData.transactionid = now.getTime();
-  //             this.storage.set('transaction', 1);
-
-  //             this.payPal.init({
-  //               PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
-  //               PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
-  //             }).then(() => {
-  //               // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-  //               this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-  //                 // Only needed if you get an "Internal Service Error" after PayPal login!
-  //                 //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-  //               })).then(() => {
-  //                 let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
-  //                 payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
-  //                 this.payPal.renderSinglePaymentUI(payment).then(() => {
-  //                   this.afd.list('/transactions/').push(sendmoneyData);
-  //                   this.showAlertSuccess("Transaction completed!");
-
-  //                   this.storage.remove('transaction');
-  //                   this.storage.get('currentUser').then((val) => {
-  //                     this.navCtrl.push(ReportPage, {
-  //                       'user': val
-  //                     });
-  //                   });
-
-
-  //                   // Successfully paid
-
-  //                   // Example sandbox response
-  //                   //
-  //                   // {
-  //                   //   "client": {
-  //                   //     "environment": "sandbox",
-  //                   //     "product_name": "PayPal iOS SDK",
-  //                   //     "paypal_sdk_version": "2.16.0",
-  //                   //     "platform": "iOS"
-  //                   //   },
-  //                   //   "response_type": "payment",
-  //                   //   "response": {
-  //                   //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-  //                   //     "state": "approved",
-  //                   //     "create_time": "2016-10-03T13:33:33Z",
-  //                   //     "intent": "sale"
-  //                   //   }
-  //                   // }
-  //                 }, () => {
-  //                   // Error or render dialog closed without being successful
-  //                 });
-  //               }, () => {
-  //                 // Error in configuration
-  //               });
-  //             }, () => {
-  //               // Error in initialization, maybe PayPal isn't supported or something else
-  //             });
-  //           }
-  //       }
-  //     ]
-  //   });
-  //   confirm.present();
-
-  // }
 
   showAlert(text) {
     let alert = this.alertCtrl.create({
@@ -412,18 +307,5 @@ export class SendmoneyPage {
       user: this.sender
     });
   }
-  // onChangePrice(evt) {
-  //   this.sendmoneyData.sendmoney = evt.replace(/[^0-9.]/g, "");
-  //   if (this.sendmoneyData.sendmoney) {
-  //     this.box_price_formatted = this.getCurrency(this.sendmoneyData.sendmoney)
-  //     console.log("box_price_formatted: " + this.sendmoneyData.sendmoney);
-  //   }
-  // }
-  // onPriceUp(evt) {
-  //   this.sendmoneyData.sendmoney = evt.replace(/[^0-9.]/g, "");
-  //   this.box_price_formatted = String(this.sendmoneyData.sendmoney);
-  // }
-  // getCurrency(amount: number) {
-  //   return this.currencyPipe.transform(amount, 'USD', true, '1.2-2');
-  // }
+
 }

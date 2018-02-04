@@ -54,7 +54,6 @@ export class ResetPasswordPage {
               if (snapshot.hasChildren()) {
                 snapshot.forEach(
                   function (snap) {
-                    console.log(snap.val());
                     snap.ref.update({
                         "password": that.data.password
                     });

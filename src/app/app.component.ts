@@ -1,5 +1,3 @@
-// import { AdminmanagerPage } from '../pages/adminmanager/adminmanager';
-// import { SuperadminPage } from '../pages/superadmin/superadmin';
 import { VerifyQRcodePage } from '../pages/verify-q-rcode/verify-q-rcode';
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
@@ -26,7 +24,6 @@ export class MyApp {
       splashScreen.hide();
 
       storage.get('currentUser').then((val) => {
-        console.log('User data ', val);
         if (val) {
           storage.get('transaction').then((transaction_state) => {
               if (transaction_state != 1) {

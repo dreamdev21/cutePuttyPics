@@ -43,7 +43,6 @@ export class ForgotPasswordPage {
     console.log('ionViewDidLoad ForgotPasswordPage');
   }
   changePassword(data){
-    console.log(data);
     if(!data.email){
       this.showAlert("Please enter your Email");
     }else{
@@ -74,7 +73,6 @@ export class ForgotPasswordPage {
                 // that.user.paypalPassword = childSnapshot.val().paypalPassword;
                 // that.user.paypalVerifyState = childSnapshot.val().paypalVerifyState;
                 that.user.groupId = childSnapshot.val().groupId;
-                console.log(that.user);
                 that.sendMail();
               }
             });

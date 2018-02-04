@@ -52,7 +52,6 @@ export class RegisterPage {
       var checkstate = true;
 
       if(this.validateUser(user)){
-        console.log('validate true');
         var that = this;
         var query = firebase.database().ref("users").orderByKey();
         query.once("value").then(function (snapshot) {
@@ -73,9 +72,6 @@ export class RegisterPage {
                 var now = new Date();
                 user.id = now.getTime();
                 user.avatar = that.avatarUrl;
-                // user.birthday = now;
-                // user.gender = 0;
-                // user.paypalVerifyState = 0;
                 user.permission = 0;
                 user.qrRequested = 0;
                 user.groupId = 0;
@@ -101,7 +97,6 @@ export class RegisterPage {
                 query.once("value").then(function (snapshot) {
                   snapshot.forEach(function (childSnapshot) {
                         if (childSnapshot.val().role == 3){
-                          console.log(childSnapshot.val().fullName);
                           var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername='+ childSnapshot.val().fullName +'&usermail='+ user.email + '&username='+ user.fullName + '&userpassword='+ user.password;
                           console.log(link);
                           that.http.get(link).map(res => res.json())
