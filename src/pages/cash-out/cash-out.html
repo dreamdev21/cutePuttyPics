@@ -20,19 +20,19 @@
         </ion-list-header>
 
         <ion-item>
-            <ion-label style="color:#ffffff">CHECK BY MAIL </ion-label>
+            <ion-label style="color:black">CHECK BY MAIL </ion-label>
             <ion-radio value="mail" checked (ionSelect)="radio_select('mail')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 1"></ion-radio>
             <ion-radio value="mail" (ionSelect)="radio_select('mail')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 1"></ion-radio>
         </ion-item>
 
         <ion-item>
-            <ion-label style="color:#ffffff">PAYPAL</ion-label>
+            <ion-label style="color:black">PAYPAL</ion-label>
             <ion-radio value="paypal" checked (ionSelect)="radio_select('paypal')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 2"></ion-radio>
             <ion-radio value="paypal" (ionSelect)="radio_select('paypal')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 2"></ion-radio>
         </ion-item>
 
         <ion-item>
-            <ion-label style="color:#ffffff">BANK ACCOUNT</ion-label>
+            <ion-label style="color:black">BANK ACCOUNT</ion-label>
             <ion-radio value="bank" checked (ionSelect)="radio_select('bank')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 3"></ion-radio>
             <ion-radio value="bank" (ionSelect)="radio_select('bank')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 3"></ion-radio>
         </ion-item>
@@ -123,7 +123,7 @@
             </ion-list>
         </ion-card-content>
     </ion-card>
-    <ion-card style="padding:5px;background:transparent;text-align:left;">
+    <ion-card style="padding:5px;text-align:left;">
 
         <ion-card-content>
             <p>Balances will be paid weekly for Paypal and Bank Account options, and bi-weekly for Checks.</p><br/>

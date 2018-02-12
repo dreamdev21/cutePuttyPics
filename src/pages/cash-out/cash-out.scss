@@ -23,7 +23,7 @@ page-cash-out {
         padding-right: 10px;
         position: relative;
         font-size: 1.7rem;
-        color: #769fc2;
+        color: rgb(71, 71, 71);
         background-color: transparent;
         -webkit-transition: background-color 200ms linear;
         transition: background-color 200ms linear;
@@ -70,8 +70,8 @@ page-cash-out {
         font-size: 1.4rem;
         font-weight: 500;
         text-transform: uppercase;
-        color: #212e41 !important;
-        background-color: #e8a54d;
+        color: #ffffff !important;
+        background-color: #000000;
         -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -79,6 +79,11 @@ page-cash-out {
         transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1);
         transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0 1.1em;
+    }
+    .button-md:hover {
+        color: #000000 !important;
+        background-color: #ffffff;
+        padding: 0;
     }
     .button-ios {
         width: 100%;
@@ -88,8 +93,8 @@ page-cash-out {
         font-size: 1.4rem;
         font-weight: 500;
         text-transform: uppercase;
-        color: #212e41 !important;
-        background-color: #e8a54d;
+        color: #ffffff !important;
+        background-color: #000000;
         -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -97,6 +102,11 @@ page-cash-out {
         transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1);
         transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0 1.1em;
+    }
+    .button-ios:hover {
+        color: #000000 !important;
+        background-color: #ffffff;
+        padding: 0;
     }
     .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
     .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
@@ -106,7 +116,7 @@ page-cash-out {
     }
     .item-ios.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
     .item-ios.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
-        border-bottom-color: #dedede;
+        border-bottom-color: #ffffff;
         -webkit-box-shadow: inset 0 0px 0 0 #dedede;
         box-shadow: inset 0 0 0 0 #dedede;
     }
@@ -116,5 +126,52 @@ page-cash-out {
     .card-md {
         border-radius: 7px;
         background: #ffffff;
+    }
+    .radio-md .radio-icon {
+        left: 0;
+        top: 0;
+        margin: 0;
+        border-radius: 50%;
+        position: relative;
+        display: block;
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #ffffff;
+        background: white
+    }
+    .radio-md .radio-checked {
+        border-color: black;
+        background: black;
+    }
+    .radio-md .radio-inner {
+        background-color: black;
+    }
+    .radio-ios .radio-icon {
+        left: 0;
+        top: 0;
+        margin: 0;
+        border-radius: 50%;
+        position: relative;
+        display: block;
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #ffffff;
+        background: white
+    }
+    .radio-ios .radio-checked {
+        border-color: black;
+        background: black;
+    }
+    .radio-ios .radio-inner {
+        background-color: black;
+    }
+    .item-input .label-md,
+    .item-select .label-md,
+    .item-datetime .label-md {
+        color: rgb(127, 127, 127);
     }
 }
