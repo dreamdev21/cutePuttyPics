@@ -14,14 +14,16 @@
 // automatically applied to the <body> element in the app.
 .content-ios {
     // background-color: #212e41 !important;
-    background: linear-gradient(#F0B42F, #FA5D34) !important;
+    background: linear-gradient(#ffffff, #EE6846) !important;
     text-align: center;
+    font-family: 'Lato-Light' !important;
 }
 
 .content-md {
     // background-color: #212e41 !important;
-    background: linear-gradient(#F0B42F, #FA5D34) !important;
+    background: linear-gradient(#ffffff, #EE6846) !important;
     text-align: center;
+    font-family: 'Roboto' !important;
 }
 
 .no-scroll {
@@ -66,4 +68,45 @@
 .bar-button-clear-ios-default,
 .bar-button-ios-default {
     color: #f3f3f3;
+}
+
+.sendercontainer {
+    background: white;
+    border: 1px solid rgb(71, 71, 71);
+    height: 10rem;
+    color: rgb(71, 71, 71)
+}
+
+.sendercontainer:hover {
+    background-color: rgb(71, 71, 71);
+    color: white;
+    p {
+        color: white;
+    }
+}
+
+.bar-button-default-md,
+.bar-button-clear-md-default,
+.bar-button-md-default {
+    color: #000000;
+}
+
+.toolbar-title-md {
+    padding: 0 12px;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #000000;
+}
+
+.bar-button-default-ios,
+.bar-button-clear-ios-default,
+.bar-button-ios-default {
+    color: #000000;
+}
+
+.toolbar-title-ios {
+    padding: 0 12px;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #000000;
 }
