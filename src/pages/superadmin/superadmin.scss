@@ -21,15 +21,15 @@ page-superadmin {
         margin-top: 0rem !important;
         margin-bottom: 2rem;
     }
-    ion-icon {
-        font-size: 4rem;
-        margin-top: 1rem;
-    }
     .sendercontainer:hover {
         background-color: rgb(71, 71, 71);
         color: white;
         p {
             color: white;
         }
+    }
+    ion-icon {
+        font-size: 4rem;
+        margin-top: 1rem;
     }
 }
