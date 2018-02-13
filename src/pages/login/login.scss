@@ -1,34 +1,57 @@
     page-login {
         img.logo {
-            width: 30%;
-            margin-top: 4rem;
-            margin-bottom: 2rem;
-        }
-        img.facebook {
-            text-align: center;
-            padding: 0.5rem;
-            width: 60px;
-            height: 65px;
+            width: 60%;
         }
         p {
-            color: #7ba4c9;
-            margin-bottom: 3rem;
+            color: #000000;
+            margin-bottom: 2rem;
+            font-size: 20px;
         }
         .item-ios {
             padding-left: 10px;
             border-radius: 6px;
             position: relative;
             font-size: 1.7rem;
-            color: #3f5a7b;
+            color: rgb(71, 71, 71);
             background-color: transparent;
             -webkit-transition: background-color 200ms linear;
             transition: background-color 200ms linear;
         }
+        .item-md.item-input.input-has-focus .item-inner {
+            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            box-shadow: none !important;
+        }
+        .list-md .item-input.input-has-focus:last-child {
+            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            box-shadow: none !important;
+        }
+        .list-md .item-input.input-has-focus:last-child .item-inner {
+            box-shadow: none;
+        }
+        .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
+            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            box-shadow: none !important;
+        }
+        .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
+            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            box-shadow: none !important;
+        }
+        .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
+            box-shadow: none;
+        }
+        .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            box-shadow: none !important;
+        }
+        .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
+            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            box-shadow: none !important;
+        }
         .list-ios>.item-block:first-child {
-            border-top: 1px solid #769fc2;
-            border-left: 1px solid #769fc2;
-            border-right: 1px solid #769fc2;
-            border-bottom: 1px solid #769fc2;
+            border-top: 1px solid rgb(239, 214, 217);
+            border-left: 1px solid rgb(239, 214, 217);
+            border-right: 1px solid rgb(239, 214, 217);
+            border-bottom: 1px solid rgb(239, 214, 217) !important;
         }
         .list-ios {
             margin: -1px 10px 10px 15px;
@@ -37,30 +60,29 @@
             border-radius: 6px;
             height: 2.8em;
             font-size: 1.6rem;
-            color: black;
-            background-color: #e8a54d;
+            color: #ffffff;
+            background-color: #000000;
             margin: -1px 10px 10px 0px;
         }
-        .login-signwith {
-            margin-top: 40px;
-            margin-bottom: -18px;
-            color: #89b5dc;
+        .button-ios.activated {
+            color: #000000;
+            background-color: #ffffff;
         }
         .item-md {
             padding-left: 10px;
             border-radius: 6px;
             position: relative;
             font-size: 1.7rem;
-            color: #3f5a7b;
+            color: rgb(71, 71, 71);
             background-color: transparent;
             -webkit-transition: background-color 200ms linear;
             transition: background-color 200ms linear;
         }
         .list-md>.item-block:first-child {
-            border-top: 1px solid #769fc2;
-            border-left: 1px solid #769fc2;
-            border-right: 1px solid #769fc2;
-            border-bottom: 1px solid #769fc2;
+            border-top: 1px solid rgb(239, 214, 217);
+            border-left: 1px solid rgb(239, 214, 217);
+            border-right: 1px solid rgb(239, 214, 217);
+            border-bottom: 1px solid rgb(239, 214, 217) !important;
         }
         .list-md {
             margin: -1px 10px 10px 15px;
@@ -69,226 +91,37 @@
             border-radius: 6px;
             height: 2.8em;
             font-size: 1.6rem;
-            color: black;
-            background-color: #e8a54d;
+            color: white;
+            background-color: #000000;
             margin: -1px 10px 10px 0px;
         }
+        .button-md.activated {
+            color: #000000;
+            background-color: #ffffff;
+        }
         .bottom-text {
-            margin-top: 60rem;
+            position: fixed;
+            bottom: 10px;
         }
         .signup-question {
-            margin-right: 1px;
+            margin-left: 10px;
+            margin-right: 10px;
             float: left;
         }
         .signup {
             float: left;
-            color: #e8a54d;
+            color: rgb(127, 127, 127);
+            font-weight: bold;
         }
         .forgot {
-            float: right;
-            margin-left: 45px;
+            text-align: center;
+            font-weight: bold;
+            color: rgb(127, 127, 127);
         }
-        @media screen and (min-width:768px) and (max-width:1024px) {
-            img.logo {
-                width: 30%;
-                margin-top: 10rem;
-                margin-bottom: 2rem;
-            }
-            img.facebook {
-                text-align: center;
-                padding: 0.5rem;
-                width: 60px;
-                height: 65px;
-            }
-            p {
-                color: #7ba4c9;
-                margin-bottom: 3rem;
-            }
-            .list-ios {
-                margin: -1px 10px 10px 15px;
-                padding-left: 20rem;
-                padding-right: 20rem;
-            }
-            .button-ios {
-                border-radius: 6px;
-                height: 2.8em;
-                font-size: 1.6rem;
-                color: black;
-                background-color: #e8a54d;
-                margin: -1px 10px 10px 0px;
-            }
-            .login-signwith {
-                margin-top: 20rem;
-                color: #89b5dc;
-            }
-            .bottom-text {
-                position: absolute;
-                bottom: 1px;
-            }
-            .signup-question {
-                float: left;
-                margin-right: 5px;
-            }
-            .signup {
-                float: left;
-                color: #e8a54d;
-                margin-left: 5px;
-            }
-            .forgot {
-                float: right;
-                margin-left: 430px;
-            }
-        }
-        @media screen and (min-width:320px) and (max-width:359px) {
-            img.logo {
-                width: 30%;
-                margin-top: 4rem;
-                margin-bottom: 2rem;
-            }
-            img.facebook {
-                text-align: center;
-                padding: 0.5rem;
-                width: 60px;
-                height: 65px;
-            }
-            p {
-                color: #7ba4c9;
-                margin-bottom: 3rem;
-            }
-            .list-ios {
-                margin: -1px 10px 10px 15px;
-            }
-            .button-ios {
-                border-radius: 6px;
-                height: 2.8em;
-                font-size: 1.6rem;
-                color: black;
-                background-color: #e8a54d;
-                margin: -1px 10px 10px 0px;
-            }
-            .login-signwith {
-                margin-top: 40px;
-                margin-bottom: -18px;
-                color: #89b5dc;
-            }
-            .bottom-text {
-                font-size: 1.3rem;
-                margin-top: 14rem;
-            }
-            .signup-question {
-                float: left;
-            }
-            .signup {
-                float: left;
-                color: #e8a54d;
-            }
-            .forgot {
-                float: right;
-                margin-left: 5px;
-            }
-        }
-        @media screen and (min-width:360px) and (max-width:374px) {
-            .bottom-text {
-                margin-top: 18rem;
-                font-size: 1.2rem;
-            }
-        }
-        @media screen and (min-width: 412px) and (max-width: 666px) {
-            img.logo {
-                width: 30%;
-                margin-top: 10rem;
-                margin-bottom: 2rem;
-            }
-            img.facebook {
-                text-align: center;
-                padding: 0.5rem;
-                width: 60px;
-                height: 65px;
-            }
-            p {
-                color: #7ba4c9;
-                margin-bottom: 3rem;
-            }
-            .list-ios {
-                margin: -1px 10px 10px 15px;
-            }
-            .button-ios {
-                border-radius: 6px;
-                height: 2.8em;
-                font-size: 1.6rem;
-                color: black;
-                background-color: #e8a54d;
-                margin: -1px 10px 10px 0px;
-            }
-            .login-signwith {
-                margin-top: 40px;
-                margin-bottom: -18px;
-                color: #89b5dc;
-            }
-            .bottom-text {
-                margin-top: 18rem;
-                font-size: 1.2rem;
-            }
-            .signup-question {
-                float: left;
-            }
-            .signup {
-                float: left;
-                color: #e8a54d;
-            }
-            .forgot {
-                float: right;
-                margin-left: 80px;
-            }
-        }
-        @media screen and (min-width: 1024px) and (max-width: 1366px) {
-            img.logo {
-                width: 30%;
-                margin-top: 10rem;
-                margin-bottom: 15rem;
-            }
-            img.facebook {
-                text-align: center;
-                padding: 0.5rem;
-                width: 60px;
-                height: 65px;
-            }
-            p {
-                color: #7ba4c9;
-                margin-bottom: 3rem;
-            }
-            .list-ios {
-                margin: -1px 10px 10px 15px;
-                padding-left: 30rem;
-                padding-right: 30rem;
-            }
-            .button-ios {
-                border-radius: 6px;
-                height: 2.8em;
-                font-size: 1.6rem;
-                color: black;
-                background-color: #e8a54d;
-                margin: -1px 10px 10px 0px;
-            }
-            .login-signwith {
-                margin-top: 40px;
-                margin-bottom: -18px;
-                color: #89b5dc;
-            }
-            .bottom-text {
-                position: absolute;
-                bottom: 1px;
-            }
-            .signup-question {
-                float: left;
-            }
-            .signup {
-                float: left;
-                color: #e8a54d;
-            }
-            .forgot {
-                float: right;
-                margin-left: 690px;
-            }
+        .item-input ion-input,
+        .item-input ion-textarea {
+            position: static;
+            color: rgb(71, 71, 71);
+            font-weight: bold;
         }
     }
