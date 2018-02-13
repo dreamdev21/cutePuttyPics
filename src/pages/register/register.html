@@ -5,35 +5,28 @@
   Ionic pages and navigation.
 -->
 <ion-content padding>
-    <!-- <!-- <img class="logo" src="assets/logo.png" /> -->
-    <img src="assets/logo.png" class="item-avatar">
-    <!-- <p style="background: #2E9BFF;    width: 159px;    padding: 6px; border-radius:8px;color:#FDBCB0" (click)="presentActionSheet()">+ Add Image</p> -->
+    <img src="assets/logo-black.png" class="item-avatar">
     <ion-list>
         <ion-item>
-            <ion-label stacked style="color:#FDBCB0">FULL NAME</ion-label>
-            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="user.fullName" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">FULL NAME</ion-label>
+            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="user.fullName" style="color:rgb(71,71,71);font-weight:bold;"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label stacked style="color:#FDBCB0">EMAIL</ion-label>
-            <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="user.email" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">EMAIL</ion-label>
+            <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="user.email" style="color:rgb(71,71,71);font-weight:bold;"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label stacked style="color:#FDBCB0">PASSWORD</ion-label>
-            <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="user.password" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">PASSWORD</ion-label>
+            <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="user.password" style="color:rgb(71,71,71);font-weight:bold;"></ion-input>
         </ion-item>
-
-        <!-- <ion-item>
-            <ion-label stacked>Paypal EMAIL</ion-label>
-            <ion-input type="email" placeholder="Enter your Paypal Email" [(ngModel)]="user.paypalEmail"></ion-input>
-        </ion-item> -->
         <ion-item>
-            <ion-label><span>By signing up you are agree</span><span class="terms"><u>Terms & Conditions</u></span>
+            <ion-label><span style="color:rgb(127,127,127);font-size:16px;">Agree to our</span><span class="terms"><u>Terms & Conditions</u></span>
             </ion-label>
             <ion-checkbox color="dark" checked="true">
             </ion-checkbox>
         </ion-item>
     </ion-list>
-    <div class="row text-right">
+    <div class="row">
         <button class="signup" ion-button (click)="register(user)">Sign Up</button>
     </div>
 </ion-content>
