@@ -15,66 +15,30 @@
 
 <ion-content padding>
     <img src="{{olduserData.avatar}}" class="item-avatar">
-    <p style="background: #2E9BFF;    width: 159px;    padding: 6px; border-radius:8px;color:#FDBCB0" (click)="presentActionSheet()">Change profile picture</p>
+    <p style="background: #000000;    width: 159px;    padding: 6px; border-radius:8px;color:#ffffff;" (click)="presentActionSheet()">Change profile picture</p>
     <ion-list>
         <ion-item>
-            <ion-label stacked style="color:#FDBCB0">FULL NAME</ion-label>
-            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="olduserData.fullName" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">FULL NAME</ion-label>
+            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="olduserData.fullName" style="color:rgb(127,127,127);"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label stacked style="color:#FDBCB0">EMAIL</ion-label>
-            <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="olduserData.email" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">EMAIL</ion-label>
+            <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="olduserData.email" style="color:rgb(127,127,127);"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label stacked style="color:#FDBCB0">PASSWORD</ion-label>
-            <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="olduserData.password" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">PASSWORD</ion-label>
+            <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="olduserData.password" style="color:rgb(127,127,127);"></ion-input>
         </ion-item>
         <ion-item *ngIf="olduserData.address">
-            <ion-label stacked style="color:#FDBCB0">Home Address</ion-label>
-            <ion-input type="text" [(ngModel)]="olduserData.address" style="color:#ffffff"></ion-input>
+            <ion-label stacked style="color:#000000;font-weight:bold;">Home Address</ion-label>
+            <ion-input type="text" [(ngModel)]="olduserData.address" style="color:rgb(127,127,127);"></ion-input>
         </ion-item>
-
-        <!-- <ion-item>
-            <ion-label stacked style="color:#FDBCB0">Birthday</ion-label>
-            <ion-datetime displayFormat="D MMMM, YYYY" [(ngModel)]="olduserData.birthday" style="height:3rem;" style="color:#ffffff"></ion-datetime>
-        </ion-item>
-        <ion-item>
-            <ion-label style="color:#FDBCB0">Gender</ion-label>
-            <ion-select [(ngModel)]="olduserData.gender" style="color:#ffffff">
-                <ion-option value="0" style="color:#ffffff">Male</ion-option>
-                <ion-option value="1" style="color:#ffffff">Female</ion-option>
-            </ion-select>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked style="color:#FDBCB0">Paypal Email</ion-label>
-            <ion-input type="email" placeholder="Enter your Paypal Email" [(ngModel)]="olduserData.paypalEmail" style="color:#ffffff"></ion-input>
-        </ion-item> -->
-        <!-- <ion-item>
-            <ion-label stacked>Paypal Password</ion-label>
-            <ion-input type="password" placeholder="Enter your Paypal Password" [(ngModel)]="olduserData.paypalPassword"></ion-input>
-        </ion-item> -->
         <ion-item>
         </ion-item>
     </ion-list>
-    <!-- <ion-card *ngIf="olduserData.role == 1">
-        <ion-card-header>
-            TOTAL MONEY SENT
-        </ion-card-header>
-        <ion-card-content>
-            $ {{ transactiontotalmoney }}
-        </ion-card-content>
-    </ion-card>
-    <ion-card *ngIf="olduserData.role == 0">
-        <ion-card-header>
-            TOTAL MONEY RECEIVED
-        </ion-card-header>
-        <ion-card-content>
-            $ {{ transactiontotalmoney }}
-        </ion-card-content>
-    </ion-card> -->
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <p style="background: #2E9BFF;    width: 159px;    padding: 6px; border-radius:8px;color:#FDBCB0" (click)="goCashout()">Cash out options</p>
+            <p style="background: #000000;    width: 159px;    padding: 6px; border-radius:8px;color:#ffffff" (click)="goCashout()">Cash out options</p>
         </ion-col>
     </ion-row>
     <ion-row>

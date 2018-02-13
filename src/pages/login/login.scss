@@ -18,40 +18,40 @@
             transition: background-color 200ms linear;
         }
         .item-md.item-input.input-has-focus .item-inner {
-            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
             box-shadow: none !important;
         }
         .list-md .item-input.input-has-focus:last-child {
-            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
             box-shadow: none !important;
         }
         .list-md .item-input.input-has-focus:last-child .item-inner {
             box-shadow: none;
         }
         .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
-            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
             box-shadow: none !important;
         }
         .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
-            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
             box-shadow: none !important;
         }
         .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
             box-shadow: none;
         }
         .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
-            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
             box-shadow: none !important;
         }
         .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
-            border-bottom: 0.55px solid rgb(239, 214, 217) !important;
+            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
             box-shadow: none !important;
         }
         .list-ios>.item-block:first-child {
-            border-top: 1px solid rgb(239, 214, 217);
-            border-left: 1px solid rgb(239, 214, 217);
-            border-right: 1px solid rgb(239, 214, 217);
-            border-bottom: 1px solid rgb(239, 214, 217) !important;
+            border-top: 1px solid rgb(239, 214, 207);
+            border-left: 1px solid rgb(239, 214, 207);
+            border-right: 1px solid rgb(239, 214, 207);
+            border-bottom: 1px solid rgb(239, 214, 207) !important;
         }
         .list-ios {
             margin: -1px 10px 10px 15px;
@@ -79,10 +79,10 @@
             transition: background-color 200ms linear;
         }
         .list-md>.item-block:first-child {
-            border-top: 1px solid rgb(239, 214, 217);
-            border-left: 1px solid rgb(239, 214, 217);
-            border-right: 1px solid rgb(239, 214, 217);
-            border-bottom: 1px solid rgb(239, 214, 217) !important;
+            border-top: 1px solid rgb(239, 214, 207);
+            border-left: 1px solid rgb(239, 214, 207);
+            border-right: 1px solid rgb(239, 214, 207);
+            border-bottom: 1px solid rgb(239, 214, 207) !important;
         }
         .list-md {
             margin: -1px 10px 10px 15px;
