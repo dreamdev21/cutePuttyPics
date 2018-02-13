@@ -36,30 +36,34 @@
             $ {{transactiontotalmoneyreceived}}
         </ion-card-content>
     </ion-card>
+    <p style="color: rgb(71,71,71);">*TipQR fee is reflected in the amount of shown.</p>
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <p style="background: #2E9BFF;    width: 159px;    padding: 6px; border-radius:8px;color:#FDBCB0" (click)="goCashout()">Cash out options</p>
+
+        </ion-col>
+        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+            <p style=" background: #000000; width: 159px; padding: 6px; border-radius:8px;color:#ffffff " (click)="goCashout() ">Cash out options</p>
         </ion-col>
     </ion-row>
     <ion-list>
         <ion-item>
-            <ion-item-sliding *ngFor="let transaction of receivetransactions">
-                <ion-item class="sentmoneylist">
+            <ion-item-sliding *ngFor="let transaction of receivetransactions ">
+                <ion-item class="sentmoneylist ">
                     <ion-avatar item-start>
-                        <img src="{{transaction.avatar}}">
+                        <img src="{{transaction.avatar}} ">
                     </ion-avatar>
                     <ion-row>
                         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
                             <h2>{{transaction.name[0]}} sent you $ {{transaction.amount}}</h2>
-                            <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
+                            <p>{{transaction.date | date:"MM/dd/yyyy "}}</p>
                         </ion-col>
 
                     </ion-row>
 
 
                 </ion-item>
-                <ion-item-options side="right">
-                    <button ion-button color="danger" (click)="deleteTransaction(transaction.date)">
+                <ion-item-options side="right ">
+                    <button ion-button color="danger " (click)="deleteTransaction(transaction.date) ">
                   DELETE
                 </button>
                 </ion-item-options>

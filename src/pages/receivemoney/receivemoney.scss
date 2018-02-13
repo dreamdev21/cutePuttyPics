@@ -1,12 +1,4 @@
 page-receivemoney {
-    .content-md {
-        background-color: white !important;
-        text-align: center;
-    }
-    .content-ios {
-        background-color: white !important;
-        text-align: center;
-    }
     .item-md {
         background: transparent !important;
     }
@@ -15,7 +7,7 @@ page-receivemoney {
     }
     .card-md {
         border-radius: 7px;
-        background: #F0B42F;
+        background: #ffffff;
     }
     .card-ios {
         border-radius: 7px;
@@ -23,19 +15,19 @@ page-receivemoney {
     }
     .card-header-md {
         text-align: center;
-        color: #7ba4c9;
+        color: rgb(71, 71, 71) !important;
     }
     .card-header-ios {
         text-align: center;
-        color: #7ba4c9;
+        color: rgb(71, 71, 71) !important;
     }
     .card-content-md {
         font-size: 3.4rem;
-        color: #ffffff;
+        color: #000000;
     }
     .card-content-ios {
         font-size: 3.4rem;
-        color: white;
+        color: #000000;
     }
     .toolbar-background-md {}
     .toolbar-background-ios {}
@@ -58,44 +50,12 @@ page-receivemoney {
     .list-ios .item-block .item-inner {
         border-bottom: 0px solid #dedede;
     }
-    .segment-ios .segment-button:first-of-type {
-        font-size: 16px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 4px;
-        margin-right: 0;
-    }
-    .segment-ios .segment-button.segment-activated {
-        font-size: 16px;
+    .button-md {
         color: #fff;
-        background-color: #456388;
-        opacity: 1;
-        -webkit-transition: .1s all linear;
-        transition: .1s all linear;
+        background-color: #000000;
     }
-    .segment-md .segment-button:first-of-type {
-        font-size: 16px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 8px;
-        margin-right: 0;
-    }
-    .segment-md .segment-button:last-of-type {
-        font-size: 16px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        border-bottom-left-radius: 0;
-        margin-right: 0;
-    }
-    .segment-md .segment-button.segment-activated {
-        font-size: 16px;
+    .button-md.activated {
         color: #fff;
-        background-color: #456388;
-        opacity: 1;
-        -webkit-transition: .1s all linear;
-        transition: .1s all linear;
+        background-color: #000000;
     }
 }
