@@ -36,6 +36,8 @@
             <ion-radio value="bank" checked (ionSelect)="radio_select('bank')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod == 3"></ion-radio>
             <ion-radio value="bank" (ionSelect)="radio_select('bank')" style="color:#ffffff" *ngIf="olduserData.cashoutMethod != 3"></ion-radio>
         </ion-item>
+        <ion-item style="display:none;">
+        </ion-item>
     </ion-list>
     <ion-card *ngIf="mail" style="padding:20px;">
         <ion-card-header>
@@ -64,9 +66,7 @@
                     <ion-input type="text" [(ngModel)]="olduserData.zipCode"></ion-input>
                 </ion-item>
                 <ion-item style="height:0rem !important;min-height:0rem !important;">
-
                 </ion-item>
-
             </ion-list>
         </ion-card-content>
     </ion-card>
@@ -80,15 +80,8 @@
                     <ion-label stacked>Paypal Email</ion-label>
                     <ion-input type="text" [(ngModel)]="olduserData.paypalEmail"></ion-input>
                 </ion-item>
-
-                <!-- <ion-item>
-                    <ion-label stacked>Paypal Password</ion-label>
-                    <ion-input type="password" [(ngModel)]="olduserData.paypalPassword"></ion-input>
-                </ion-item> -->
                 <ion-item style="height:0rem !important;min-height:0rem !important;">
-
                 </ion-item>
-
             </ion-list>
         </ion-card-content>
     </ion-card>
@@ -98,12 +91,10 @@
         </ion-card-header>
         <ion-card-content>
             <ion-list>
-
                 <ion-item>
                     <ion-label stacked>Name on Account</ion-label>
                     <ion-input type="text" [(ngModel)]="olduserData.bankAccountName"></ion-input>
                 </ion-item>
-
                 <ion-item>
                     <ion-label stacked>Bank Name</ion-label>
                     <ion-input type="text" [(ngModel)]="olduserData.bankName"></ion-input>
@@ -117,19 +108,17 @@
                     <ion-input type="text" [(ngModel)]="olduserData.bankRouting"></ion-input>
                 </ion-item>
                 <ion-item style="height:0rem !important;min-height:0rem !important;">
-
                 </ion-item>
-
             </ion-list>
         </ion-card-content>
     </ion-card>
     <ion-card style="padding:5px;text-align:left;">
-
         <ion-card-content>
             <p>Balances will be paid weekly for Paypal and Bank Account options, and bi-weekly for Checks.</p><br/>
             <p>TipQR will receive 20% for services provided.</p>
         </ion-card-content>
     </ion-card>
+    <p style="color:black;text-align:left;margin:10px;font-weight:bold;">Please ensure all information is correct on your receive method, in order to receive your money in a timely manner.</p>
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <button class="signup" ion-button (click)="updateUser(olduserData)">SAVE</button>

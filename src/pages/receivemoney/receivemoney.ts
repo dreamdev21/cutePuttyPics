@@ -116,10 +116,25 @@ export class ReceivemoneyPage {
       title: 'Please Enter Home Address.',
       inputs: [
         {
-          name: 'address',
-          placeholder: 'Home Address'
+          name: 'streetAddress1',
+          placeholder: 'Street Address1'
         },
-
+        {
+          name: 'streetAddress2',
+          placeholder: 'Street Address2'
+        },
+        {
+          name: 'city',
+          placeholder: 'City'
+        },
+        {
+          name: 'state',
+          placeholder: 'State'
+        },
+        {
+          name: 'zipCode',
+          placeholder: 'ZipCode'
+        },
       ],
 
       buttons: [
@@ -127,7 +142,11 @@ export class ReceivemoneyPage {
         {
           text: 'Request',
           handler: data => {
-            this.userAddress =data.address;
+            this.user.streetAddress1 = data.streetAddress1;
+            this.user.streetAddress2 = data.streetAddress2;
+            this.user.city = data.city;
+            this.user.state = data.state;
+            this.user.zipCode = data.zipCode;
             this.requestQRcode();
           }
         }
@@ -137,45 +156,68 @@ export class ReceivemoneyPage {
     alert.present();
   }
   requestQRcode(){
-    if(this.userAddress){
-      var that = this;
-      var query = firebase.database().ref("users").orderByKey();
-      query.once("value").then(function (snapshot) {
-        snapshot.forEach(function (childSnapshot) {
-          if (childSnapshot.val().role == 3) {
-            var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername=' + childSnapshot.val().fullName + '&usermail=' + that.user.email + '&username=' + that.user.fullName + '&userpassword=' + that.user.password;
-            console.log(link);
-            that.http.get(link).map(res => res.json())
-              .subscribe(data => {
-                console.log(data);
-              }, error => {
-                console.log("Oooops!");
+    if (this.user.streetAddress1){
+      if (this.user.streetAddress2) {
+        if (this.user.city) {
+          if (this.user.state) {
+            if (this.user.zipCode) {
+              var that = this;
+              var query = firebase.database().ref("users").orderByKey();
+              query.once("value").then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                  if (childSnapshot.val().role == 3) {
+                    var link = 'http://tipqrbackend.com.candypickers.com/sendsuperadminuserregisterconfirm?supermailaddress=' + childSnapshot.val().email + '&supername=' + childSnapshot.val().fullName + '&usermail=' + that.user.email + '&username=' + that.user.fullName + '&userpassword=' + that.user.password;
+                    console.log(link);
+                    that.http.get(link).map(res => res.json())
+                      .subscribe(data => {
+                        console.log(data);
+                      }, error => {
+                        console.log("Oooops!");
+                      });
+                  }
+                });
               });
-          }
-        });
-      });
-      that.showAlertSuccess("Your Request for QR code has been processed!");
-      that.qrRequest = 1;
-      that.user.qrRequested = 1;
-      that.user.address = that.userAddress;
-      that.storage.set('currentUser', that.user);
-      var ref = firebase.database().ref().child('users');
-      var refUserId = ref.orderByChild('id').equalTo(that.user.id);
-      refUserId.once('value', function (snapshot) {
-        if (snapshot.hasChildren()) {
-          snapshot.forEach(
-            function (snap) {
-              snap.ref.update({
-                'qrRequested': 1,
-                'address': that.userAddress
+              that.showAlertSuccess("Your Request for QR code has been processed!");
+              that.qrRequest = 1;
+              that.user.cashoutMethod = 1;
+              that.user.qrRequested = 1;
+              // that.user.address = that.userAddress;
+              that.storage.set('currentUser', that.user);
+              var ref = firebase.database().ref().child('users');
+              var refUserId = ref.orderByChild('id').equalTo(that.user.id);
+              refUserId.once('value', function (snapshot) {
+                if (snapshot.hasChildren()) {
+                  snapshot.forEach(
+                    function (snap) {
+                      snap.ref.update({
+                        'qrRequested': 1,
+                        'streetAddress1': that.user.streetAddress1,
+                        'streetAddress2': that.user.streetAddress2,
+                        'city': that.user.city,
+                        'state': that.user.state,
+                        'zipCode': that.user.zipCode,
+                        'cashoutMethod': that.user.cashoutMethod
+                      });
+                      return true;
+                    });
+                }
               });
 
-              return true;
-            });
+            } else {
+              this.showAlert("Please enter ZipCode");
+            }
+          } else {
+            this.showAlert("Please enter State");
+          }
+        } else {
+          this.showAlert("Please enter City");
         }
-      });
+      } else {
+        this.showAlert("Please enter Home Street Address2");
+      }
+
     }else{
-      this.showAlert("Please enter home address!");
+      this.showAlert("Please enter Home Street Address1");
     }
 
   }
