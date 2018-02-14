@@ -9,6 +9,7 @@ import { User } from '../../models/user';
 import { LoadingController, Loading } from 'ionic-angular';
 import { SenderPage } from '../sender/sender';
 import { ReceivemoneyPage } from '../receivemoney/receivemoney';
+import { CashOutPage } from '../cash-out/cash-out';
 import { Storage } from '@ionic/storage';
 /**
  * Generated class for the VerifyQRcodePage page.
@@ -49,7 +50,6 @@ export class VerifyQRcodePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad VerifyQRcodePage');
     this.scanCode();
-
   }
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
@@ -151,14 +151,13 @@ export class VerifyQRcodePage {
           });
       }
     });
-    that.navCtrl.push(ReceivemoneyPage,{
+    that.navCtrl.push(CashOutPage,{
       user:that.user
     });
   }
   updateQRgroup(qrnumber) {
     var that = this;
     var ref = firebase.database().ref().child('qrdatas');
-
   }
   verifyConfirmMail(userId){
     var that = this;

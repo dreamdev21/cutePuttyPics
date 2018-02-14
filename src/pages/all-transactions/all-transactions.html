@@ -19,17 +19,14 @@
             <ion-item-sliding *ngFor="let transaction of completedTransactions">
                 <ion-item class="sentmoneylist" (click)="showDetailTransaction(transaction.date)">
                     <ion-avatar item-start>
-                        <img src="{{transaction.senderAvatar}}">
+                        <img src="{{transaction.receiverAvatar}}">
                     </ion-avatar>
                     <ion-row>
                         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                            <h2>{{transaction.senderName[0]}} sent $ {{transaction.amount}} to {{transaction.receiverName[0]}}</h2>
+                            <h2> {{transaction.receiverName[0]}} {{transaction.amount[0] | currency:'USD':true:'1.2-2'}} received by {{transaction.senderName[0]}}</h2>
                             <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
                         </ion-col>
-
                     </ion-row>
-
-
                 </ion-item>
                 <ion-item-options side="right">
                     <button ion-button color="danger" (click)="deleteTransaction(transaction.date)">

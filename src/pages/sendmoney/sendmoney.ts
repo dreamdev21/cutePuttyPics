@@ -179,10 +179,10 @@ export class SendmoneyPage {
       snapshot.forEach(function (childSnapshot) {
         if (childSnapshot.val().qrId == qrnumber) {
 
-          if (childSnapshot.val().cashoutMethod == 0) {
-            that.showAlert("Sorry, Receiver cashout method did not set");
-            that.gotoHome();
-          }
+          // if (childSnapshot.val().cashoutMethod == 0) {
+          //   that.showAlert("Sorry, Receiver cashout method did not set");
+          //   that.gotoHome();
+          // }
 
           that.sendmoneyData.receiverid = childSnapshot.val().id;
           that.sendmoneyData.receivername = childSnapshot.val().fullName;
@@ -215,7 +215,6 @@ export class SendmoneyPage {
           that.sendmoneyData.receivername = childSnapshot.val().fullName;
           that.receiverAvatar = childSnapshot.val().avatar();
           that.sendmoneyData.sendername = that.sender.fullName;
-
         }
       });
     });
@@ -237,7 +236,6 @@ export class SendmoneyPage {
         }
       });
     });
-
 
   }
   selectReceiver(groupReceivers:any) {
@@ -268,7 +266,6 @@ export class SendmoneyPage {
   goTransaction(receiver){
 
   }
-
 
   showAlert(text) {
     let alert = this.alertCtrl.create({

@@ -29,7 +29,7 @@
             TOTAL BALANCE
         </ion-card-header>
         <ion-card-content>
-            $ {{transactiontotalmoneyreceived}}
+            {{transactiontotalmoneyreceived*0.8 | currency:'USD':true:'1.2-2'}}
         </ion-card-content>
     </ion-card>
     <p style="color: rgb(71,71,71);">*TipQR fee is reflected in the amount of shown.</p>
@@ -50,7 +50,7 @@
                     </ion-avatar>
                     <ion-row>
                         <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                            <h2>{{transaction.name[0]}} sent you $ {{transaction.amount}}</h2>
+                            <h2 style="color:black">{{transaction.name[0]}} sent you {{transaction.amount[0]*0.8 | currency:'USD':true:'1.2-2'}}</h2>
                             <p>{{transaction.date | date:"MM/dd/yyyy "}}</p>
                         </ion-col>
 
@@ -58,8 +58,8 @@
 
 
                 </ion-item>
-                <ion-item-options side="right ">
-                    <button ion-button color="danger " (click)="deleteTransaction(transaction.date) ">
+                <ion-item-options side="right">
+                    <button ion-button color="danger" (click)="deleteTransaction(transaction.date) ">
                   DELETE
                 </button>
                 </ion-item-options>

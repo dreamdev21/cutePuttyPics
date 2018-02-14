@@ -20,7 +20,7 @@
                 TOTAL RECEIVED
             </ion-card-header>
             <ion-card-content>
-                $ {{transactiontotalmoneyreceived}}
+                {{transactiontotalmoneyreceived | currency:'USD':true:'1.2-2'}}
             </ion-card-content>
         </ion-card>
         <ion-card *ngSwitchCase="'sent'">
@@ -28,7 +28,7 @@
                 TOTAL SENT
             </ion-card-header>
             <ion-card-content>
-                $ {{transactiontotalmoneysent}}
+                {{transactiontotalmoneysent | currency:'USD':true:'1.2-2'}}
             </ion-card-content>
         </ion-card>
     </div>
@@ -58,7 +58,7 @@
                                 <p style="color:rgb(71, 71, 71)">{{transaction.date | date:"MM/dd/yyyy"}}</p>
                             </ion-col>
                             <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                                <h1 style=" color: black;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1>
+                                <h1 style=" color: black;text-align:right;margin-top:5px;">{{ transaction.amount[0] | currency:'USD':true:'1.2-2'}}</h1>
                             </ion-col>
                         </ion-row>
 
@@ -81,11 +81,11 @@
                         </ion-avatar>
                         <ion-row>
                             <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                                <h2>{{transaction.name[0]}}</h2>
-                                <p>{{transaction.date | date:"MM/dd/yyyy"}}</p>
+                                <h2 style="color:black">{{transaction.name[0]}}</h2>
+                                <p style="color:rgb(71, 71, 71)">{{transaction.date | date:"MM/dd/yyyy"}}</p>
                             </ion-col>
                             <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                                <h1 style=" color: red;text-align:right;margin-top:5px;">$ {{transaction.amount}}</h1>
+                                <h1 style=" color: black;text-align:right;margin-top:5px;">{{transaction.amount[0] | currency:'USD':true:'1.2-2'}}</h1>
                             </ion-col>
                         </ion-row>
 

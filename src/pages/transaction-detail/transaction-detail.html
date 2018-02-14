@@ -16,11 +16,11 @@
 <ion-content padding>
     <ion-card style="padding:5px;background:transparent;">
         <ion-card-header>
-            <p style="font-size:20px;color:#ffffff">Transaction Detail</p>
+            <p style="font-size:20px;color:#000000;font-weight:bold;">Transaction Detail</p>
         </ion-card-header>
         <ion-card-content>
             <p>Date : {{transaction.date | date:"MM/dd/yyyy"}}</p>
-            <p>Amount : $ {{transaction.amount}}</p>
+            <p>Amount : {{transaction.amount[0] | currency:'USD':true:'1.2-2'}}</p>
             <p *ngIf="transaction.state == 0">Status : Pending</p>
             <p *ngIf="transaction.state == 1">Status : Complete</p>
         </ion-card-content>
@@ -52,7 +52,7 @@
     </ion-card>
     <ion-card style="padding:5px;background:transparent;">
         <ion-card-header>
-            <p style="font-size:20px;color:#ffffff">Cash out Method</p>
+            <p style="font-size:20px;color:#000000;font-weight:bold;">Cash out Method</p>
         </ion-card-header>
         <ion-card-content *ngIf="transaction.receiverCashoutMethod == 1">
             <p>Street Address : {{transaction.receiverStreetAddress1}} {{transaction.receiverStreetAddress1}}</p>
@@ -73,7 +73,7 @@
     </ion-card>
     <ion-row *ngIf="transaction.state == 0">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <button class="signup" ion-button (click)="goMakeComplete()">MARK AS COMPLETE</button>
+            <button ion-button (click)="goMakeComplete()">MARK AS COMPLETE</button>
         </ion-col>
     </ion-row>
 </ion-content>

@@ -78,6 +78,7 @@ export class ReportPage {
             transaction.amount.push(childSnapshot.val().sendmoney);
             that.receivetransactions.unshift(transaction);
             that.transactiontotalmoneyreceived += Number(childSnapshot.val().sendmoney);
+            console.log(transaction.amount[0]);
           }
           if (childSnapshot.val().senderid == that.user.id){
             var receiverid = childSnapshot.val().receiverid;
