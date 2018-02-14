@@ -37,7 +37,7 @@ export class SendmoneyPage {
   public receiver = {} as User;
   public transactiondata = {} as sendmoneyData;
   public receiverAvatar : any;
-  public val = '$0.00';
+  public val = '$';
   public sendmoneyformatedcurrency : any;
   public groupReceivers: Array<{
     fullName: any,
@@ -65,6 +65,7 @@ export class SendmoneyPage {
     this.sendmoneyData.senderid = this.sender.id;
     this.groupReceivers = [];
     this.scanCode();
+    // this.findReceiver(1516170323270);
     const options = {
       prefix: '$',
       suffix: '',

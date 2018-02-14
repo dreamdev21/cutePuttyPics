@@ -17,15 +17,15 @@
 
     <div class="present">
         <ion-row>
-            <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer" style="padding:0;margin:0;">
+            <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="" style="padding:0;margin:0;">
                 <img src="{{receiverAvatar}}" class="item-avatar" style="border-radius: 50%;" *ngIf="receiverAvatar">
             </ion-col>
         </ion-row>
-        <ion-row style="color:#ffffff;position:absolute;margin-top:-50px;text-align:center;margin-left:30px;font-weight:bold;">
+        <!-- <ion-row style="color:#ffffff;position:absolute;margin-top:-50px;text-align:center;margin-left:30px;font-weight:bold;">
             <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendercontainer" style="padding:0;margin:0;">
                 <!-- <span *ngIf="sendmoneyData.sendmoney">${{sendmoneyData.sendmoney}}</span> -->
-            </ion-col>
-        </ion-row>
+        <!-- </ion-col>
+        </ion-row> -->
     </div>
     <ion-row>
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendmoneylabel">
@@ -77,30 +77,6 @@
         </ion-col>
     </ion-row>
 
-    <!-- <ion-row style="height: 30px;">
-        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
-            <p style="text-align:left">Fee</p>
-        </ion-col>
-        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
-            <p style="text-align:right">It's free</p>
-        </ion-col>
-    </ion-row> -->
-
-    <ion-row style="font-size:1.2rem;">
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 class="sendmoneylabel">
-            <hr style="border-color:rgb(66, 98, 131) !important;background-color:rgb(66, 98, 131);">
-        </ion-col>
-    </ion-row>
-    <!-- <ion-row style="height: 30px;margin-bottom:30px;">
-        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
-            <p style="text-align:left;color:rgb(66, 98, 131);">Select Receiver</p>
-        </ion-col>
-        <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 class="sendmoneylabel">
-            <p style="text-align:right;color:#e8a54d;">
-                Add new
-            </p>
-        </ion-col>
-    </ion-row> -->
     <ion-row *ngIf="qrType">
         <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
             <ion-list>
@@ -123,10 +99,6 @@
             <button class="signup" ion-button (click)="paytoReceiver(qr)">NEXT</button>
         </ion-col>
     </ion-row>
-    <!-- <ion-row style="margin-top:10px;">
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <button class="signup" ion-button (click)="gotoHome()">Go to Home</button>
-        </ion-col>
-    </ion-row> -->
+
 
 </ion-content>
