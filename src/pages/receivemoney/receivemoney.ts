@@ -157,7 +157,7 @@ export class ReceivemoneyPage {
   }
   requestQRcode(){
     if (this.user.streetAddress1){
-      if (this.user.streetAddress2) {
+      // if (this.user.streetAddress2) {
         if (this.user.city) {
           if (this.user.state) {
             if (this.user.zipCode) {
@@ -212,9 +212,9 @@ export class ReceivemoneyPage {
         } else {
           this.showAlert("Please enter City");
         }
-      } else {
-        this.showAlert("Please enter Home Street Address2");
-      }
+      // } else {
+      //   this.showAlert("Please enter Home Street Address2");
+      // }
 
     }else{
       this.showAlert("Please enter Home Street Address1");

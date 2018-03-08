@@ -23,9 +23,12 @@
     <ion-list>
         <button ion-button full (click)="Login(user)">SIGN IN</button>
     </ion-list>
-    <p class="forgot" (click)="goForgotPassword()">Forgot password!</p>
-    <div class="bottom-text">
-        <p class="signup-question"> Don't have an account? </p>
-        <p class="signup" (click)="goRegister()"> Sign Up</p>
-    </div>
+    <ion-list>
+        <p class="forgot" (click)="goForgotPassword()">Forgot password!</p>
+        <div class="bottom-text">
+            <p class="signup-question"> Don't have an account? </p>
+            <p class="signup" (click)="goRegister()"> Sign Up</p>
+        </div>
+    </ion-list>
+
 </ion-content>

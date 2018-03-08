@@ -100,8 +100,9 @@
             background-color: #ffffff;
         }
         .bottom-text {
-            position: fixed;
-            bottom: 10px;
+            // position: absolute;
+            // bottom: 10px;
+            margin-top: 80px;
         }
         .signup-question {
             margin-left: 10px;
