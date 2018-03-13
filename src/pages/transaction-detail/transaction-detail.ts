@@ -38,7 +38,8 @@ export class TransactionDetailPage {
     receiverBankAccountName: [],
     receiverBankName: [],
     receiverBankAccountNumber: [],
-    receiverBankRouting: []
+    receiverBankRouting: [],
+    receiverBankRoutingNumber:[]
   };
   public transaction_Id : number;
   constructor(

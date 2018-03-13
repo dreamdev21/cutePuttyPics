@@ -124,11 +124,13 @@ export class CashOutPage {
               that.olduserData.bankAccountNumber = newuserData.bankAccountNumber;
               that.olduserData.bankName = newuserData.bankName;
               that.olduserData.bankRouting = newuserData.bankRouting;
+              that.olduserData.bankRoutingNumber = newuserData.bankRoutingNumber;
               snap.ref.update({
                 "bankAccountName": newuserData.bankAccountName,
                 "bankName": newuserData.bankName,
                 "bankRouting": newuserData.bankRouting,
                 "bankAccountNumber": newuserData.bankAccountNumber,
+                "bankRoutingNumber": newuserData.bankRoutingNumber,
                 "cashoutMethod": that.cashoutMethod
               });
             }

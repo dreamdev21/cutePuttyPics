@@ -91,6 +91,7 @@ export class RegisterPage {
                 user.bankAccountNumber = "";
                 user.bankName = "";
                 user.bankRouting = "";
+                user.bankRoutingNumber = "";
                 user.state = "";
                 that.afd.list('/users/').push(user);
                 var query = firebase.database().ref("users").orderByKey();

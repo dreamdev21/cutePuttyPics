@@ -107,8 +107,8 @@ export class SettingsPage {
             this.olduserData.fullName = newuserData.fullName;
             this.olduserData.password = newuserData.password;
             this.olduserData.email = newuserData.email;
-            if(newuserData.address){
-              this.olduserData.address = newuserData.address;
+          if (newuserData.streetAddress1){
+            this.olduserData.streetAddress1 = newuserData.streetAddress1;
             }
             var that= this;
             var ref = firebase.database().ref().child('/users');
@@ -118,13 +118,13 @@ export class SettingsPage {
               if (snapshot.hasChildren()) {
                   snapshot.forEach(
                     function(snap){
-                      if(newuserData.address){
+                      if (newuserData.streetAddress1){
                         snap.ref.update({
                           "fullName": newuserData.fullName,
                           "email": newuserData.email,
                           "password": newuserData.password,
                           "avatar": newuserData.avatar,
-                          "address": newuserData.address
+                          "streetAddress1": newuserData.streetAddress1
                         });
                       }else{
                         snap.ref.update({

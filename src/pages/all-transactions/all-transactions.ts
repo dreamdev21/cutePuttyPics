@@ -78,7 +78,8 @@ export class AllTransactionsPage {
           receiverBankAccountName: [],
           receiverBankName: [],
           receiverBankAccountNumber: [],
-          receiverBankRouting: []
+          receiverBankRouting: [],
+          receiverBankRoutingNumber: [],
         }
 
         var senderid = childSnapshot.val().senderid;
@@ -107,6 +108,7 @@ export class AllTransactionsPage {
                 transaction.receiverBankName.push(childSnapshot.val().bankName);
                 transaction.receiverBankAccountNumber.push(childSnapshot.val().bankAccountNumber);
                 transaction.receiverBankRouting.push(childSnapshot.val().bankRouting);
+                transaction.receiverBankRoutingNumber.push(childSnapshot.val().bankRoutingNumber);
               }
             });
           });

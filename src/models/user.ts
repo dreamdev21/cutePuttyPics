@@ -23,5 +23,6 @@ export interface User {
     bankAccountNumber:string;
     bankName:string;
     bankRouting:string;
+    bankRoutingNumber:string;
     cashoutMethod:number;
 }

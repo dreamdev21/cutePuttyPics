@@ -87,6 +87,7 @@ export class LoginPage {
                   that.user.bankAccountNumber = childSnapshot.val().bankAccountNumber;
                   that.user.bankName = childSnapshot.val().bankName;
                   that.user.bankRouting = childSnapshot.val().bankRouting;
+                  that.user.bankRoutingNumber = childSnapshot.val().bankRoutingNumber;
                   that.goLogin(user);
                   that.storage.set('currentUser',that.user);
                 }else{
