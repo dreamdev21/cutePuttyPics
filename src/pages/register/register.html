@@ -20,7 +20,21 @@
             <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="user.password" style="color:rgb(71,71,71);font-weight:bold;"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label><span style="color:rgb(127,127,127);font-size:16px;">Agree to our</span><span class="terms"><u>Terms & Conditions</u></span>
+            <ion-label>
+                <a class="item" href="#" onclick="window.open('http://www.tipqr.com/terms',  '_blank', 'location=no'); return true;">
+
+
+
+                    <span style="color:rgb(127,127,127);font-size:16px;">
+
+                    Agree to our</span>
+                    <span class="terms">
+                      <u>Terms & Conditions</u>
+                    </span>
+
+                </a>
+
+
             </ion-label>
             <ion-checkbox color="dark" checked="true">
             </ion-checkbox>
