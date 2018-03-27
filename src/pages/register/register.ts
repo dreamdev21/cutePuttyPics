@@ -61,10 +61,10 @@ export class RegisterPage {
                 that.showAlert("Email already exist!");
                 checkstate = false;
               }
-              if (childSnapshot.val().fullName == user.fullName){
-                that.showAlert("Name already exist!");
-                checkstate = false;
-              }
+              // if (childSnapshot.val().fullName == user.fullName){
+              //   that.showAlert("Name already exist!");
+              //   checkstate = false;
+              // }
             }
             });
             if(checkstate){
