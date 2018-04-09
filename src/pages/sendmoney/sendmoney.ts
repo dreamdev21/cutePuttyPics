@@ -97,37 +97,42 @@ export class SendmoneyPage {
       sendmoneyData.transactionid = now.getTime();
       this.storage.set('transaction', 1);
 
-      this.payPal.init({
-        PayPalEnvironmentProduction: 'AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9',
-        PayPalEnvironmentSandbox: 'AZcU9_W5Ri_P6WvKvaY7LHoWnJms_lwks6fRUEBpyrAl43mtdaKIuz0Wf8cET0SQSypN0oycJQVHObHm'
-      }).then(() => {
-        // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-        this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-          // Only needed if you get an "Internal Service Error" after PayPal login!
-          //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-        })).then(() => {
-          let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), 'USD', 'Description', 'sale');
-          // payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
-          this.payPal.renderSinglePaymentUI(payment).then(() => {
-            this.afd.list('/transactions/').push(sendmoneyData);
-            this.showAlertSuccess("Transaction completed!");
+      this.payPal
+        .init({
+          PayPalEnvironmentProduction:
+            "AShaK_z3g4OBVcdYtG0oDuwBmgNXFxGBHD41Q7oYxqHY6fXiNcAI-hmoy3P62HEifRxqvYDoxK5cWnp9",
+          PayPalEnvironmentSandbox:
+            "Abacm9KbTQnhqyNP9gBI8cDxpgPeTm24MR_Gq3zwpEgyefHLIM1seUkRfQmSqMsynd2SgaovIuFBVL4t"
+        })
+        .then(() => {
+            // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+            this.payPal
+              .prepareToRender("PayPalEnvironmentSandbox", new PayPalConfiguration(
+                  {
+                    // Only needed if you get an "Internal Service Error" after PayPal login!
+                    //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+                  }
+                ))
+              .then(() => {
+                  let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), "USD", "Description", "sale");
+                  // payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
+                  this.payPal.renderSinglePaymentUI(payment).then(() => {
+                      this.afd.list("/transactions/").push(sendmoneyData);
+                      this.showAlertSuccess("Transaction completed!");
 
-            this.storage.remove('transaction');
-            this.storage.get('currentUser').then((val) => {
-              this.navCtrl.push(SenderPage, {
-                'user': val
-              });
-            });
-
+                      this.storage.remove("transaction");
+                      this.storage.get("currentUser").then(val => {
+                        this.navCtrl.push(SenderPage, { user: val });
+                      });
+                    }, () => {
+                      // Error or render dialog closed without being successful
+                    });
+                }, () => {
+                  // Error in configuration
+                });
           }, () => {
-            // Error or render dialog closed without being successful
+            // Error in initialization, maybe PayPal isn't supported or something else
           });
-        }, () => {
-          // Error in configuration
-        });
-      }, () => {
-        // Error in initialization, maybe PayPal isn't supported or something else
-      });
     }
 
   }
