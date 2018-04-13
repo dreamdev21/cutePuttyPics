@@ -13,6 +13,7 @@ import { CashOutPage } from '../cash-out/cash-out';
 import { ActionSheetController, Platform, LoadingController, Loading } from 'ionic-angular';
 
 import { Camera } from '@ionic-native/camera';
+import { SuperadminPage } from '../superadmin/superadmin';
 
 
 declare var cordova: any;
@@ -143,10 +144,18 @@ export class SettingsPage {
                 console.log('wrong');
               }
             });
-
-            that.navCtrl.push(SenderPage, {
-              user: that.olduserData
+           that.storage.get("currentUser").then(val => {
+              if (val) {
+                if (val.role == 3) {
+                  that.navCtrl.push(SuperadminPage, { user: that.olduserData });
+                } else {
+                   that.navCtrl.push(SenderPage, {
+                     user: that.olduserData
+                   });
+                }
+              }
             });
+
 
 
         }else{
