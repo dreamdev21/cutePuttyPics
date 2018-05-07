@@ -5,19 +5,19 @@
   Ionic pages and navigation.
 -->
 <ion-content padding>
-    <ion-list>
-        <button ion-item *ngFor="let item of items;let i = index" (click)="generateQRcode(item)">
-          <!-- <div class="item-note" item-left (click)="generateQRcode(item)">
-            {{item.email}}
-          </div>
-          <div class="item-note" item-right>
-            {{item.fullname}}
-          </div> -->
-            <ion-avatar item-start>
-              <img src="{{item.avatar}}">
-            </ion-avatar>
-            <h2>{{item.fullname}}</h2>
-            <h4>{{item.email}}</h4>
-        </button>
-    </ion-list>
+  <ion-list>
+      <button ion-item *ngFor="let item of items;let i = index" (click)="generateQRcode(item)">
+        <!-- <div class="item-note" item-left (click)="generateQRcode(item)">
+          {{item.email}}
+        </div>
+        <div class="item-note" item-right>
+          {{item.fullname}}
+        </div> -->
+          <ion-avatar item-start>
+            <img src="{{item.avatar}}">
+          </ion-avatar>
+          <h2>{{item.fullname}}</h2>
+          <h4>{{item.email}}</h4>
+      </button>
+  </ion-list>
 </ion-content>

@@ -1,4 +1,3 @@
-import * as childProcess from 'child_process';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';

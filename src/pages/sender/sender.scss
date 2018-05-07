@@ -48,6 +48,10 @@ page-sender {
     }
 }
 
+.alert-md .alert-wrapper {
+    overflow-y: scroll;
+}
+
 ion-app.md [padding] .scroll-content {
     padding: 0px !important;
 }

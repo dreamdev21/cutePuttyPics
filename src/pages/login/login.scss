@@ -1,128 +1,128 @@
-    page-login {
-        img.logo {
-            width: 60%;
-        }
-        p {
-            color: #000000;
-            margin-bottom: 2rem;
-            font-size: 20px;
-        }
-        .item-ios {
-            padding-left: 10px;
-            border-radius: 6px;
-            position: relative;
-            font-size: 1.7rem;
-            color: rgb(71, 71, 71);
-            background-color: transparent;
-            -webkit-transition: background-color 200ms linear;
-            transition: background-color 200ms linear;
-        }
-        .item-md.item-input.input-has-focus .item-inner {
-            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
-            box-shadow: none !important;
-        }
-        .list-md .item-input.input-has-focus:last-child {
-            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
-            box-shadow: none !important;
-        }
-        .list-md .item-input.input-has-focus:last-child .item-inner {
-            box-shadow: none;
-        }
-        .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
-            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
-            box-shadow: none !important;
-        }
-        .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
-            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
-            box-shadow: none !important;
-        }
-        .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
-            box-shadow: none;
-        }
-        .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
-            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
-            box-shadow: none !important;
-        }
-        .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
-            border-bottom: 0.55px solid rgb(239, 214, 207) !important;
-            box-shadow: none !important;
-        }
-        .list-ios>.item-block:first-child {
-            border-top: 1px solid rgb(239, 214, 207);
-            border-left: 1px solid rgb(239, 214, 207);
-            border-right: 1px solid rgb(239, 214, 207);
-            border-bottom: 1px solid rgb(239, 214, 207) !important;
-        }
-        .list-ios {
-            margin: -1px 10px 10px 15px;
-        }
-        .button-ios {
-            border-radius: 6px;
-            height: 2.8em;
-            font-size: 1.6rem;
-            color: #ffffff;
-            background-color: #000000;
-            margin: -1px 10px 10px 0px;
-        }
-        .button-ios.activated {
-            color: #000000;
-            background-color: #ffffff;
-        }
-        .item-md {
-            padding-left: 10px;
-            border-radius: 6px;
-            position: relative;
-            font-size: 1.7rem;
-            color: rgb(71, 71, 71);
-            background-color: transparent;
-            -webkit-transition: background-color 200ms linear;
-            transition: background-color 200ms linear;
-        }
-        .list-md>.item-block:first-child {
-            border-top: 1px solid rgb(239, 214, 207);
-            border-left: 1px solid rgb(239, 214, 207);
-            border-right: 1px solid rgb(239, 214, 207);
-            border-bottom: 1px solid rgb(239, 214, 207) !important;
-        }
-        .list-md {
-            margin: -1px 10px 10px 15px;
-        }
-        .button-md {
-            border-radius: 6px;
-            height: 2.8em;
-            font-size: 1.6rem;
-            color: white;
-            background-color: #000000;
-            margin: -1px 10px 10px 0px;
-        }
-        .button-md.activated {
-            color: #000000;
-            background-color: #ffffff;
-        }
-        .bottom-text {
-            // position: absolute;
-            // bottom: 10px;
-            margin-top: 80px;
-        }
-        .signup-question {
-            margin-left: 10px;
-            margin-right: 10px;
-            float: left;
-        }
-        .signup {
-            float: left;
-            color: rgb(127, 127, 127);
-            font-weight: bold;
-        }
-        .forgot {
-            text-align: center;
-            font-weight: bold;
-            color: rgb(127, 127, 127);
-        }
-        .item-input ion-input,
-        .item-input ion-textarea {
-            position: static;
-            color: rgb(71, 71, 71);
-            font-weight: bold;
-        }
+page-login {
+    img.logo {
+        width: 60%;
     }
+    p {
+        color: #000000;
+        margin-bottom: 2rem;
+        font-size: 20px;
+    }
+    .item-ios {
+        padding-left: 10px;
+        border-radius: 6px;
+        position: relative;
+        font-size: 1.7rem;
+        color: rgb(71, 71, 71);
+        background-color: transparent;
+        -webkit-transition: background-color 200ms linear;
+        transition: background-color 200ms linear;
+    }
+    .item-md.item-input.input-has-focus .item-inner {
+        border-bottom: 0.55px solid rgb(239, 214, 207) !important;
+        box-shadow: none !important;
+    }
+    .list-md .item-input.input-has-focus:last-child {
+        border-bottom: 0.55px solid rgb(239, 214, 207) !important;
+        box-shadow: none !important;
+    }
+    .list-md .item-input.input-has-focus:last-child .item-inner {
+        box-shadow: none;
+    }
+    .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
+        border-bottom: 0.55px solid rgb(239, 214, 207) !important;
+        box-shadow: none !important;
+    }
+    .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
+        border-bottom: 0.55px solid rgb(239, 214, 207) !important;
+        box-shadow: none !important;
+    }
+    .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
+        box-shadow: none;
+    }
+    .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+        border-bottom: 0.55px solid rgb(239, 214, 207) !important;
+        box-shadow: none !important;
+    }
+    .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
+        border-bottom: 0.55px solid rgb(239, 214, 207) !important;
+        box-shadow: none !important;
+    }
+    .list-ios>.item-block:first-child {
+        border-top: 1px solid rgb(239, 214, 207);
+        border-left: 1px solid rgb(239, 214, 207);
+        border-right: 1px solid rgb(239, 214, 207);
+        border-bottom: 1px solid rgb(239, 214, 207) !important;
+    }
+    .list-ios {
+        margin: -1px 10px 10px 15px;
+    }
+    .button-ios {
+        border-radius: 6px;
+        height: 2.8em;
+        font-size: 1.6rem;
+        color: #ffffff;
+        background-color: #000000;
+        margin: -1px 10px 10px 0px;
+    }
+    .button-ios.activated {
+        color: #000000;
+        background-color: #ffffff;
+    }
+    .item-md {
+        padding-left: 10px;
+        border-radius: 6px;
+        position: relative;
+        font-size: 1.7rem;
+        color: rgb(71, 71, 71);
+        background-color: transparent;
+        -webkit-transition: background-color 200ms linear;
+        transition: background-color 200ms linear;
+    }
+    .list-md>.item-block:first-child {
+        border-top: 1px solid rgb(239, 214, 207);
+        border-left: 1px solid rgb(239, 214, 207);
+        border-right: 1px solid rgb(239, 214, 207);
+        border-bottom: 1px solid rgb(239, 214, 207) !important;
+    }
+    .list-md {
+        margin: -1px 10px 10px 15px;
+    }
+    .button-md {
+        border-radius: 6px;
+        height: 2.8em;
+        font-size: 1.6rem;
+        color: white;
+        background-color: #000000;
+        margin: -1px 10px 10px 0px;
+    }
+    .button-md.activated {
+        color: #000000;
+        background-color: #ffffff;
+    }
+    .bottom-text {
+        // position: absolute;
+        // bottom: 10px;
+        margin-top: 80px;
+    }
+    .signup-question {
+        margin-left: 10px;
+        margin-right: 10px;
+        float: left;
+    }
+    .signup {
+        float: left;
+        color: rgb(127, 127, 127);
+        font-weight: bold;
+    }
+    .forgot {
+        text-align: center;
+        font-weight: bold;
+        color: rgb(127, 127, 127);
+    }
+    .item-input ion-input,
+    .item-input ion-textarea {
+        position: static;
+        color: rgb(71, 71, 71);
+        font-weight: bold;
+    }
+}

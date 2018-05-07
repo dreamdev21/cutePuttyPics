@@ -6,29 +6,29 @@
 -->
 
 <ion-content padding>
-    <img class="logo" src="assets/logo-black.png" />
-    <P style="font-weight:bold;">WELCOME TO TipQR</P>
-    <ion-list>
+  <img class="logo" src="assets/logo-black.png" />
+  <P style="font-weight:bold;">WELCOME TO TipQR</P>
+  <ion-list>
 
-        <ion-item>
-            <ion-input type="email" placeholder="User email" [(ngModel)]="user.email"></ion-input>
-        </ion-item>
-    </ion-list>
-    <ion-list>
-        <ion-item>
-            <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
-        </ion-item>
-    </ion-list>
+      <ion-item>
+          <ion-input type="email" placeholder="User email" [(ngModel)]="user.email"></ion-input>
+      </ion-item>
+  </ion-list>
+  <ion-list>
+      <ion-item>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
+      </ion-item>
+  </ion-list>
 
-    <ion-list>
-        <button ion-button full (click)="Login(user)">SIGN IN</button>
-    </ion-list>
-    <ion-list>
-        <p class="forgot" (click)="goForgotPassword()">Forgot password!</p>
-        <div class="bottom-text">
-            <p class="signup-question"> Don't have an account? </p>
-            <p class="signup" (click)="goRegister()"> Sign Up</p>
-        </div>
-    </ion-list>
+  <ion-list>
+      <button ion-button full (click)="Login(user)">SIGN IN</button>
+  </ion-list>
+  <ion-list>
+      <p class="forgot" (click)="goForgotPassword()">Forgot password!</p>
+      <div class="bottom-text">
+          <p class="signup-question"> Don't have an account? </p>
+          <p class="signup" (click)="goRegister()"> Sign Up</p>
+      </div>
+  </ion-list>
 
 </ion-content>

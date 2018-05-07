@@ -6,75 +6,75 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-        <ion-title>Transaction Detail</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+      <ion-title>Transaction Detail</ion-title>
+  </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <ion-card style="padding:5px;background:transparent;">
-        <ion-card-header>
-            <p style="font-size:20px;color:#000000;font-weight:bold;">Transaction Detail</p>
-        </ion-card-header>
-        <ion-card-content>
-            <p>Date : {{transaction.date | date:"MM/dd/yyyy"}}</p>
-            <p>Amount : {{transaction.amount[0] | currency:'USD':true:'1.2-2'}}</p>
-            <p *ngIf="transaction.state == 0">Status : Pending</p>
-            <p *ngIf="transaction.state == 1">Status : Complete</p>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="padding:5px;background:transparent;">
-        <ion-card-content>
-            <ion-grid>
-                <ion-row>
-                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                        <p>Sender</p>
-                        <ion-avatar item-start>
-                            <img src="{{transaction.senderAvatar}}">
-                        </ion-avatar>
-                        <p>{{transaction.senderName}}</p>
+  <ion-card style="padding:5px;background:transparent;">
+      <ion-card-header>
+          <p style="font-size:20px;color:#000000;font-weight:bold;">Transaction Detail</p>
+      </ion-card-header>
+      <ion-card-content>
+          <p>Date : {{transaction.date | date:"MM/dd/yyyy"}}</p>
+          <p>Amount : {{transaction.amount[0] | currency:'USD':true:'1.2-2'}}</p>
+          <p *ngIf="transaction.state == 0">Status : Pending</p>
+          <p *ngIf="transaction.state == 1">Status : Complete</p>
+      </ion-card-content>
+  </ion-card>
+  <ion-card style="padding:5px;background:transparent;">
+      <ion-card-content>
+          <ion-grid>
+              <ion-row>
+                  <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                      <p>Sender</p>
+                      <ion-avatar item-start>
+                          <img src="{{transaction.senderAvatar}}">
+                      </ion-avatar>
+                      <p>{{transaction.senderName}}</p>
 
-                    </ion-col>
-                    <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
-                        <p>Receiver</p>
-                        <ion-avatar item-start>
-                            <img src="{{transaction.receiverAvatar}}">
-                        </ion-avatar>
-                        <p>{{transaction.receiverName}}</p>
+                  </ion-col>
+                  <ion-col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+                      <p>Receiver</p>
+                      <ion-avatar item-start>
+                          <img src="{{transaction.receiverAvatar}}">
+                      </ion-avatar>
+                      <p>{{transaction.receiverName}}</p>
 
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
 
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="padding:5px;background:transparent;">
-        <ion-card-header>
-            <p style="font-size:20px;color:#000000;font-weight:bold;">Cash out Method</p>
-        </ion-card-header>
-        <ion-card-content *ngIf="transaction.receiverCashoutMethod == 1">
-            <p>Street Address : {{transaction.receiverStreetAddress1}} {{transaction.receiverStreetAddress1}}</p>
-            <p>City : {{transaction.receiverCity}}</p>
-            <p>State : {{transaction.receiverState}}</p>
-            <p>ZipCode : {{transaction.receiverZipCode}}</p>
-        </ion-card-content>
-        <ion-card-content *ngIf="transaction.receiverCashoutMethod == 2">
-            <p>Paypal Email : {{transaction.receiverPaypalEmail}}</p>
-            <p>Paypal Password : {{transaction.receiverPaypalPassword}}</p>
-        </ion-card-content>
-        <ion-card-content *ngIf="transaction.receiverCashoutMethod == 3">
-            <p>Bank Account Name : {{transaction.receiverBankAccountName}}</p>
-            <p>Bank Name : {{transaction.receiverBankName}}</p>
-            <p>Bank Account Number : {{transaction.receiverBankAccountNumber}}</p>
-            <p>Bank Routing // : {{transaction.receiverBankRouting}}</p>
-            <p>Bank Routing Number : {{transaction.receiverBankRoutingNumber}}</p>
-        </ion-card-content>
-    </ion-card>
-    <ion-row *ngIf="transaction.state == 0">
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <button ion-button (click)="goMakeComplete()">MARK AS COMPLETE</button>
-        </ion-col>
-    </ion-row>
+      </ion-card-content>
+  </ion-card>
+  <ion-card style="padding:5px;background:transparent;">
+      <ion-card-header>
+          <p style="font-size:20px;color:#000000;font-weight:bold;">Cash out Method</p>
+      </ion-card-header>
+      <ion-card-content *ngIf="transaction.receiverCashoutMethod == 1">
+          <p>Street Address : {{transaction.receiverStreetAddress1}} {{transaction.receiverStreetAddress1}}</p>
+          <p>City : {{transaction.receiverCity}}</p>
+          <p>State : {{transaction.receiverState}}</p>
+          <p>ZipCode : {{transaction.receiverZipCode}}</p>
+      </ion-card-content>
+      <ion-card-content *ngIf="transaction.receiverCashoutMethod == 2">
+          <p>Paypal Email : {{transaction.receiverPaypalEmail}}</p>
+          <p>Paypal Password : {{transaction.receiverPaypalPassword}}</p>
+      </ion-card-content>
+      <ion-card-content *ngIf="transaction.receiverCashoutMethod == 3">
+          <p>Bank Account Name : {{transaction.receiverBankAccountName}}</p>
+          <p>Bank Name : {{transaction.receiverBankName}}</p>
+          <p>Bank Account Number : {{transaction.receiverBankAccountNumber}}</p>
+          <p>Bank Routing // : {{transaction.receiverBankRouting}}</p>
+          <p>Bank Routing Number : {{transaction.receiverBankRoutingNumber}}</p>
+      </ion-card-content>
+  </ion-card>
+  <ion-row *ngIf="transaction.state == 0">
+      <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+          <button ion-button (click)="goMakeComplete()">MARK AS COMPLETE</button>
+      </ion-col>
+  </ion-row>
 </ion-content>

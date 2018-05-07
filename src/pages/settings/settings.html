@@ -6,55 +6,55 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-        <ion-title>Profile</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+      <ion-title>Profile</ion-title>
+  </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <img src="{{olduserData.avatar}}" class="item-avatar">
-    <p style="background: #000000;    width: 159px;    padding: 6px; border-radius:8px;color:#ffffff;" (click)="presentActionSheet()">Change profile picture</p>
-    <ion-list>
-        <ion-item>
-            <ion-label stacked style="color:#000000;font-weight:bold;">FULL NAME</ion-label>
-            <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="olduserData.fullName" style="color:rgb(127,127,127);"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked style="color:#000000;font-weight:bold;">EMAIL</ion-label>
-            <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="olduserData.email" style="color:rgb(127,127,127);"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked style="color:#000000;font-weight:bold;">PASSWORD</ion-label>
-            <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="olduserData.password" style="color:rgb(127,127,127);"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="olduserData.streetAddress1">
-            <ion-label stacked style="color:#000000;font-weight:bold;">Home Address</ion-label>
-            <ion-input type="text" [(ngModel)]="olduserData.streetAddress1" style="color:rgb(127,127,127);"></ion-input>
-        </ion-item>
-        <ion-item>
-        </ion-item>
-    </ion-list>
-    <ion-row>
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <p style="background: #000000;    width: 159px;    padding: 6px; border-radius:8px;color:#ffffff" (click)="goCashout()">Cash out options</p>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <button class="signup" ion-button (click)="updateUser(olduserData)">UPDATE</button>
-        </ion-col>
-    </ion-row>
-    <ion-row *ngIf="!admincheck">
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <button class="signup" ion-button (click)="goContactUs(olduserData)">CONTACT US</button>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
-            <button class="signup" ion-button (click)="goLogout()">Log out</button>
-        </ion-col>
-    </ion-row>
+  <img src="{{olduserData.avatar}}" class="item-avatar">
+  <p style="background: #000000;    width: 159px;    padding: 6px; border-radius:8px;color:#ffffff;" (click)="presentActionSheet()">Change profile picture</p>
+  <ion-list>
+      <ion-item>
+          <ion-label stacked style="color:#000000;font-weight:bold;">FULL NAME</ion-label>
+          <ion-input type="text" placeholder="Enter your full name" [(ngModel)]="olduserData.fullName" style="color:rgb(127,127,127);"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label stacked style="color:#000000;font-weight:bold;">EMAIL</ion-label>
+          <ion-input type="email" placeholder="Enter your email address" [(ngModel)]="olduserData.email" style="color:rgb(127,127,127);"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label stacked style="color:#000000;font-weight:bold;">PASSWORD</ion-label>
+          <ion-input type="password" placeholder="x x x x x x x x" [(ngModel)]="olduserData.password" style="color:rgb(127,127,127);"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="olduserData.streetAddress1">
+          <ion-label stacked style="color:#000000;font-weight:bold;">Home Address</ion-label>
+          <ion-input type="text" [(ngModel)]="olduserData.streetAddress1" style="color:rgb(127,127,127);"></ion-input>
+      </ion-item>
+      <ion-item>
+      </ion-item>
+  </ion-list>
+  <ion-row>
+      <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+          <p style="background: #000000;    width: 159px;    padding: 6px; border-radius:8px;color:#ffffff" (click)="goCashout()">Cash out options</p>
+      </ion-col>
+  </ion-row>
+  <ion-row>
+      <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+          <button class="signup" ion-button (click)="updateUser(olduserData)">UPDATE</button>
+      </ion-col>
+  </ion-row>
+  <ion-row *ngIf="!admincheck">
+      <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+          <button class="signup" ion-button (click)="goContactUs(olduserData)">CONTACT US</button>
+      </ion-col>
+  </ion-row>
+  <ion-row>
+      <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12>
+          <button class="signup" ion-button (click)="goLogout()">Log out</button>
+      </ion-col>
+  </ion-row>
 
 </ion-content>
