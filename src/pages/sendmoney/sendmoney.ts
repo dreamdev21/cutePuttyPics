@@ -113,43 +113,43 @@ export class SendmoneyPage {
           () => {
             // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
             this.payPal
-              .prepareToRender(
-                "PayPalEnvironmentProduction",
-                new PayPalConfiguration({
-                  // Only needed if you get an "Internal Service Error" after PayPal login!
-                  //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-                })
-              )
-              .then(
-                () => {
-                  let payment = new PayPalPayment(
-                    sendmoneyData.sendmoney.toString(),
-                    "USD",
-                    "Description",
-                    "sale"
-                  );
+              .prepareToRender("PayPalEnvironmentProduction", new PayPalConfiguration(
+                  {
+                    // Only needed if you get an "Internal Service Error" after PayPal login!
+                    //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+                    acceptCreditCards: false
+                  }
+                ))
+              .then(() => {
+                  let payment = new PayPalPayment(sendmoneyData.sendmoney.toString(), "USD", "Description", "sale");
                   // payment.payeeEmail = this.sendmoneyData.receiverpaypalemail;
-                  this.payPal.renderSinglePaymentUI(payment).then(
-                    () => {
-                      this.afd.list("/transactions/").push(sendmoneyData);
-                      this.showAlertSuccess("Transaction completed!");
+                  this.payPal
+                    .renderSinglePaymentUI(payment)
+                    .then(
+                      () => {
+                        this.afd
+                          .list("/transactions/")
+                          .push(sendmoneyData);
+                        this.showAlertSuccess(
+                          "Transaction completed!"
+                        );
 
-                      this.storage.remove("transaction");
-                      this.storage.get("currentUser").then(val => {
-                        this.navCtrl.push(SenderPage, {
-                          user: val
-                        });
-                      });
-                    },
-                    () => {
-                      // Error or render dialog closed without being successful
-                    }
-                  );
-                },
-                () => {
+                        this.storage.remove("transaction");
+                        this.storage
+                          .get("currentUser")
+                          .then(val => {
+                            this.navCtrl.push(SenderPage, {
+                              user: val
+                            });
+                          });
+                      },
+                      () => {
+                        // Error or render dialog closed without being successful
+                      }
+                    );
+                }, () => {
                   // Error in configuration
-                }
-              );
+                });
           },
           () => {
             // Error in initialization, maybe PayPal isn't supported or something else

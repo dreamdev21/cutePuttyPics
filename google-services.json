@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "263773400059",
+    "firebase_url": "https://tipqr-f9cc3.firebaseio.com",
+    "project_id": "tipqr-f9cc3",
+    "storage_bucket": "tipqr-f9cc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263773400059:android:e15f96bd023dd2ef",
+        "android_client_info": {
+          "package_name": "com.tipqr.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263773400059-56k9469dnhrartn0mu2gsd0bodu735pp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA59eOoGmpHdokvGjPbjFxlMkF6hwF-myA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

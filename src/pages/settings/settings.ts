@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { NgZone, Component } from "@angular/core";
 import {
   IonicPage,
@@ -26,25 +25,6 @@ import {
 
 import { Camera } from "@ionic-native/camera";
 import { SuperadminPage } from "../superadmin/superadmin";
-=======
-import { NgZone,Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController  } from 'ionic-angular';
-import { User } from '../../models/user';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { FirebaseProvider } from '../../providers/firebase/firebase';
-import firebase from 'firebase';
-import { Http } from '@angular/http';
-import { Storage } from '@ionic/storage';
-import { LoginPage } from '../login/login';
-import { SenderPage } from '../sender/sender';
-import { CashOutPage } from '../cash-out/cash-out';
-
-import { ActionSheetController, Platform, LoadingController, Loading } from 'ionic-angular';
-
-import { Camera } from '@ionic-native/camera';
-import { SuperadminPage } from '../superadmin/superadmin';
-
->>>>>>> 09811ad6c04198f30b85c27cf21e738878465061
 
 declare var cordova: any;
 
@@ -191,28 +171,9 @@ export class SettingsPage {
                   user: that.olduserData
                 });
               }
-<<<<<<< HEAD
             }
           });
         } else {
-=======
-            });
-           that.storage.get("currentUser").then(val => {
-              if (val) {
-                if (val.role == 3) {
-                  that.navCtrl.push(SuperadminPage, { user: that.olduserData });
-                } else {
-                   that.navCtrl.push(SenderPage, {
-                     user: that.olduserData
-                   });
-                }
-              }
-            });
-
-
-
-        }else{
->>>>>>> 09811ad6c04198f30b85c27cf21e738878465061
           this.showAlert("Please enter your email");
         }
       } else {
