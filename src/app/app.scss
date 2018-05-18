@@ -16,7 +16,17 @@
     // background-color: #212e41 !important;
     background: linear-gradient(to bottom right, #ffffff, #EE6846) !important;
     text-align: center;
-    font-family: 'Lato-Light' !important;
+    // font-family: 'Lato-Light' !important;
+    @font-face {
+        font-family: Roboto_Light;
+        src: url(../assets/fonts/Roboto_Light.ttf) format("ttf");
+        font-weight: 200
+    }
+    @font-face {
+        font-family: Maiandra;
+        src: url(../assets/fonts/Maiandra.ttf) format("ttf");
+        font-weight: 200
+    }
 }
 
 .content-md {
@@ -129,4 +139,9 @@
 .card-header-ios {
     text-align: center;
     color: #000000 !important;
+}
+
+.toolbar-ios {
+    padding: 4px;
+    min-height: 56px;
 }

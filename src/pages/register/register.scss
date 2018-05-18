@@ -84,8 +84,8 @@ page-register {
         height: 15px;
         border-width: 1px;
         border-style: solid;
-        border-color: rgb(239, 214, 207);
-        background-color: #212e41 !important;
+        border-color: rgb(127, 127, 127);
+        background-color: #ffffff !important;
     }
     .checkbox-ios .checkbox-checked .checkbox-inner {
         left: 5px;
@@ -97,7 +97,7 @@ page-register {
         border-top-width: 0;
         border-left-width: 0;
         border-style: solid;
-        border-color: #769db6;
+        border-color: rgb(127, 127, 127);
         -webkit-transform: rotate(45deg);
         transform: rotate(45deg);
     }
@@ -197,6 +197,20 @@ page-register {
         padding: 0 1em;
     }
     .button-md.activated {
+        color: #000000;
+        background-color: #fff;
+    }
+    .button-ios {
+        text-align: center;
+        border-radius: 4px;
+        height: 1.8em;
+        font-size: 1.6rem;
+        color: #fff;
+        background-color: #000000;
+        margin: 0.4rem 0.2rem;
+        padding: 0 1em;
+    }
+    .button-ios.activated {
         color: #000000;
         background-color: #fff;
     }
